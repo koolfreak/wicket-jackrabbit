@@ -1,0 +1,18 @@
+----------------------------------------------------------------
+2009-08-29 08:51:50.599 GMT:
+ Booting Derby version The Apache Software Foundation - Apache Derby - 10.2.1.6 - (452058): instance c013800d-0123-655a-762e-000001fd35c8
+on database directory /home/emanux/windows/my_projects/xaloon/xaloon-demo-jackrabbit/repository/version/db  
+
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+2009-08-29 08:51:51.906 GMT:
+ Booting Derby version The Apache Software Foundation - Apache Derby - 10.2.1.6 - (452058): instance e03f4017-0123-655a-762e-000001fd35c8
+on database directory /home/emanux/windows/my_projects/xaloon/xaloon-demo-jackrabbit/repository/workspaces/default/db  
+
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+2009-08-29 08:51:52.369 GMT:
+ Booting Derby version The Apache Software Foundation - Apache Derby - 10.2.1.6 - (452058): instance 80840021-0123-655a-762e-000001fd35c8
+on database directory /home/emanux/windows/my_projects/xaloon/xaloon-demo-jackrabbit/repository/workspaces/security/db  
+
+Database Class Loader started - derby.database.classpath=''

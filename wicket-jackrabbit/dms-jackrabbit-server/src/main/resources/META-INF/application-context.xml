@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd
+      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+      http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context-2.5.xsd
+      http://www.springframework.org/schema/tx
+      http://www.springframework.org/schema/tx/spring-tx.xsd"
+	default-autowire="byType">	
+	
+	<context:component-scan base-package="org.xaloon.wicket.component"/>
+	<context:component-scan base-package="org.dms.wicket"/>
+	
+	<bean id="application" class="org.dms.wicket.repository.DocumentManagementApplication"/>
+	
+	<bean id="demoScanner" class="org.xaloon.wicket.component.mounting.PageScanner">
+		<property name="packageName" value="org.dms.wicket.repository.page"/>
+		<property name="suffix" value=".emanux"/>
+	</bean>
+	
+	<!-- STORAGE REPOSITORY CONFIG -->
+	<bean id="cityContentProperties" class="org.xaloon.wicket.component.repository.util.ContentProperties">
+		<property name="jcrRepository" value="/home/emanux/jackrabbit/wicket-demo"/>
+		<property name="jcrUsername" value="username"/>
+		<property name="jcrPassword" value="password"/>
+	</bean>
+	
+	<tx:advice id="txAdvice" transaction-manager="txmanager">
+		<tx:attributes>
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="delete*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="*" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:pointcut id="repositoryMethods"
+			expression="execution(* org.dms.wicket.repository.db.dao..*(..)) " />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="repositoryMethods" />
+	</aop:config>
+		
+</beans>

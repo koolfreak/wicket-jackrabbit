@@ -1,0 +1,71 @@
+<html xmlns:wicket>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<wicket:panel>
+	<div id="bodyPanel" class="bodyPanel">
+			<div id="guide">
+				<h2>Xaloon file storage demo page</h2>
+				
+				<br/>
+				
+				<div>
+        			<span wicket:id="uploadFeedback"/>
+     			</div>
+				<form wicket:id="ajax-simpleUpload">
+					<fieldset style="width:300px">
+						<legend>Upload form with ajax progress bar</legend>
+						<p>
+			        		<label style="width:300px">Multiple file auto upload with <a href="http://www.uploadify.com/">uploadify</a></label>
+			        		<input type="file" name="fileInput" id="fileUpload" wicket:id="fuf"/><br/>
+			        	</p>
+			        	<p>
+			        		<label style="width:300px">Multiple file manual upload with <a href="http://www.uploadify.com/">uploadify</a></label>
+			        		<span style="width:300px" wicket:id="uploadify"></span><br/>
+			        	</p>
+			        	<p>
+			        		<label  style="width:300px">Standard file upload</label>
+			        		<input wicket:id="fileInput" id="upload" type="file"/>
+			        	</p>
+			        	<p style="text-align: right;">
+			        		<label  style="width:300px"></label>
+			        		<input type="submit" value="Upload!" name="upload"/>
+			        	</p>
+			        	
+			        	<span wicket:id="progress">[[ajax upload progressbar]]</span>
+			     	</fieldset>
+			    </form>
+			    <br/>
+			    <a href="#" wicket:id="up">..</a>
+			    <br/>
+			    <div wicket:id="listFolders">
+			    	<table>
+			    		<tr wicket:id="content"> 
+				    		<td style="width:20px"><a href="delete" wicket:id="delete"><img src="#" wicket:id="img" style="border:0px;" width="20px" height="20px"/></a></td>
+				    		<td style="width:420px"><a href="#" wicket:id="link"><span wicket:id="name">name</span></a></td>
+			    		</tr>
+			    	</table>
+			    </div>
+			    <div wicket:id="listFiles">
+			    	<table>
+			    		<tr wicket:id="content"> 
+				    		<td style="width:20px"><a href="delete" wicket:id="delete"><img src="#" wicket:id="img" style="border:0px;" width="20px" height="20px"/></a></td>
+				    		<td style="width:120px"><span wicket:id="size">name</span></td>
+				    		<td style="width:220px"><span wicket:id="modified">name</span></td>
+				    		<td style="width:420px"><a href="#" wicket:id="show"><span wicket:id="name">name</span></a></td>
+			    		</tr>
+			    	</table>
+			    </div>
+			    <div wicket:id="imageContainer">
+					<img src="#" wicket:id="img" alt="demo" style="max-width: 600px;max-height: 600px;"></img>		
+				</div>
+				<br/>
+				<div>
+					<div>
+						<div class="separator"> </div>
+					</div>
+				</div>
+			</div>
+		</div>
+</wicket:panel>
+</html>
