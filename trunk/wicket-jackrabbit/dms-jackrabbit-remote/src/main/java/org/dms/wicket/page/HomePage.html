@@ -1,0 +1,43 @@
+<html xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.3-strict.dtd" >
+    <head>  
+        <title>Jackrabbit Demo</title>
+    </head>
+    <body>
+    	<a href="#" wicket:id="search">Search</a>
+        <table width="100%" border="1">
+        	<tr>
+        		<td valign="top">
+	        		<fieldset>
+	        			<legend>Upload File</legend>
+	        			<form wicket:id="formup">
+	        				File:&nbsp;<input type="file" wicket:id="fileInput" /><br/>
+	        				<input type="submit" value="Upload" />
+	        			</form>
+	        		</fieldset>
+        		</td>
+        	</tr>
+        	<tr>
+        		<td valign="top">
+        			<fieldset>
+        				<legend>List of Files</legend>
+        				<table border="1">
+        					<tr>
+        						<td>Date Uploaded</td>
+        						<td>Name</td>
+        						<td>&nbsp;</td>
+        						<td>&nbsp;</td>
+        					</tr>
+        					<tr wicket:id="files">
+        						<td><span wicket:id="lastModified"/></td>
+        						<td><span wicket:id="name"/></td>
+        						<td><a href="#" wicket:id="delete">Delete</a></td>
+        						<td><a href="#" wicket:id="download">Download</a></td>
+        					</tr>
+        				</table>
+        			</fieldset>
+        		</td>
+        	</tr>
+        </table>
+    </body>
+</html>
+

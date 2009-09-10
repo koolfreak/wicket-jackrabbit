@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+		id="propertyConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dataSource" 
+          class="com.mchange.v2.c3p0.ComboPooledDataSource" 
+          destroy-method="close">
+        
+        <property name="driverClass"><value>${jdbc.driverClassName}</value></property>
+        <property name="jdbcUrl"><value>${jdbc.url}</value></property>
+        <property name="user"><value>${jdbc.username}</value></property>
+        <property name="password"><value>${jdbc.password}</value></property>
+        
+        <property name="initialPoolSize"><value>3</value></property>
+        <property name="minPoolSize"><value>3</value></property>
+        <property name="maxPoolSize"><value>50</value></property>
+        <!-- <property name="timeout"><value>0</value></property> -->   <!-- 0 means: no timeout -->
+        <property name="idleConnectionTestPeriod"><value>200</value></property>
+        <property name="acquireIncrement"><value>1</value></property>
+        <property name="maxStatements"><value>0</value></property>  <!-- 0 means: statement caching is turned off.  -->
+        <property name="numHelperThreads"><value>3</value></property>  <!-- 3 is default --> 
+        
+    </bean>
+    
+    <!-- session factory -->
+	<bean
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"
+		id="sessionFactory">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					${jdbc.hibernate.dialect}</prop>
+				<prop key="hibernate.cache.provider_class">
+					org.hibernate.cache.OSCacheProvider</prop>
+				<!--<prop key="hibernate.show_sql">true</prop>-->
+				<prop key="hibernate.c3p0.acquire_increment">2</prop>
+				<prop key="hibernate.c3p0.idle_test_period">300</prop>
+				<prop key="hibernate.c3p0.max_size">100</prop>
+				<prop key="hibernate.connection.release_mode">
+					after_statement</prop>
+				<prop key="hibernate.c3p0.min_size">5</prop>
+				<prop key="hibernate.c3p0.preferredTestQuery">select
+					1</prop>
+				<prop key="hibernate.c3p0.testConnectionOnCheckout">
+					true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.bytecode.use_reflection_optimizer">true</prop>
+				<!--<prop key="hibernate.format_sql">true</prop>-->
+				
+				<!-- hibernate search configuration -->
+				<prop key="hibernate.search.default.indexBase">/home/emanux/jackrabbit/hsindex</prop> 
+				<prop key="hibernate.search.default.directory_provider">org.hibernate.search.store.FSDirectoryProvider</prop>
+				
+			</props>
+		</property>
+		  
+		<property name="annotatedClasses">
+			<list>
+				<value>org.dms.wicket.page.model.CustomFileDescription</value>
+			</list>
+		</property>
+		<property name="annotatedPackages">
+			<list>
+				<value>org.dms.wicket.page.model</value>
+			</list>
+		</property>
+		<!--
+		<property name="mappingResources">
+			<list>
+				<value>org/dms/wicket/page/model/CustomFileDescription.hbm.xml</value>
+			</list>
+		</property>
+		-->
+	</bean>
+
+	<bean id="txmanager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+    
+</beans>

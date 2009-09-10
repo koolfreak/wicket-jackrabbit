@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="org.dms.wicket.page.model">
+  <class name="CustomFileDescription" table="file_descriptor">
+  	<id name="id" column="id_">
+  		<generator class="uuid.hex"/>
+  	</id>
+  	<version name="version"/>
+  	
+  	<property name="name" column="name_" type="string"/>
+  	<property name="lastModified" column="lastmodified_" type="timestamp"/>
+  	<property name="mimeType" column="mimetype_" type="string"/>
+  	<property name="UUID" column="UUID_" type="string"/>
+  	<property name="path" column="path_" type="string"/>
+  	
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="xaloon-app" default="update-dependencies">
+
+	<target name="update-dependencies">
+		<delete>
+			<fileset dir="src/main/webapp/WEB-INF/lib">
+				<include name="*.jar" />
+			</fileset>
+		</delete>
+		<exec executable="mvn.bat">
+			<arg line="org.apache.maven.plugins:maven-dependency-plugin:copy-dependencies -U" />
+		</exec>
+		<delete>
+			<fileset dir="src/main/webapp/WEB-INF/lib">
+				<include name="xaloon-*" />
+				<include name="jphoto-*" />
+			</fileset>
+		</delete>
+	</target>
+</project>

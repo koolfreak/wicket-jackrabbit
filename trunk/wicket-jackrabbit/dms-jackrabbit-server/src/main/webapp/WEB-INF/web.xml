@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="jbo-city-app" version="2.4"
+	xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+		classpath*:META-INF/application-context.xml,
+		classpath*:META-INF/app-context-c3p0.xml
+		</param-value>
+	</context-param>
+	<!--
+		<filter> <filter-name>SimplePageCachingFilter</filter-name>
+		<filter-class>net.sf.ehcache.constructs.web.filter.SimplePageCachingFilter</filter-class>
+		</filter>
+	-->
+
+	<filter>
+		<filter-name>jbo-city</filter-name>
+		<filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
+		<init-param>
+			<param-name>applicationFactoryClassName</param-name>
+			<param-value>org.apache.wicket.spring.SpringWebApplicationFactory</param-value>
+		</init-param>
+		<init-param>
+			<param-name>configuration</param-name>
+			<param-value>development</param-value>
+		</init-param>
+	</filter>
+	<!--
+		<filter-mapping> <filter-name>SimplePageCachingFilter</filter-name>
+		<url-pattern>/*</url-pattern> </filter-mapping>
+	-->
+	<filter-mapping>
+		<filter-name>jbo-city</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+	</filter-mapping>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- ======================================================================	-->
+	<!--	R E M O T E B I N D I N G S E R V L E T-->
+	<!-- ====================================================================== -->
+	<servlet>
+		<servlet-name>RMI</servlet-name>
+		<servlet-class>org.dms.repository.servlets.JcrRepositoryServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+        <servlet-name>RMI</servlet-name>
+        <url-pattern>/jcrRemote</url-pattern>
+    </servlet-mapping>
+    
+    <!-- ======================================================================	-->
+	<!--	F I L E S E R V L E T-->
+	<!-- ====================================================================== -->
+	<servlet>
+		<servlet-name>FILE</servlet-name>
+		<servlet-class>org.dms.repository.servlets.JcrFileServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+        <servlet-name>FILE</servlet-name>
+        <url-pattern>/jcrFile</url-pattern>
+    </servlet-mapping>
+    
+	<error-page>
+		<error-code>404</error-code>
+		<location>/error</location>
+	</error-page>
+
+	<login-config>
+		<auth-method>BASIC</auth-method>
+	</login-config>
+
+</web-app>
