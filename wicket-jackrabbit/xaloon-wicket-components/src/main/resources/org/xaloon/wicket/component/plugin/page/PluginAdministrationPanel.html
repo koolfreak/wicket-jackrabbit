@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html xmlns:wicket>
+<body>
+<wicket:panel>
+  <table class="box">
+		<wicket:container wicket:id="pluginBox">
+			<tr>
+				<td  style="width:200px" class="header"><span wicket:id="title"></span></td>
+				<td style="width:50px" class="header">is enabled</td>
+			</tr>
+			<wicket:container wicket:id="plugins">
+				<tr>
+					<td><span wicket:id="name"></span></td>
+					<td><input wicket:id="enabled" type="checkbox"/></td>
+				</tr>
+				<tr wicket:id="detailsContainer">
+					<td colspan="2">
+						<wicket:container wicket:id="detailsHeaderContainer">
+						<table style="width:100%;" class="box">
+							<tr>
+								<td style="width:40%" class="header">property name</td>
+								<td style="width:60%" class="header">property value</td>
+							</tr>
+							<wicket:container wicket:id="properties">
+								<tr>
+									<td><span wicket:id="name"></span></td>					
+									<td>
+										<form wicket:id="changeProperty">
+											<input type="text" wicket:id="value" class="input-text"/>
+											<input type="submit" value="change"></input>
+										</form>
+									</td>
+								</tr>
+							</wicket:container>
+						</table>
+						</wicket:container>
+					</td>
+				</tr>
+			</wicket:container>
+		</wicket:container>
+	</table>
+</wicket:panel>
+</body>
+</html>

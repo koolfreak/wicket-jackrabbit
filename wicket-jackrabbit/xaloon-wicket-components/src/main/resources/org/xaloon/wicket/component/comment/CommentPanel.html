@@ -1,0 +1,80 @@
+<html xmlns:wicket>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<wicket:panel>
+	<div wicket:id="commentContainer">
+		<form wicket:id="commentForm" class="lm">
+			<table id="cinput">
+				<tr wicket:id="website">
+					<td><label>Website:</label></td>
+					<td><input wicket:id="website" maxlength="100" class="rounded"/></td>
+				</tr>
+				<wicket:container wicket:id="email">				
+					<tr>
+						<td><label>Email (not shown):</label></td>
+						<td>
+							<input wicket:id="email" maxlength="100" class="rounded"/>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							&nbsp;
+						</td>
+						<td>
+							<span wicket:id="email_fp"></span>
+						</td>
+					</tr>
+				</wicket:container>
+				<tr>
+					<td>
+						<label>Your name:</label>
+						<span wicket:id="username">username</span>
+					</td>
+					<td>
+						<input wicket:id="username_in" maxlength="100" class="required"/>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						&nbsp;
+					</td>
+					<td>
+						<span wicket:id="username_in_fp"></span>
+					</td>
+				</tr>
+				<tr>
+					<td><label>Your Message:</label></td>
+					<td>
+						<textarea rows="10" cols="30" wicket:id="message" id="note" class="required"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						&nbsp;
+					</td>
+					<td>
+						<span wicket:id="message_fp"></span>
+					</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td><div wicket:id="rc"></div></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td><div wicket:id="formFeedback"></div></td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td><input class="rounded" value="Comment" type="submit"/></td>
+				</tr>
+			</table>
+		</form>			
+		<div>
+			<div class="separator">&nbsp;</div>
+		</div>
+	</div>
+	<div wicket:id="cclp"></div>
+</wicket:panel>
+</html>

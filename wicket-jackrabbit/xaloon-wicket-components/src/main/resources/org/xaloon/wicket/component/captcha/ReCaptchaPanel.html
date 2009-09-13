@@ -1,0 +1,47 @@
+<html xmlns:wicket>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<wicket:panel>
+	<script type="text/javascript">
+	var RecaptchaOptions = {
+	   theme : 'custom',
+	   custom_theme_widget: 'recaptcha_widget'
+	};
+	</script>
+	
+	<div id="recaptcha_widget" style="display:none">
+		<table class="captcha">
+			<tr>
+				<td colspan="2"><div id="recaptcha_image"></div></td>
+			</tr>
+			<tr>
+				<td>
+					<label class="recaptcha_only_if_image captcha">Enter words above:</label>
+					<label class="recaptcha_only_if_audio captcha">Enter numbers you hear:</label>
+        			<input class="required" type="text" id="recaptcha_response_field" name="recaptcha_response_field" wicket:id="recaptcha_response_field"/>
+        		</td>
+        		<td>
+        			<a href="javascript:Recaptcha.reload()"><img height="17" width="25" id="recaptcha_reload" src="http://api.recaptcha.net/img/white/refresh.gif" alt="Get a new challenge"/></a>
+        			<a class="recaptcha_only_if_image" href="javascript:Recaptcha.switch_type('audio')"><img height="16" width="25" alt="Get an audio challenge" id="recaptcha_switch_audio" src="http://api.recaptcha.net/img/white/audio.gif"/></a>
+        			<a class="recaptcha_only_if_audio" id="recaptcha_switch_img_btn" href="javascript:Recaptcha.switch_type('image');" title="Get a visual challenge"><img height="16" width="25" alt="Get a visual challenge" id="recaptcha_switch_img" src="http://api.recaptcha.net/img/white/text.gif"/></a>
+        			<a href="javascript:Recaptcha.showhelp()"><img height="16" width="25" id="recaptcha_whatsthis" src="http://api.recaptcha.net/img/white/help.gif" alt="Help"/></a>
+        		</td>
+			</tr>
+			<tr>
+				<td colspan="2"><span wicket:id="recaptcha_response_field_fp"></span></td>
+			</tr>
+		</table>
+	</div>
+
+	<script language="JavaScript" type="text/javascript" wicket:id="reJS"></script>	
+  	<noscript>
+    	<iframe src="#"
+        	height="300" width="500" frameborder="0" wicket:id="iframe"></iframe><br>
+    	<textarea name="recaptcha_challenge_field" rows="3" cols="40">
+    	</textarea>
+    	<input type="hidden" name="recaptcha_response_field" 
+        	value="manual_challenge">
+  </noscript>
+</wicket:panel>
+</html>

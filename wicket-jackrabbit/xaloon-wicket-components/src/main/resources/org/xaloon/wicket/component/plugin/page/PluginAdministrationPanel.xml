@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="org.xaloon.wicket.component.plugin.MetaTagPlugin">Meta tag plugin</entry>
+	<entry key="org.xaloon.wicket.component.plugin.MenuPlugin">Menu plugin</entry>
+</properties>
