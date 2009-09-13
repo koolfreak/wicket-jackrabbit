@@ -1,0 +1,13 @@
+img {
+	border:0px;
+}
+.captcha  {
+	width:250px;
+	font-size:small;
+	text-decoration: none;
+}
+
+.recaptcha_audio_cant_hear_link {
+	font-size:small;
+	text-decoration: none;
+}

@@ -1,0 +1,24 @@
+<html xmlns:wicket>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<wicket:panel>
+	<table class="captcha">
+			<tr>
+				<td colspan="2" style="text-align: center;"><div wicket:id="captcha" id="captcha"></div></td>
+			</tr>
+			<tr>
+				<td>
+					<label class="recaptcha_only_if_image captcha">Enter words above:</label>
+					<input class="required" type="text" wicket:id="captchaText"/>
+        		</td>
+        		<td>
+        			<a href="#" wicket:id="refreshCaptcha"><img wicket:id="reload" alt="Reload"/></a>
+        		</td>
+			</tr>
+			<tr>
+				<td colspan="2"><span wicket:id="captchaText_fp"></span></td>
+			</tr>
+		</table>
+</wicket:panel>
+</html>

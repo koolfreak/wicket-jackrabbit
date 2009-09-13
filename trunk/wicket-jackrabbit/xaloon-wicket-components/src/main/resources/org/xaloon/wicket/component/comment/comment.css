@@ -1,0 +1,120 @@
+.separator {
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+	border-bottom-color: #eee;
+	margin-bottom: 2px;
+	width:100%;
+}
+/*Form*/
+
+/*Comments*/
+#comments h4 {
+	margin: 1em 0;
+	font-weight: bold;
+	line-height: 1.4em;
+	text-transform: uppercase;
+	letter-spacing: .2em;
+	color: #999999;
+}
+
+.comments-block {
+	margin: 1em 0 1.5em;
+	line-height: 1.6em;
+}
+
+.comments-block .comment-author {
+	display: block;
+	background-image: none;
+	margin: 0;
+	padding: 6px 0 6px 10px;
+	border: 1px solid #ccc;
+	border-bottom: none;
+	clear: both;
+}
+
+.comments-block .comment-body {
+	display: block;
+	color: #593622;
+	margin: 0px;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-top: none;
+}
+
+.comments-block .comment-footer {
+	display: block;
+	font-size: .8em;
+	background-color: #eee;
+	padding: 3px;
+	margin: 0 0 20px 0;
+	float: right;
+	border: 1px solid #ccc;
+	border-top: none;
+	clear: both;
+	line-height: 1.4em;
+	text-transform: uppercase;
+	letter-spacing: .1em;
+}
+
+.comments-block .comment-body p {
+	margin: 0 0 .75em;
+}
+
+.comments-block .comment-author.author-comment {
+	background-color: #EDE5BE;
+	margin-bottom: 0px;
+	border-bottom: 1px solid #FFF7CF;
+}
+
+.comments-block .comment-body.author-comment {
+	background-color: #EDE5BE;
+	border-top: 1px solid #CBC4AC;
+}
+
+.comments-block .comment-footer.author-comment {
+	background-color: #CBC39C;
+}
+
+.required {
+	background-color: #F7F5E2;
+	border:1px solid #E2867B;
+	
+	margin-bottom: 10px;
+	width: 318px;
+	font: bold 0.95em arial, sans-serif;
+	-moz-border-radius: 0.4em;
+	-khtml-border-radius: 0.4em;
+}
+
+.invalid {
+	background-color: #FBE2E4;
+	border:1px solid #E2867B;
+	margin-bottom: 10px;
+	width: 318px;
+	font: bold 0.95em arial, sans-serif;
+	-moz-border-radius: 0.4em;
+	-khtml-border-radius: 0.4em;
+}
+
+.rounded {
+	margin-bottom: 10px;
+	width: 318px;
+	font: bold 0.95em arial, sans-serif;
+	-moz-border-radius: 0.4em;
+	-khtml-border-radius: 0.4em;
+	border: 1px solid #ddd;
+}
+
+.valid {
+	background-color: #F7F5E2;
+	border: 1px solid #ddd;
+	
+	margin-bottom: 10px;
+	width: 318px;
+	font: bold 0.95em arial, sans-serif;
+	-moz-border-radius: 0.4em;
+	-khtml-border-radius: 0.4em;
+}
+#cinput td{
+	vertical-align: top;
+}
