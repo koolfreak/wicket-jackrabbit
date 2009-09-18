@@ -14,31 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.xaloon.wicket.component.repository;
-
-import org.apache.wicket.Response;
-import org.apache.wicket.protocol.http.WebApplication;
-import org.apache.wicket.protocol.http.WebRequest;
-import org.apache.wicket.protocol.http.WebRequestCycle;
+package org.xaloon.wicket.component.exception;
 
 /**
  * http://www.xaloon.org
  * 
  * @author vytautas racelis
  */
-public abstract class ContentWebRequestCycle extends WebRequestCycle {
+public class JcrSessionException extends RuntimeException {
 
-	public ContentWebRequestCycle(WebApplication application, WebRequest request, Response response) {
-		super(application, request, response);
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public JcrSessionException(String workspace, Exception e) {
+		super (workspace, e);
 	}
-	
-	@Override
-	protected void onEndRequest() {
-		if (getContentSessionFactory () != null) {
-			getContentSessionFactory ().cleanup();
-		}
-	}
-	
-	protected abstract ThreadLocalSessionFactory getContentSessionFactory ();
 
 }

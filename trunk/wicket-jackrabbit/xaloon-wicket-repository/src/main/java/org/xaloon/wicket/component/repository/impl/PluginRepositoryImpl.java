@@ -22,10 +22,10 @@ import javax.jcr.Property;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
+import org.dms.wicket.component.ContentSessionFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.xaloon.wicket.component.plugin.Plugin;
 import org.xaloon.wicket.component.plugin.PluginRepository;
-import org.xaloon.wicket.component.repository.ContentSessionFacade;
 import org.xaloon.wicket.component.repository.util.RepositoryHelper;
 
 /**

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.xaloon.wicket.component.repository;
+package org.dms.wicket.component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +23,8 @@ import javax.jcr.Credentials;
 import javax.jcr.Repository;
 import javax.jcr.Session;
 import javax.jcr.SimpleCredentials;
+
+import org.xaloon.wicket.component.exception.JcrSessionException;
 
 /**
  * http://www.xaloon.org

@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.dms.wicket.repository.db.model.FileDescription;
+import org.xaloon.wicket.component.exception.FileStorageException;
 
 /**
  * http://www.xaloon.org
@@ -92,4 +93,6 @@ public interface FileRepository {
 	 * @return
 	 */
 	List<String> searchFolders(String path);
+	
+	void storeNextVersion(String path, String name, String mimeType,InputStream fileStream) throws FileStorageException;
 }

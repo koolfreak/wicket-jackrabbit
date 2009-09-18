@@ -14,22 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.xaloon.wicket.component.repository;
+package org.dms.wicket.component;
+
+import java.io.Serializable;
+
+import javax.jcr.Session;
 
 /**
  * http://www.xaloon.org
  * 
  * @author vytautas racelis
  */
-public class FileStorageException extends RuntimeException {
-
-	public FileStorageException(String value, Exception e) {
-		super(value, e);
-	}
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
+public interface ContentSessionFacade extends Serializable {
+	Session getDefaultSession ();
 }
