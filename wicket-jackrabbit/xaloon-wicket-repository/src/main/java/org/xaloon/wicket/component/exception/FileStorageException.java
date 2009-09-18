@@ -14,22 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.xaloon.wicket.component.repository;
+package org.xaloon.wicket.component.exception;
 
 /**
  * http://www.xaloon.org
  * 
  * @author vytautas racelis
  */
-public class JcrSessionException extends RuntimeException {
+public class FileStorageException extends RuntimeException {
+
+	public FileStorageException(String value, Exception e) {
+		super(value, e);
+	}
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	public JcrSessionException(String workspace, Exception e) {
-		super (workspace, e);
-	}
 
 }

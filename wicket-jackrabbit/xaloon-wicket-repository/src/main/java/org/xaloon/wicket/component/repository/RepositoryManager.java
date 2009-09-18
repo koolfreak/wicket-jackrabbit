@@ -19,6 +19,7 @@ package org.xaloon.wicket.component.repository;
 import javax.jcr.Repository;
 
 import org.apache.jackrabbit.core.RepositoryImpl;
+import org.dms.wicket.component.ThreadLocalSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.xaloon.wicket.component.repository.util.ContentHelper;
 import org.xaloon.wicket.component.repository.util.ContentProperties;

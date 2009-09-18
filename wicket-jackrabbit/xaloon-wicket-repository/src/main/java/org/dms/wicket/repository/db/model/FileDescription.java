@@ -27,6 +27,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.EqualsBuilder;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.search.annotations.Boost;
 import org.hibernate.search.annotations.DocumentId;
@@ -177,4 +179,12 @@ public class FileDescription implements Serializable
     {
 	return this.path + '/' + this.name;
     }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+	return EqualsBuilder.reflectionEquals(obj, this);
+    }
+    
+    
 }
