@@ -49,7 +49,7 @@
 
 	<aop:config>
 		<aop:pointcut id="repositoryMethods"
-			expression="execution(* org.dms.wicket.repository.db.service..*(..)) " />
+			expression="execution(* org.dms.wicket.repository..service..*(..)) " />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="repositoryMethods" />
 	</aop:config>
 		

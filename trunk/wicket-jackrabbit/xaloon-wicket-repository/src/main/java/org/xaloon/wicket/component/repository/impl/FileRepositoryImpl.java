@@ -334,8 +334,7 @@ public class FileRepositoryImpl implements FileRepository
 	    try
 	    {
 		Session session = contentSessionFacade.getDefaultSession();
-		Node nodeToRemove = session.getRootNode().getNode(
-			path.substring(1));
+		Node nodeToRemove = session.getRootNode().getNode(path);
 
 		if (nodeToRemove != null)
 		{
