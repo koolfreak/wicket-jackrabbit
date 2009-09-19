@@ -31,6 +31,11 @@
 		<property name="jcrRepository" value="/home/emanux/jackrabbit/wicket-demo"/>
 		<property name="jcrUsername" value="username"/>
 		<property name="jcrPassword" value="password"/>
+		<property name="eventListeners">
+			<list>
+				<bean class="org.xaloon.wicket.component.repository.util.JcrNodeEventListener"/>
+			</list>
+		</property>
 	</bean>
 	
 	<tx:advice id="txAdvice" transaction-manager="txmanager">
@@ -44,7 +49,7 @@
 
 	<aop:config>
 		<aop:pointcut id="repositoryMethods"
-			expression="execution(* org.dms.wicket.repository.db.dao..*(..)) " />
+			expression="execution(* org.dms.wicket.repository.db.service..*(..)) " />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="repositoryMethods" />
 	</aop:config>
 		
