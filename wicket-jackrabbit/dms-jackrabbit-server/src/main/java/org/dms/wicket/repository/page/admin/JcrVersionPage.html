@@ -14,6 +14,9 @@
   <br/>
   <fieldset>
   	<legend>Versions</legend>
+  	Filename:&nbsp;<span wicket:id="filename"/><br/>
+  	Version:&nbsp;<span wicket:id="version"/><br />
+  	Last Modified:&nbsp;<span wicket:id="modified"/><br/>
   	<table>
   		<tr>
   			<td>Version</td>
@@ -22,6 +25,7 @@
   		<tr wicket:id="versions">
   			<td><span wicket:id="fileVersion"/></td>
   			<td><span wicket:id="lastModified"/></td>
+  			<td><a href="#" wicket:id="restore">restore this version</a></td>
   		</tr>
   	</table>
   </fieldset>

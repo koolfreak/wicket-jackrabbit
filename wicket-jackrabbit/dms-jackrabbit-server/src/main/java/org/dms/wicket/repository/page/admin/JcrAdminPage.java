@@ -7,7 +7,8 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.dms.wicket.repository.db.model.FileDescription;
-import org.dms.wicket.repository.db.service.JcrFileMetadata;
+import org.dms.wicket.repository.db.service.JcrFileDescription;
+import org.dms.wicket.repository.file.service.JcrFileMetadata;
 import org.dms.wicket.repository.page.JcrMainPage;
 import org.xaloon.wicket.component.mounting.MountPage;
 
@@ -21,11 +22,12 @@ public class JcrAdminPage extends JcrMainPage
 {
 
     @SpringBean private JcrFileMetadata jcrFileMetadata;
+    @SpringBean private JcrFileDescription jcrFileDescription;
     
     public JcrAdminPage()
     {
 	
-	final ListView<FileDescription> lists = new ListView<FileDescription>("files",jcrFileMetadata.loadAll())
+	final ListView<FileDescription> lists = new ListView<FileDescription>("files",jcrFileDescription.loadAll())
 	{
 	    @Override
 	    protected void populateItem(ListItem<FileDescription> item)
@@ -40,6 +42,14 @@ public class JcrAdminPage extends JcrMainPage
 		    public void onClick()
 		    {
 			setResponsePage(new JcrVersionPage(getModelObject()));
+		    }
+		});
+		item.add(new Link<FileDescription>("delete",item.getModel())
+		{
+		    @Override
+		    public void onClick()
+		    {
+			jcrFileMetadata.deleteFile(getModelObject());
 		    }
 		});
 	    }
