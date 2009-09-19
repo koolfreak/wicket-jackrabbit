@@ -22,5 +22,7 @@ public interface JcrFileMetadata
 
     void restoreVersion(FileDescription file, String verName)  throws FileStorageException;
     
+    void deleteFile(FileDescription file) throws FileStorageException;
+    
     List<FileVersion> getFileVersions(String path) throws FileStorageException;
 }

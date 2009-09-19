@@ -60,4 +60,11 @@ public class JcrFileMetadataImpl implements JcrFileMetadata
 	fileRepository.restoreVersion(file, verName);
 	jcrFileStorageDao.update(file);
     }
+
+    public void deleteFile(FileDescription file) throws FileStorageException
+    {
+	fileRepository.delete(file.getFilePath());
+	jcrFileStorageDao.delete(file);
+	
+    }
  }

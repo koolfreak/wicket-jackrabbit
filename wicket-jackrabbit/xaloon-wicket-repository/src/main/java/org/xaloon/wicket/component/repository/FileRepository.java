@@ -57,6 +57,13 @@ public interface FileRepository {
 	 */
     	void storeNextVersion(FileDescription fileDesc,InputStream fileStream) throws FileStorageException;
 	
+    	/**
+    	 * 
+    	 * @param file
+    	 * @param verName
+    	 * @throws FileStorageException
+    	 */
+    	void restoreVersion(FileDescription file, String verName)  throws FileStorageException;
 	/**
 	 * Retrieve file from repository
 	 * @param session
@@ -80,6 +87,7 @@ public interface FileRepository {
 	 * @return
 	 */
 	InputStream retrieveFileByUUID(String uuid,Map<String, String> attr) throws FileStorageException;
+	
 	/**
 	 * Retrieve information of files
 	 * 
@@ -88,6 +96,12 @@ public interface FileRepository {
 	 */
 	List<FileDescription> searchFiles (String searchPath) throws FileStorageException;
 	
+	/**
+	 * 
+	 * @param path
+	 * @return
+	 * @throws FileStorageException
+	 */
 	List<FileVersion> getFileVersions(String path) throws FileStorageException;
 
 	/**
