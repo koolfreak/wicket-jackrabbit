@@ -29,7 +29,7 @@ import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.lang.Bytes;
 import org.dms.wicket.repository.db.model.FileDescription;
-import org.dms.wicket.repository.db.service.JcrFileMetadata;
+import org.dms.wicket.repository.file.service.JcrFileMetadata;
 import org.dms.wicket.repository.page.IndexPage;
 import org.dms.wicket.repository.page.UploadFilePage;
 import org.dms.wicket.repository.page.admin.JcrVersionPage;
