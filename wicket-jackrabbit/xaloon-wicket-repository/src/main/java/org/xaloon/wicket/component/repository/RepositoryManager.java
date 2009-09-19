@@ -17,8 +17,13 @@
 package org.xaloon.wicket.component.repository;
 
 import javax.jcr.Repository;
+import javax.jcr.RepositoryException;
+import javax.jcr.UnsupportedRepositoryOperationException;
+import javax.jcr.observation.EventListener;
+import javax.jcr.observation.ObservationManager;
 
 import org.apache.jackrabbit.core.RepositoryImpl;
+import org.apache.jackrabbit.spi.Event;
 import org.dms.wicket.component.ThreadLocalSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.xaloon.wicket.component.repository.util.ContentHelper;
@@ -63,8 +68,37 @@ public class RepositoryManager {
 		try {
 			setRepository (ContentHelper.createRepository(contentProperties.getJcrRepository()));
 			setContentSessionFactory (ThreadLocalSessionFactory.createSessionFactory (getRespository (), contentProperties.getJcrUsername(), contentProperties.getJcrPassword()));
+			initListeners();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void initListeners()
+	{
+	    if(getRespository().getDescriptor(Repository.OPTION_OBSERVATION_SUPPORTED).equals("true"))
+	    {
+		if( !contentProperties.getEventListeners().isEmpty() )
+		{
+		    try
+		    {
+			ObservationManager observe = getContentSessionFactory().getDefaultSession().getWorkspace().getObservationManager();
+			
+			for(EventListener listener : contentProperties.getEventListeners())
+			{
+			    observe.addEventListener(listener, Event.ALL_TYPES, "/", true, null, null, false);
+			}
+			
+		    } 
+		    catch (UnsupportedRepositoryOperationException e)
+		    {
+			e.printStackTrace();
+		    } 
+		    catch (RepositoryException e)
+		    {
+			e.printStackTrace();
+		    }
+		}
+	    }
 	}
 }
