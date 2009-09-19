@@ -16,6 +16,6 @@ public abstract class JcrMainPage extends WebPage
 	super(parameters);
     }
 
-    
+    public JcrMainPage(){}
 }
 

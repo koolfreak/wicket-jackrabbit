@@ -23,13 +23,16 @@ import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.image.NonCachingImage;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.lang.Bytes;
 import org.dms.wicket.repository.db.model.FileDescription;
+import org.dms.wicket.repository.db.service.JcrFileMetadata;
 import org.dms.wicket.repository.page.IndexPage;
 import org.dms.wicket.repository.page.UploadFilePage;
+import org.dms.wicket.repository.page.admin.JcrVersionPage;
 import org.xaloon.wicket.component.repository.FileRepository;
 import org.xaloon.wicket.component.resource.FileResource;
 import org.xaloon.wicket.component.uploadify.UploadifyBehaviorItem;
@@ -44,6 +47,8 @@ public class RepositoryPanel extends org.apache.wicket.markup.html.panel.Panel {
 
 	@SpringBean
 	private FileRepository fileRepository;
+	
+	@SpringBean private JcrFileMetadata fileMetadata;
 	
 	public static final String PARENT_NAME = "photo/upload/test/";
 
@@ -179,7 +184,7 @@ public class RepositoryPanel extends org.apache.wicket.markup.html.panel.Panel {
 			};
 			show.add(new Label("name", desc.getName()));
 			inner.add(show);
-			//inner.add(new JcrDowloadLink("down", desc));
+			
 			inner.add(new Label("modified", df.format(desc.getLastModified())));
 			inner.add(new Label("size", formatBytes(desc.getSize())));
 			AjaxFallbackLink<Void> delete = new AjaxFallbackLink<Void>("delete") {
@@ -245,7 +250,7 @@ public class RepositoryPanel extends org.apache.wicket.markup.html.panel.Panel {
 				if (upload != null) {
 				    String mimetype = upload.getContentType();
 				    
-					fileRepository.storeFile(path, upload.getClientFileName(), mimetype, upload.getInputStream());
+				    fileMetadata.storeFileVersion(path, upload.getClientFileName(), mimetype, upload.getInputStream());
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
