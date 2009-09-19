@@ -18,7 +18,11 @@ public interface JcrFileStorageDao
     
     void delete(FileDescription file) throws DataAccessException;
     
+    void update(FileDescription file) throws DataAccessException;
+    
     FileDescription loadByUUID(String uuid) throws DataAccessException;
     
     List<FileDescription> loadAll() throws DataAccessException;
+    
+    List<FileDescription> loadAll(int first,int max) throws DataAccessException;
 }
