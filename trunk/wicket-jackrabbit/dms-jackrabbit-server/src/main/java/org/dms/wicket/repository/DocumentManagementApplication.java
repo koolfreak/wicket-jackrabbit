@@ -15,14 +15,14 @@ import org.apache.wicket.extensions.ajax.markup.html.form.upload.UploadWebReques
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.protocol.http.WebRequest;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
+import org.dms.wicket.component.ContentWebRequestCycle;
+import org.dms.wicket.component.ThreadLocalSessionFactory;
 import org.dms.wicket.repository.page.IndexPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.xaloon.wicket.component.mounting.PageAnnotationScannerContainer;
-import org.xaloon.wicket.component.repository.ContentWebRequestCycle;
 import org.xaloon.wicket.component.repository.RepositoryManager;
-import org.xaloon.wicket.component.repository.ThreadLocalSessionFactory;
 
 public class DocumentManagementApplication extends WebApplication
 {
@@ -48,7 +48,7 @@ public class DocumentManagementApplication extends WebApplication
     {
 	super.init();
 	repositoryManager.init();
-	//initRMI();
+	initRMI();
 	getResourceSettings().setThrowExceptionOnMissingResource(false);
 
 	getMarkupSettings().setCompressWhitespace(true);
