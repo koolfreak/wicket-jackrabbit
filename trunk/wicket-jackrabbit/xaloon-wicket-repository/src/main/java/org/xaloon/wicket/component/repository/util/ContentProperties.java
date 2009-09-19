@@ -17,6 +17,9 @@
 package org.xaloon.wicket.component.repository.util;
 
 import java.io.Serializable;
+import java.util.List;
+
+import javax.jcr.observation.EventListener;
 
 /**
  * http://www.xaloon.org
@@ -32,6 +35,8 @@ public class ContentProperties implements Serializable{
 	private String jcrRepository;
 	private String jcrUsername;
 	private String jcrPassword;
+	private List<EventListener> eventListeners;
+	
 	public String getJcrRepository() {
 		return jcrRepository;
 	}
@@ -50,5 +55,14 @@ public class ContentProperties implements Serializable{
 	public void setJcrPassword(String jcrPassword) {
 		this.jcrPassword = jcrPassword;
 	}
+	public List<EventListener> getEventListeners()
+	{
+	    return eventListeners;
+	}
+	public void setEventListeners(List<EventListener> eventListeners)
+	{
+	    this.eventListeners = eventListeners;
+	}
+	
 	
 }
