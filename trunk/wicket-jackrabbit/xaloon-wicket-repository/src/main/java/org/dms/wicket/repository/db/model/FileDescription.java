@@ -92,6 +92,10 @@ public class FileDescription implements Serializable
     private String path;
 
     @Basic
+    @Column(name="fileVersion")
+    private String fileVersion = null;
+    
+    @Basic
     @Column(name="size_")
     private Long size;
     
@@ -174,10 +178,20 @@ public class FileDescription implements Serializable
     {
         this.version = version;
     }
+    
+    public String getFileVersion()
+    {
+        return fileVersion;
+    }
+
+    public void setFileVersion(String fileVersion)
+    {
+        this.fileVersion = fileVersion;
+    }
 
     public String getFilePath()
     {
-	return this.path + '/' + this.name;
+	return this.path + this.name;
     }
 
     @Override
