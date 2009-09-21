@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<body>
+  <wicket:extend>
+  <h1>Upload New Version</h1>
+  
+  <form wicket:id="form">
+  	File:&nbsp;<input type="file" wicket:id="fileInput" />
+  	<br/>
+  	<input type="submit" value="Check-IN"/>
+  </form>
+  <br/>
+  <fieldset>
+  	<legend>Versions</legend>
+  	Filename:&nbsp;<span wicket:id="filename"/><br/>
+  	Version:&nbsp;<span wicket:id="version"/><br />
+  	Last Modified:&nbsp;<span wicket:id="modified"/><br/>
+  	<table>
+  		<tr>
+  			<td>Version</td>
+  			<td>Last Modified</td>
+  		</tr>
+  		<tr wicket:id="versions">
+  			<td><span wicket:id="fileVersion"/></td>
+  			<td><span wicket:id="lastModified"/></td>
+  			<td><a href="#" wicket:id="restore">restore this version</a></td>
+  		</tr>
+  	</table>
+  </fieldset>
+  </wicket:extend>
+</body>
+</html>
+
