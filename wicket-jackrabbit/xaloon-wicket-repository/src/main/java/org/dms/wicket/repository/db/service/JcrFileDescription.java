@@ -16,6 +16,8 @@ public interface JcrFileDescription
 
     FileDescription loadByUUID(String uuid);
     
+    String getFilePath(String uuid);
+    
     List<FileDescription> loadAll();
     
     List<FileDescription> loadAll(int first,int max);

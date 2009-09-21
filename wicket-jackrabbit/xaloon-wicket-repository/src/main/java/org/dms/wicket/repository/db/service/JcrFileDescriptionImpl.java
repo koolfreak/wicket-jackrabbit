@@ -15,7 +15,7 @@ import org.xaloon.wicket.component.exception.FileStorageException;
  * @author Emmanuel Nollase - emanux
  * created 2009 9 19 - 19:49:44
  */
-@Component
+@Component("jcrFileDescription")
 public class JcrFileDescriptionImpl implements JcrFileDescription
 {
 
@@ -53,8 +53,12 @@ public class JcrFileDescriptionImpl implements JcrFileDescription
 
     public FileDescription loadByUUID(String uuid)
     {
-	// TODO Auto-generated method stub
-	return null;
+	return jcrFileStorageDao.loadByUUID(uuid);
+    }
+
+    public String getFilePath(String uuid) throws NullPointerException
+    {
+	return loadByUUID(uuid).getFilePath();
     }
 
     

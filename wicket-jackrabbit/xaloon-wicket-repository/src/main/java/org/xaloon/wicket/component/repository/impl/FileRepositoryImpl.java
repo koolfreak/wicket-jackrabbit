@@ -182,7 +182,7 @@ public class FileRepositoryImpl implements FileRepository
 	    {
 		
 		Version ver = (Version) ite.next();
-		if (!ver.getName().equalsIgnoreCase("jcr:rootVersion"))
+		if (!ver.getName().equalsIgnoreCase(JcrConstants.JCR_ROOTVERSION))
 		{
 		    versions.add(new FileVersion(ver.getCreated().getTime(), ver.getName()));
 		}
@@ -192,15 +192,13 @@ public class FileRepositoryImpl implements FileRepository
     }
 
     public InputStream retrieveFile(String pathToFile) throws PathNotFoundException, ValueFormatException, RepositoryException
-	    
     {
 	    Node rootNode = contentSessionFacade.getDefaultSession()
 		    .getRootNode();
 	    if (rootNode.hasNode(pathToFile))
 	    {
 		Node file = rootNode.getNode(pathToFile);
-		return file.getNode("jcr:content").getProperty("jcr:data")
-			.getStream();
+		return file.getNode(JcrConstants.JCR_CONTENT).getProperty(JcrConstants.JCR_DATA).getStream();
 	    }
 	return null;
     }
@@ -211,25 +209,24 @@ public class FileRepositoryImpl implements FileRepository
 	{
 		Node fileContent = contentSessionFacade.getDefaultSession()
 			.getNodeByUUID(uuid);
-		return fileContent.getProperty("jcr:data").getStream();
+		return fileContent.getProperty(JcrConstants.JCR_DATA).getStream();
 	}
 	return null;
     }
 
-    public InputStream retrieveFileByUUID(String uuid, Map<String, String> attr)
+    public InputStream retrieveFile(String path, Map<String, String> attr)
 	    throws ValueFormatException, PathNotFoundException, RepositoryException
     {
-	if (!org.apache.commons.lang.StringUtils.isEmpty(uuid))
+	Node rootNode = contentSessionFacade.getDefaultSession()
+	    .getRootNode();
+	if (rootNode.hasNode(path))
 	{
-		final Node fileContent = contentSessionFacade
-			.getDefaultSession().getNodeByUUID(uuid);
-
-		attr.put("mimetype", fileContent.getProperty("jcr:mimeType")
+	    Node fileContent = rootNode.getNode(path);
+	    attr.put("mimetype", fileContent.getNode(JcrConstants.JCR_CONTENT).getProperty(JcrConstants.JCR_MIMETYPE)
 			.getString());
-		attr.put("filename", RepositoryHelper.getFileName(fileContent
-			.getPath()));
+	    attr.put("filename", RepositoryHelper.getFileName(fileContent.getPath()));
 
-		return fileContent.getProperty("jcr:data").getStream();
+	    return fileContent.getNode(JcrConstants.JCR_CONTENT).getProperty(JcrConstants.JCR_DATA).getStream();
 	}
 	return null;
     }
@@ -255,13 +252,13 @@ public class FileRepositoryImpl implements FileRepository
 		    FileDescription desc = new FileDescription();
 		    desc.setPath(file.getPath());
 		    desc.setName(file.getName());
-		    desc.setLastModified(file.getNode("jcr:content")
-			    .getProperty("jcr:lastModified").getDate()
+		    desc.setLastModified(file.getNode(JcrConstants.JCR_CONTENT)
+			    .getProperty(JcrConstants.JCR_LASTMODIFIED).getDate()
 			    .getTime());
-		    desc.setMimeType(file.getNode("jcr:content").getProperty(
-			    "jcr:mimeType").getString());
-		    desc.setSize(file.getNode("jcr:content").getProperty(
-			    "jcr:data").getLength());
+		    desc.setMimeType(file.getNode(JcrConstants.JCR_CONTENT).getProperty(
+			    JcrConstants.JCR_MIMETYPE).getString());
+		    desc.setSize(file.getNode(JcrConstants.JCR_CONTENT).getProperty(
+			    JcrConstants.JCR_DATA).getLength());
 		    result.add(desc);
 		}
 	    }
@@ -276,7 +273,7 @@ public class FileRepositoryImpl implements FileRepository
     {
 	try
 	{
-	    return "nt:file".equals(file.getPrimaryNodeType().getName());
+	    return JcrConstants.NT_FILE.equals(file.getPrimaryNodeType().getName());
 	} catch (RepositoryException e)
 	{
 	    throw new FileStorageException("Error while checking for a file", e);
@@ -305,7 +302,7 @@ public class FileRepositoryImpl implements FileRepository
 	{
 	    Node root = contentSessionFacade.getDefaultSession().getRootNode();
 	    return root.hasNode(name)
-		    && "nt:file".equalsIgnoreCase(root.getNode(name)
+		    && JcrConstants.NT_FILE.equalsIgnoreCase(root.getNode(name)
 			    .getPrimaryNodeType().getName());
 	} catch (Exception e)
 	{

@@ -6,9 +6,6 @@ package org.dms.wicket.repository.file.service;
 import java.io.InputStream;
 import java.util.List;
 
-import javax.jcr.PathNotFoundException;
-import javax.jcr.RepositoryException;
-
 import org.dms.wicket.repository.db.model.FileDescription;
 import org.dms.wicket.repository.db.model.FileVersion;
 import org.xaloon.wicket.component.exception.FileStorageException;

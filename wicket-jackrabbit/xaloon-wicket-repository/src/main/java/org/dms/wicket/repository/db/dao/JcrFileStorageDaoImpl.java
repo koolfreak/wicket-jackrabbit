@@ -6,7 +6,6 @@ package org.dms.wicket.repository.db.dao;
 import java.util.List;
 
 import org.dms.wicket.repository.db.model.FileDescription;
-import org.dms.wicket.repository.db.model.FileVersion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;

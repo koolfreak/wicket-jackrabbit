@@ -115,7 +115,7 @@ public interface FileRepository
      *            - file attributes such mimetype and filename only
      * @return
      */
-    InputStream retrieveFileByUUID(String uuid, Map<String, String> attr)
+    InputStream retrieveFile(String uuid, Map<String, String> attr)
 	    throws ValueFormatException, PathNotFoundException, RepositoryException;
 
     /**
