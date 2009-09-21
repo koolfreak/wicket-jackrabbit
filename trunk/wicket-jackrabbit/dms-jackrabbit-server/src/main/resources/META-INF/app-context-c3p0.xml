@@ -98,7 +98,4 @@
     	<property name="sessionFactory" ref="sessionFactory"/>
     </bean>
     
-    <bean id="jcrFileVersionDao" class="org.dms.wicket.repository.db.dao.JcrFileVersionDaoImpl">
-    	<property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
 </beans>

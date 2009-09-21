@@ -9,6 +9,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.jcr.PathNotFoundException;
+import javax.jcr.RepositoryException;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.ResourceReference;
@@ -140,7 +143,18 @@ public class RepositoryPanel extends org.apache.wicket.markup.html.panel.Panel {
 
 				@Override
 				public void onClick(AjaxRequestTarget target) {
-					fileRepository.delete("/" + path + ((!StringUtils.isEmpty(param))?"/":"") + desc);
+					try
+					{
+					    fileRepository.delete("/" + path + ((!StringUtils.isEmpty(param))?"/":"") + desc);
+					} catch (PathNotFoundException e)
+					{
+					    // TODO Auto-generated catch block
+					    e.printStackTrace();
+					} catch (RepositoryException e)
+					{
+					    // TODO Auto-generated catch block
+					    e.printStackTrace();
+					}
 					reloadFolder(path, param, listFolders);
 					target.addComponent(listFolders);
 				}
@@ -197,7 +211,18 @@ public class RepositoryPanel extends org.apache.wicket.markup.html.panel.Panel {
 				@Override
 				public void onClick(AjaxRequestTarget target) {
 					String jrpath = desc.getPath();
-				    	fileRepository.delete(jrpath);
+				    	try
+					{
+					    fileRepository.delete(jrpath);
+					} catch (PathNotFoundException e)
+					{
+					    // TODO Auto-generated catch block
+					    e.printStackTrace();
+					} catch (RepositoryException e)
+					{
+					    // TODO Auto-generated catch block
+					    e.printStackTrace();
+					}
 					reload(path, listFiles, imageContainer);
 					target.addComponent(listFiles);
 				}
