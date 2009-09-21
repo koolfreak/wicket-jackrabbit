@@ -5,6 +5,7 @@ package org.dms.wicket.repository.admin;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
@@ -12,7 +13,10 @@ import javax.jcr.Session;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.jackrabbit.core.SessionImpl;
 import org.apache.jackrabbit.core.WorkspaceImpl;
+import org.apache.jackrabbit.core.data.GarbageCollector;
+import org.apache.jackrabbit.core.state.ItemStateException;
 import org.dms.wicket.component.ContentSessionFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -109,5 +113,41 @@ public class JcrAdminServiceImpl implements JcrAdminService
 	{
 	    throw new FileStorageException("Error getting repository node", e);
 	}
+    }
+    
+    public void runGC()
+    {
+	GarbageCollector gc;
+	SessionImpl si = (SessionImpl)contentSessionFacade.getDefaultSession();
+	try
+	{
+	    gc = si.createDataStoreGarbageCollector();
+	 // optional (if you want to implement a progress bar / output):
+		//gc.setScanEventListener(this);
+		gc.scan();
+		gc.stopScan();
+
+		// delete old data
+		gc.deleteUnused();
+	} catch (RepositoryException e)
+	{
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	} catch (IllegalStateException e)
+	{
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	} catch (IOException e)
+	{
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	} catch (ItemStateException e)
+	{
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+
+	
+
     }
 }

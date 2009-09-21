@@ -19,4 +19,6 @@ public interface JcrAdminService
     void exportDocumentView(String path,String exportFile) throws FileStorageException;
     
     void createRepositoryNodes(String paths) throws FileStorageException;
+    
+    void runGC();
 }
