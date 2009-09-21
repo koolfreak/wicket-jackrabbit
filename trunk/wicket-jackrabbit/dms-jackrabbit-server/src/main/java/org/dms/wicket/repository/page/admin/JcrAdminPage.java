@@ -6,6 +6,7 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.dms.wicket.repository.admin.JcrAdminService;
 import org.dms.wicket.repository.db.model.FileDescription;
 import org.dms.wicket.repository.db.service.JcrFileDescription;
 import org.dms.wicket.repository.file.service.JcrFileMetadata;
@@ -20,12 +21,22 @@ import org.xaloon.wicket.component.mounting.MountPage;
 @MountPage(path="/admin")
 public class JcrAdminPage extends JcrMainPage
 {
-
+    
+    @SpringBean private JcrAdminService jcrAdminService;
     @SpringBean private JcrFileMetadata jcrFileMetadata;
     @SpringBean private JcrFileDescription jcrFileDescription;
     
     public JcrAdminPage()
     {
+	
+	add(new Link<Void>("runGC")
+	{
+	    @Override
+	    public void onClick()
+	    {
+		jcrAdminService.runGC();
+	    }
+	});
 	
 	final ListView<FileDescription> lists = new ListView<FileDescription>("files",jcrFileDescription.loadAll())
 	{
