@@ -6,7 +6,6 @@ package org.dms.wicket.repository.db.service;
 import java.util.List;
 
 import org.dms.wicket.repository.db.model.FileDescription;
-import org.xaloon.wicket.component.exception.FileStorageException;
 
 /**
  * @author Emmanuel Nollase - emanux
@@ -15,5 +14,15 @@ import org.xaloon.wicket.component.exception.FileStorageException;
 public interface JcrFileDescription
 {
 
-    List<FileDescription> loadAll() throws FileStorageException;
+    FileDescription loadByUUID(String uuid);
+    
+    List<FileDescription> loadAll();
+    
+    List<FileDescription> loadAll(int first,int max);
+    
+    List<FileDescription> loadByLuceneQuery(String query,int first,int max);
+    
+    int countAll();
+    
+    int countByLuceneQuery(String query);
 }

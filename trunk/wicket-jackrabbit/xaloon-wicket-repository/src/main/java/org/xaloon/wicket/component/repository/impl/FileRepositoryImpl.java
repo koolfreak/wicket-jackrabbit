@@ -16,22 +16,40 @@
  */
 package org.xaloon.wicket.component.repository.impl;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
+import javax.jcr.AccessDeniedException;
+import javax.jcr.ImportUUIDBehavior;
+import javax.jcr.InvalidSerializedDataException;
+import javax.jcr.ItemExistsException;
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
+import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
+import javax.jcr.UnsupportedRepositoryOperationException;
+import javax.jcr.ValueFormatException;
+import javax.jcr.lock.LockException;
+import javax.jcr.nodetype.ConstraintViolationException;
+import javax.jcr.nodetype.NoSuchNodeTypeException;
 import javax.jcr.version.Version;
+import javax.jcr.version.VersionException;
 import javax.jcr.version.VersionHistory;
 import javax.jcr.version.VersionIterator;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.jackrabbit.JcrConstants;
+import org.apache.jackrabbit.core.SessionImpl;
+import org.apache.jackrabbit.core.WorkspaceImpl;
+import org.apache.jackrabbit.core.data.GarbageCollector;
+import org.apache.jackrabbit.core.state.ItemStateException;
 import org.dms.wicket.component.ContentSessionFacade;
 import org.dms.wicket.repository.db.model.FileDescription;
 import org.dms.wicket.repository.db.model.FileVersion;
@@ -52,12 +70,10 @@ public class FileRepositoryImpl implements FileRepository
     @Autowired
     private ContentSessionFacade contentSessionFacade;
 
-    public String storeFile(String path, String name, String mimeType,
-	    InputStream fileStream) throws FileStorageException
+    public String storeFile(String path, String name, String mimeType, InputStream fileStream) throws PathNotFoundException, RepositoryException, Exception
     {
 	String uuid = null;
-	try
-	{
+	
 	    Session session = contentSessionFacade.getDefaultSession();
 	    Node rootNode = session.getRootNode();
 
@@ -73,21 +89,16 @@ public class FileRepositoryImpl implements FileRepository
 	    fileContent.setProperty(JcrConstants.JCR_DATA, fileStream);
 	    session.save();
 	    uuid = fileContent.getUUID();
-
-	} catch (Exception e)
-	{
-	    throw new FileStorageException("Error while storing file", e);
-	}
+	
 	return uuid;
     }
 
     public FileDescription storeFileVersion(String path, String name,
 	    String mimeType, InputStream fileStream)
-	    throws FileStorageException
+	    throws NoSuchNodeTypeException, VersionException, ConstraintViolationException, LockException, RepositoryException, Exception
     {
 	FileDescription filedesc = null;
-	try
-	{
+	
 	    Session session = contentSessionFacade.getDefaultSession();
 	    Node rootNode = session.getRootNode();
 
@@ -115,23 +126,13 @@ public class FileRepositoryImpl implements FileRepository
 	    filedesc.setUUID(fileContent.getUUID());
 	    filedesc.setFileVersion(version.getName());
 	    // filedesc.setSize(file.getNode("jcr:content").getProperty("jcr:data").getLength());
-
-	} catch (Exception e)
-	{
-	    throw new FileStorageException("Error while storing file", e);
-	} finally
-	{
-	    IOUtils.closeQuietly(fileStream);
-	}
+	
 	return filedesc;
     }
 
     public void storeNextVersion(FileDescription latestVersion,
-	    InputStream fileStream) throws FileStorageException
+	    InputStream fileStream) throws ValueFormatException, VersionException, LockException, ConstraintViolationException, PathNotFoundException, RepositoryException 
     {
-
-	try
-	{
 	    final String pathLatestVersion = latestVersion.getFilePath();
 	    Node rootNode = contentSessionFacade.getDefaultSession()
 		    .getRootNode();
@@ -149,23 +150,11 @@ public class FileRepositoryImpl implements FileRepository
 		latestVersion.setFileVersion(version.getName());
 		latestVersion.setLastModified(lastModified.getTime());
 	    }
-
-	} catch (RepositoryException e)
-	{
-	    throw new FileStorageException("Error while cheking-in version", e);
-	} finally
-	{
-	    IOUtils.closeQuietly(fileStream);
-	}
-
     }
 
-    public void restoreVersion(FileDescription file, String verName) 
-	    throws FileStorageException
+    public void restoreVersion(FileDescription file, String verName) throws RepositoryException 
+	    
     {
-	
-	try
-	{
 	    final String pathLatestVersion = file.getFilePath();
 	    Node rootNode = contentSessionFacade.getDefaultSession().getRootNode();
 	    if (rootNode.hasNode(pathLatestVersion))
@@ -178,19 +167,11 @@ public class FileRepositoryImpl implements FileRepository
 		file.setLastModified(restoreVersion.getCreated().getTime());
 		
 	    }
-	} 
-	catch (RepositoryException e)
-	{
-	    throw new FileStorageException("Erro restoring version: "+ verName, e);
-	}
-
     }
 
-    public List<FileVersion> getFileVersions(String path) throws FileStorageException
+    public List<FileVersion> getFileVersions(String path) throws RepositoryException
     {
 	final List<FileVersion> versions = new ArrayList<FileVersion>();
-	try
-	{
 	    Node rootNode = contentSessionFacade.getDefaultSession()
 		    .getRootNode();
 	    Node file = rootNode.getNode(path);
@@ -207,21 +188,12 @@ public class FileRepositoryImpl implements FileRepository
 		}
 	    }
 
-	} catch (RepositoryException e)
-	{
-	    throw new FileStorageException("Erro accessing versions ", e);
-	} catch (Exception e)
-	{
-	    throw new FileStorageException("Erro accessing versions ", e);
-	}
 	return versions;
     }
 
-    public InputStream retrieveFile(String pathToFile)
-	    throws FileStorageException
+    public InputStream retrieveFile(String pathToFile) throws PathNotFoundException, ValueFormatException, RepositoryException
+	    
     {
-	try
-	{
 	    Node rootNode = contentSessionFacade.getDefaultSession()
 		    .getRootNode();
 	    if (rootNode.hasNode(pathToFile))
@@ -230,37 +202,25 @@ public class FileRepositoryImpl implements FileRepository
 		return file.getNode("jcr:content").getProperty("jcr:data")
 			.getStream();
 	    }
-	} catch (Exception e)
-	{
-	    throw new FileStorageException("Error while storing file", e);
-	}
 	return null;
     }
 
-    public InputStream retrieveFileByUUID(String uuid)
+    public InputStream retrieveFileByUUID(String uuid) throws ValueFormatException, PathNotFoundException, RepositoryException
     {
 	if (!org.apache.commons.lang.StringUtils.isEmpty(uuid))
 	{
-	    try
-	    {
 		Node fileContent = contentSessionFacade.getDefaultSession()
 			.getNodeByUUID(uuid);
 		return fileContent.getProperty("jcr:data").getStream();
-	    } catch (Exception e)
-	    {
-		throw new FileStorageException("Error while storing file", e);
-	    }
 	}
 	return null;
     }
 
     public InputStream retrieveFileByUUID(String uuid, Map<String, String> attr)
-	    throws FileStorageException
+	    throws ValueFormatException, PathNotFoundException, RepositoryException
     {
 	if (!org.apache.commons.lang.StringUtils.isEmpty(uuid))
 	{
-	    try
-	    {
 		final Node fileContent = contentSessionFacade
 			.getDefaultSession().getNodeByUUID(uuid);
 
@@ -270,10 +230,6 @@ public class FileRepositoryImpl implements FileRepository
 			.getPath()));
 
 		return fileContent.getProperty("jcr:data").getStream();
-	    } catch (Exception e)
-	    {
-		throw new FileStorageException("Error while storing file", e);
-	    }
 	}
 	return null;
     }
@@ -327,12 +283,10 @@ public class FileRepositoryImpl implements FileRepository
 	}
     }
 
-    public void delete(String path) throws FileStorageException
+    public void delete(String path) throws PathNotFoundException, RepositoryException 
     {
 	if (!org.apache.commons.lang.StringUtils.isEmpty(path))
 	{
-	    try
-	    {
 		Session session = contentSessionFacade.getDefaultSession();
 		Node nodeToRemove = session.getRootNode().getNode(path);
 
@@ -342,10 +296,6 @@ public class FileRepositoryImpl implements FileRepository
 		    session.save();
 		}
 
-	    } catch (Exception e)
-	    {
-		throw new FileStorageException("Error while deleting file", e);
-	    }
 	}
     }
 
@@ -389,5 +339,101 @@ public class FileRepositoryImpl implements FileRepository
 	    throw new FileStorageException("Error while searching files", e);
 	}
 	return result;
+    }
+
+    public void crateJcrWorkspace(String wsname) throws AccessDeniedException, UnsupportedRepositoryOperationException, RepositoryException 
+    {
+	
+	final WorkspaceImpl ws = (WorkspaceImpl) contentSessionFacade.getDefaultSession().getWorkspace();
+	ws.createWorkspace(wsname);
+    }
+
+    public void createRepositoryNodes(String paths) throws Exception 
+    {
+	    final Session session = contentSessionFacade.getDefaultSession();
+	    final Node rootNode = contentSessionFacade.getDefaultSession().getRootNode();
+	    
+	    if( !rootNode.hasNode(paths) )
+	    {
+		Node createNode = RepositoryHelper.createFolder(session, paths, rootNode);
+		createNode.save();
+	    }
+    }
+
+    public void exportDocumentView(String path, String exportFile,boolean skipBinary)
+	    throws PathNotFoundException, IOException, RepositoryException
+    {
+	    final File file = new File(exportFile);
+	    final FileOutputStream out = new FileOutputStream(file);
+	    contentSessionFacade.getDefaultSession().exportDocumentView(path, out, skipBinary, false);
+    }
+
+    public void importDocumentView(String path, String importFile) 
+    throws PathNotFoundException, ItemExistsException, ConstraintViolationException, VersionException, InvalidSerializedDataException, LockException, IOException, RepositoryException,Exception
+	    
+    {
+	FileInputStream file = new FileInputStream(importFile);
+	contentSessionFacade.getDefaultSession().importXML("/", file, ImportUUIDBehavior.IMPORT_UUID_CREATE_NEW);
+    }
+
+    public void performGC() throws FileStorageException
+    {
+	try
+	{
+	    SessionImpl si = (SessionImpl)contentSessionFacade.getDefaultSession();
+	    GarbageCollector gc = si.createDataStoreGarbageCollector();
+	    	// optional (if you want to implement a progress bar / output):
+		//gc.setScanEventListener(this);
+		gc.scan();
+		gc.stopScan();
+		// delete old data
+		gc.deleteUnused();
+	} catch (RepositoryException e)
+	{
+	    throw new FileStorageException("Error performing GC",e);
+	} catch (IllegalStateException e)
+	{
+	    e.printStackTrace();
+	} catch (IOException e)
+	{
+	    e.printStackTrace();
+	} catch (ItemStateException e)
+	{
+	    e.printStackTrace();
+	}
+    }
+
+    public void renameNode(String path, String newName)
+	    throws FileStorageException, RepositoryException
+    {
+	    Node rootnode = contentSessionFacade.getDefaultSession().getRootNode();
+	    if(rootnode.hasNode(path)) {
+		throw new FileStorageException("Cannot find file path");    
+	    }
+	    Node node = rootnode.getNode(path);
+	    renameNode(node, newName);
+    }
+    
+    public void lockFileNode(String path) throws PathNotFoundException, RepositoryException 
+    {
+	Node rootnode = contentSessionFacade.getDefaultSession().getRootNode();
+	Node nodeToLock = rootnode.getNode(path);
+	nodeToLock.checkout();
+	nodeToLock.lock(true, true);
+	nodeToLock.checkin();
+    }
+    
+    public void unlockFileNode(String path) throws PathNotFoundException, RepositoryException
+    {
+	Node rootnode = contentSessionFacade.getDefaultSession().getRootNode();
+	Node nodeToLock = rootnode.getNode(path);
+	nodeToLock.checkout();
+	nodeToLock.unlock();
+	nodeToLock.checkin();
+    }
+    
+    private void renameNode(Node node, String newName) throws RepositoryException
+    {
+	node.getSession().move(node.getPath(),node.getParent().getPath() + "/" + newName);
     }
 }

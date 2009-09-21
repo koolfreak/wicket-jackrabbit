@@ -19,6 +19,10 @@ package org.xaloon.wicket.component.resource;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.jcr.PathNotFoundException;
+import javax.jcr.RepositoryException;
+import javax.jcr.ValueFormatException;
+
 import org.apache.wicket.Resource;
 import org.apache.wicket.injection.web.InjectorHolder;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -61,7 +65,20 @@ public class FileResource extends Resource {
 			}
 			
 			public InputStream getInputStream() throws ResourceStreamNotFoundException {
-				return fileRepository.retrieveFile(pathToFile);
+				try
+				{
+				    return fileRepository.retrieveFile(pathToFile);
+				} catch (PathNotFoundException e)
+				{
+				    e.printStackTrace();
+				} catch (ValueFormatException e)
+				{
+				    e.printStackTrace();
+				} catch (RepositoryException e)
+				{
+				    e.printStackTrace();
+				}
+				return null;
 			}			
 		};
 	}
