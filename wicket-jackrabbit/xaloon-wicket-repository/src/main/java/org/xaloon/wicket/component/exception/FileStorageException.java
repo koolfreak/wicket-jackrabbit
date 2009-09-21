@@ -23,9 +23,22 @@ package org.xaloon.wicket.component.exception;
  */
 public class FileStorageException extends RuntimeException {
 
-	public FileStorageException(String value, Exception e) {
-		super(value, e);
+	public FileStorageException(Exception e) {
+		super(null, e);
 	}
+	
+	public FileStorageException(String message, Exception cause)
+	{
+	    super(message, cause);
+	}
+
+	public FileStorageException(String message)
+	{
+	    super(message);
+	}
+
+
+
 
 	/**
 	 * 

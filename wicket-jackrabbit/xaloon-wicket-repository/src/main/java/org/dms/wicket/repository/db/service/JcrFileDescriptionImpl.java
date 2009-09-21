@@ -26,4 +26,36 @@ public class JcrFileDescriptionImpl implements JcrFileDescription
 	return jcrFileStorageDao.loadAll();
     }
 
+    public int countAll()
+    {
+	// TODO Auto-generated method stub
+	return 0;
+    }
+
+    public int countByLuceneQuery(String query)
+    {
+	// TODO Auto-generated method stub
+	return 0;
+    }
+
+    public List<FileDescription> loadAll(int first, int max)
+    {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    public List<FileDescription> loadByLuceneQuery(String query, int first,
+	    int max)
+    {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    public FileDescription loadByUUID(String uuid)
+    {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    
 }

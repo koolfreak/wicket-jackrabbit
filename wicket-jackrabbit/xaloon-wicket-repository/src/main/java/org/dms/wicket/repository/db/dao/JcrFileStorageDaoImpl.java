@@ -50,11 +50,6 @@ public class JcrFileStorageDaoImpl extends HibernateDaoSupport implements
 	return (FileDescription) this.getSession().createCriteria(FileDescription.class).add(Restrictions.eq("UUID", uuid)).uniqueResult();
     }
 
-    public void save(FileVersion file) throws DataAccessException
-    {
-	getHibernateTemplate().save(file);
-    }
-
     public void update(FileDescription file) throws DataAccessException
     {
 	getHibernateTemplate().merge(file);
