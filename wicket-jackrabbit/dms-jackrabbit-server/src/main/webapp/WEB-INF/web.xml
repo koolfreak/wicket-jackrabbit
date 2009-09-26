@@ -69,6 +69,16 @@
         <url-pattern>/jcrFile</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+		<servlet-name>UPLOAD</servlet-name>
+		<servlet-class>org.dms.repository.servlets.JcrFileUploadServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+        <servlet-name>UPLOAD</servlet-name>
+        <url-pattern>/jcrUpload</url-pattern>
+    </servlet-mapping>
+    
 	<login-config>
 		<auth-method>BASIC</auth-method>
 	</login-config>
