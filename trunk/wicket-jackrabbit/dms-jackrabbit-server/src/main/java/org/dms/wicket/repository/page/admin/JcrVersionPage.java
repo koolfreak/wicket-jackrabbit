@@ -57,6 +57,16 @@ public class JcrVersionPage extends JcrMainPage
 			setResponsePage(JcrAdminPage.class);
 		    }
 		}.setVisible(!isSameVersion));
+		/*item.add(new Link<Void>("remove")
+		{
+		    @Override
+		    public void onClick()
+		    {
+			jcrFileMetadata.removeFileVersion(file.getFilePath(), vers.getFileVersion());
+			setRedirect(true);
+			setResponsePage(JcrAdminPage.class);
+		    }
+		});*/
 	    }
 	};
 	add(versions);
