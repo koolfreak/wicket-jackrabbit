@@ -58,7 +58,7 @@
     </servlet-mapping>
     
     <!-- ======================================================================	-->
-	<!--	F I L E S E R V L E T-->
+	<!--	F I L E S E R V L E T - DISPLAY AND DOWNLOAD-->
 	<!-- ====================================================================== -->
 	<servlet>
 		<servlet-name>FILE</servlet-name>
@@ -71,6 +71,9 @@
         <url-pattern>/jcrFile</url-pattern>
     </servlet-mapping>
     
+    <!-- ======================================================================	-->
+	<!--	U P L O A D F I L E - S E R V L E T -->
+	<!-- ====================================================================== -->
     <servlet>
 		<servlet-name>UPLOAD</servlet-name>
 		<servlet-class>org.dms.repository.servlets.JcrFileUploadServlet</servlet-class>
@@ -82,6 +85,9 @@
         <url-pattern>/jcrUpload</url-pattern>
     </servlet-mapping>
     
+    <!-- ======================================================================	-->
+	<!--	W E B D A V - S E R V L E T -->
+	<!-- ====================================================================== -->
     <servlet>
 		<servlet-name>WEBDAV</servlet-name>
 		<servlet-class>org.dms.repository.servlets.JcrWebdavServlet</servlet-class>
@@ -107,7 +113,9 @@
         <url-pattern>/repository/*</url-pattern>
     </servlet-mapping>
     
-    
+    <!-- ======================================================================	-->
+	<!--	R E M O T I N G -->
+	<!-- ====================================================================== -->
     <servlet>
 		<servlet-name>REMOTING</servlet-name>
 		<servlet-class>org.dms.repository.servlets.JcrRemotingServlet</servlet-class>
