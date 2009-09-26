@@ -49,6 +49,7 @@
 	<servlet>
 		<servlet-name>RMI</servlet-name>
 		<servlet-class>org.dms.repository.servlets.JcrRepositoryServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
 	</servlet>
 
 	<servlet-mapping>
@@ -62,6 +63,7 @@
 	<servlet>
 		<servlet-name>FILE</servlet-name>
 		<servlet-class>org.dms.repository.servlets.JcrFileServlet</servlet-class>
+		<load-on-startup>2</load-on-startup>
 	</servlet>
 
 	<servlet-mapping>
@@ -72,11 +74,89 @@
     <servlet>
 		<servlet-name>UPLOAD</servlet-name>
 		<servlet-class>org.dms.repository.servlets.JcrFileUploadServlet</servlet-class>
+		<load-on-startup>3</load-on-startup>
 	</servlet>
 
 	<servlet-mapping>
         <servlet-name>UPLOAD</servlet-name>
         <url-pattern>/jcrUpload</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+		<servlet-name>WEBDAV</servlet-name>
+		<servlet-class>org.dms.repository.servlets.JcrWebdavServlet</servlet-class>
+		<init-param>
+            <param-name>resource-path-prefix</param-name>
+            <param-value>/repository</param-value>
+            <description>
+                defines the prefix for spooling resources out of the repository.
+            </description>
+        </init-param>
+         <init-param>
+             <param-name>missing-auth-mapping</param-name>
+             <param-value>anonymous:anonymous</param-value>
+             <description>
+                 Defines how a missing authorization header should be handled.
+                 1) If this init-param is missing, a 401 response is generated.
+                    This is suiteable for clients (eg. webdav clients) for which
+                    sending a proper authorization header is not possible if the
+                    server never sent a 401.
+                 2) If this init-param is present with an empty value,
+                    null-credentials are returned, thus forcing an null login
+                    on the repository.
+                 3) If this init-param has a 'user:password' value, the respective
+                    simple credentials are generated.
+             </description>
+         </init-param>
+        <!--
+            Optional parameter to define the value of the 'WWW-Authenticate' header
+        -->
+        <init-param>
+            <param-name>authenticate-header</param-name>
+            <param-value>Basic realm="Jackrabbit Webdav Server"</param-value>
+            <description>
+                Defines the value of the 'WWW-Authenticate' header.
+            </description>
+        </init-param>
+        <init-param>
+            <param-name>resource-config</param-name>
+            <param-value>/WEB-INF/webdavconfig.xml</param-value>
+            <description>
+                Defines various dav-resource configuration parameters.
+            </description>
+        </init-param>
+        <load-on-startup>4</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+        <servlet-name>WEBDAV</servlet-name>
+        <url-pattern>/repository/*</url-pattern>
+    </servlet-mapping>
+    
+    
+    <servlet>
+		<servlet-name>REMOTING</servlet-name>
+		<servlet-class>org.dms.repository.servlets.JcrRemotingServlet</servlet-class>
+		<init-param>
+            <param-name>resource-path-prefix</param-name>
+            <param-value>/server</param-value>
+            <description>
+                defines the prefix for spooling resources out of the repository.
+            </description>
+        </init-param>
+        <init-param>
+            <param-name>resource-config</param-name>
+            <param-value>/WEB-INF/server.properties</param-value>
+            <description>
+                Defines various dav-resource configuration parameters.
+            </description>
+        </init-param>
+        <load-on-startup>5</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+        <servlet-name>REMOTING</servlet-name>
+        <url-pattern>/server/*</url-pattern>
     </servlet-mapping>
     
 	<login-config>
