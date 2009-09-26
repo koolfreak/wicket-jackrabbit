@@ -40,6 +40,9 @@ import javax.jcr.ValueFormatException;
 import javax.jcr.lock.LockException;
 import javax.jcr.nodetype.ConstraintViolationException;
 import javax.jcr.nodetype.NoSuchNodeTypeException;
+import javax.jcr.query.Query;
+import javax.jcr.query.QueryManager;
+import javax.jcr.query.QueryResult;
 import javax.jcr.version.Version;
 import javax.jcr.version.VersionException;
 import javax.jcr.version.VersionHistory;
@@ -70,9 +73,8 @@ public class FileRepositoryImpl implements FileRepository
     @Autowired
     private ContentSessionFacade contentSessionFacade;
 
-    public String storeFile(String path, String name, String mimeType, InputStream fileStream) throws PathNotFoundException, RepositoryException, Exception
+    public FileDescription storeFile(String path, String name, String mimeType, InputStream fileStream) throws PathNotFoundException, RepositoryException, Exception
     {
-	String uuid = null;
 	
 	    Session session = contentSessionFacade.getDefaultSession();
 	    Node rootNode = session.getRootNode();
@@ -81,23 +83,29 @@ public class FileRepositoryImpl implements FileRepository
 		    : RepositoryHelper.createFolder(session, path, rootNode);
 	    Node file = folder.addNode(name, JcrConstants.NT_FILE);
 	    file.addMixin(JcrConstants.MIX_REFERENCEABLE);
-	    Node fileContent = file.addNode(JcrConstants.JCR_CONTENT,
-		    JcrConstants.NT_RESOURCE);
+	    Node fileContent = file.addNode(JcrConstants.JCR_CONTENT,JcrConstants.NT_RESOURCE);
 	    fileContent.setProperty(JcrConstants.JCR_MIMETYPE, mimeType);
-	    fileContent.setProperty(JcrConstants.JCR_LASTMODIFIED, Calendar
-		    .getInstance());
+	    final Calendar lastModified = Calendar.getInstance();
+	    lastModified.setTimeInMillis(System.currentTimeMillis());
+	    fileContent.setProperty(JcrConstants.JCR_LASTMODIFIED, lastModified);
 	    fileContent.setProperty(JcrConstants.JCR_DATA, fileStream);
 	    session.save();
-	    uuid = fileContent.getUUID();
+	    final String uuid = fileContent.getUUID();
+	    
+	    final FileDescription filedesc = new FileDescription();
+	    filedesc.setLastModified(lastModified.getTime());
+	    filedesc.setMimeType(mimeType);
+	    filedesc.setPath(path);
+	    filedesc.setName(name);
+	    filedesc.setUUID(uuid);
 	
-	return uuid;
+	return filedesc;
     }
 
     public FileDescription storeFileVersion(String path, String name,
 	    String mimeType, InputStream fileStream)
 	    throws NoSuchNodeTypeException, VersionException, ConstraintViolationException, LockException, RepositoryException, Exception
     {
-	FileDescription filedesc = null;
 	
 	    Session session = contentSessionFacade.getDefaultSession();
 	    Node rootNode = session.getRootNode();
@@ -107,18 +115,16 @@ public class FileRepositoryImpl implements FileRepository
 	    Node file = folder.addNode(name, JcrConstants.NT_FILE);
 	    file.addMixin(JcrConstants.MIX_VERSIONABLE);
 
-	    Node fileContent = file.addNode(JcrConstants.JCR_CONTENT,
-		    JcrConstants.NT_RESOURCE);
+	    Node fileContent = file.addNode(JcrConstants.JCR_CONTENT, JcrConstants.NT_RESOURCE);
 	    fileContent.setProperty(JcrConstants.JCR_MIMETYPE, mimeType);
 	    final Calendar lastModified = Calendar.getInstance();
 	    lastModified.setTimeInMillis(System.currentTimeMillis());
-	    fileContent
-		    .setProperty(JcrConstants.JCR_LASTMODIFIED, lastModified);
+	    fileContent.setProperty(JcrConstants.JCR_LASTMODIFIED, lastModified);
 	    fileContent.setProperty(JcrConstants.JCR_DATA, fileStream);
 	    session.save();
 	    final Version version = file.checkin();
 
-	    filedesc = new FileDescription();
+	    final FileDescription filedesc = new FileDescription();
 	    filedesc.setLastModified(lastModified.getTime());
 	    filedesc.setMimeType(mimeType);
 	    filedesc.setPath(path);
@@ -169,6 +175,17 @@ public class FileRepositoryImpl implements FileRepository
 	    }
     }
 
+    public void removeFileVersion(String path,String versionName) throws PathNotFoundException, RepositoryException
+    {
+	Node rootNode = contentSessionFacade.getDefaultSession()
+	    .getRootNode();
+	Node file = rootNode.getNode(path);
+	file.checkout();
+	VersionHistory history = file.getVersionHistory();
+	history.removeVersion(versionName);
+	file.checkin();
+    }
+    
     public List<FileVersion> getFileVersions(String path) throws RepositoryException
     {
 	final List<FileVersion> versions = new ArrayList<FileVersion>();
@@ -265,6 +282,36 @@ public class FileRepositoryImpl implements FileRepository
 	} catch (Exception e)
 	{
 	    throw new FileStorageException("Error while searching files", e);
+	}
+	return result;
+    }
+    
+    public List<FileDescription> searchFileByKeyword(String path,String keyword) {
+	List<FileDescription> result = new ArrayList<FileDescription>();
+	try {
+		Session session = contentSessionFacade.getDefaultSession();
+		if (!session.getRootNode().hasNode(path)) {
+			return result;
+		}
+		QueryManager qmanager =  session.getWorkspace().getQueryManager();
+		Query query = qmanager.createQuery("//*[jcr:contains(.,'"+keyword+"')]", Query.XPATH);
+		QueryResult qresult = query.execute();
+		
+		NodeIterator ni = qresult.getNodes();
+		while (ni.hasNext()) {
+			Node file = ni.nextNode();
+			if (isFile (file)) {
+				final FileDescription desc = new FileDescription();
+				desc.setPath(file.getPath());
+				desc.setName(file.getName());
+				desc.setLastModified(file.getNode(JcrConstants.JCR_CONTENT).getProperty(JcrConstants.JCR_LASTMODIFIED).getDate().getTime());
+				desc.setMimeType(file.getNode(JcrConstants.JCR_CONTENT).getProperty(JcrConstants.JCR_MIMETYPE).getString());
+				desc.setSize(file.getNode(JcrConstants.JCR_CONTENT).getProperty(JcrConstants.JCR_DATA).getLength());
+				result.add (desc);
+			}
+		}
+	} catch (Exception e) {
+		throw new FileStorageException ("Error while searching files", e);
 	}
 	return result;
     }
