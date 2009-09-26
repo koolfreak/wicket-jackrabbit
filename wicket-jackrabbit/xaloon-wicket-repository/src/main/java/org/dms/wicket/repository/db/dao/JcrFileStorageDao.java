@@ -25,4 +25,6 @@ public interface JcrFileStorageDao
     List<FileDescription> loadAll() throws DataAccessException;
     
     List<FileDescription> loadAll(int first,int max) throws DataAccessException;
+    
+    List<FileDescription> search(String searchCriteria) throws DataAccessException;
 }
