@@ -4,12 +4,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <body>
 <wicket:extend>
-	<a href="#" wicket:id="runGC">RUN GC</a>
+	
+	<fieldset>
+		<legend>Upload file to repository</legend>
+		<form wicket:id="upversion">
+			<span wicket:id="feedback"/><br/>
+			Filename:&nbsp;<input type="file" wicket:id="fileInput"/><br/>
+			<input type="submit" value="Upload"/>
+		</form>
+	</fieldset>
+	<br/>
+	<!-- a href="#" wicket:id="runGC">RUN GC</a -->
+	<br/>
 	<fieldset><legend>List of Files</legend>
 	<table border="1">
 		<tr>
 			<td>Date Uploaded</td>
 			<td>Name</td>
+			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 		</tr>
@@ -18,9 +30,14 @@
 			<td><span wicket:id="name" /></td>
 			<td><a href="#" wicket:id="addVersion">add version</a></td>
 			<td><a href="#" wicket:id="delete">delete</a></td>
+			<td><a href="#" wicket:id="show">preview</a></td>
 		</tr>
 	</table>
 	</fieldset>
+	<div wicket:id="imageContainer">
+		<img src="#" wicket:id="img" alt="demo" style="max-width: 600px;max-height: 600px;"></img>		
+	</div>
+	
 </wicket:extend>
 </body>
 </html>
