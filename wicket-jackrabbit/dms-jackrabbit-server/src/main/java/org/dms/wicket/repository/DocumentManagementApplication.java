@@ -18,6 +18,7 @@ import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.dms.wicket.component.ContentWebRequestCycle;
 import org.dms.wicket.component.ThreadLocalSessionFactory;
 import org.dms.wicket.repository.page.IndexPage;
+import org.dms.wicket.repository.page.admin.JcrAdminPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -36,7 +37,7 @@ public class DocumentManagementApplication extends WebApplication
     @Override
     public Class<? extends Page> getHomePage()
     {
-	return IndexPage.class;
+	return JcrAdminPage.class;
     }
 
     public DocumentManagementApplication()

@@ -1,17 +1,26 @@
 package org.dms.wicket.repository.page.admin;
 
+import org.apache.wicket.ResourceReference;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.image.NonCachingImage;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.dms.wicket.repository.admin.JcrAdminService;
 import org.dms.wicket.repository.db.model.FileDescription;
 import org.dms.wicket.repository.db.service.JcrFileDescription;
 import org.dms.wicket.repository.file.service.JcrFileMetadata;
+import org.dms.wicket.repository.page.IndexPage;
 import org.dms.wicket.repository.page.JcrMainPage;
+import org.dms.wicket.repository.page.admin.forms.UploadVersionForm;
 import org.xaloon.wicket.component.mounting.MountPage;
+import org.xaloon.wicket.component.resource.FileResource;
 
 /**
  * @author Emmanuel Nollase - emanux 
@@ -29,14 +38,26 @@ public class JcrAdminPage extends JcrMainPage
     public JcrAdminPage()
     {
 	
-	add(new Link<Void>("runGC")
+	/*add(new Link<Void>("runGC")
 	{
 	    @Override
 	    public void onClick()
 	    {
 		jcrAdminService.runGC();
 	    }
-	});
+	});*/
+	final FeedbackPanel feed = new FeedbackPanel("feedback");
+	
+	
+	final UploadVersionForm form = new UploadVersionForm("upversion", "photo/upload/test/");
+	add(form);
+	
+	form.add(feed);
+	
+	final WebMarkupContainer imageContainer = new WebMarkupContainer("imageContainer");
+	imageContainer.setOutputMarkupId(true);
+	add(imageContainer);
+	imageContainer.add(new NonCachingImage("img", new ResourceReference(IndexPage.class, "images/testimonial-bg.gif")));
 	
 	final ListView<FileDescription> lists = new ListView<FileDescription>("files",jcrFileDescription.loadAll())
 	{
@@ -46,7 +67,7 @@ public class JcrAdminPage extends JcrMainPage
 		final FileDescription fileDesc = item.getModelObject();
 		item.setModel(new CompoundPropertyModel<FileDescription>(fileDesc));
 		item.add(new Label("name"));
-		item.add(new Label("lastModified"));
+		item.add(new  Label("lastModified"));
 		item.add(new Link<FileDescription>("addVersion", item.getModel() )
 		{
 		    @Override
@@ -61,8 +82,21 @@ public class JcrAdminPage extends JcrMainPage
 		    public void onClick()
 		    {
 			jcrFileMetadata.deleteFile(getModelObject());
+			setRedirect(true);
+			setResponsePage(JcrAdminPage.class);
 		    }
 		});
+		final AjaxFallbackLink<Void> preview = new AjaxFallbackLink<Void>("show")
+		{
+		    @Override
+		    public void onClick(AjaxRequestTarget target)
+		    {
+			imageContainer.removeAll();
+			imageContainer.add(new NonCachingImage("img", new FileResource(fileDesc.getFilePath())));
+			target.addComponent(imageContainer);
+		    }
+		};
+		item.add(preview);
 	    }
 	};
 	add(lists);
