@@ -5,8 +5,13 @@ package org.dms.wicket.repository.db.dao;
 
 import java.util.List;
 
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.queryParser.ParseException;
+import org.apache.lucene.queryParser.QueryParser;
 import org.dms.wicket.repository.db.model.FileDescription;
+import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.search.FullTextSession;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
@@ -59,6 +64,27 @@ public class JcrFileStorageDaoImpl extends HibernateDaoSupport implements
 	    throws DataAccessException
     {
 	return this.getSession().createCriteria(FileDescription.class).setFirstResult(first).setMaxResults(max).list();
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<FileDescription> search(String searchCriteria)
+	    throws DataAccessException
+    {
+	QueryParser qparser = new QueryParser("name", new StandardAnalyzer());
+	
+	org.apache.lucene.search.Query luceneQuery;
+	try {
+	    luceneQuery = qparser.parse(searchCriteria);  //build Lucene query
+	}
+	catch (ParseException e) {
+	    throw new RuntimeException("Unable to parse query: " + searchCriteria, e);
+	}
+	
+	FullTextSession ftSession = org.hibernate.search.Search.getFullTextSession(this.getSession());
+	Query query = ftSession.createFullTextQuery(luceneQuery, FileDescription.class);
+	query.setMaxResults(10); // just to get the top result and for fast display
+	
+	return query.list();
     }
 
 }
