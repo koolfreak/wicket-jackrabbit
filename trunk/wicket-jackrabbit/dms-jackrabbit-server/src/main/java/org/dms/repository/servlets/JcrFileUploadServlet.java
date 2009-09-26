@@ -20,6 +20,7 @@ import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.dms.wicket.repository.file.service.JcrFileMetadata;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -33,6 +34,7 @@ public class JcrFileUploadServlet extends HttpServlet
 {
 
     private static final String UPLOAD_PATH = "photo/upload/test/";
+    
    
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 	    throws ServletException, IOException
@@ -40,6 +42,11 @@ public class JcrFileUploadServlet extends HttpServlet
 	// add connection closed header
         resp.setHeader("Connection","close");
         PrintWriter out = resp.getWriter();
+        String jcrDir = req.getParameter("jcrDir");
+	if(StringUtils.isBlank(jcrDir))
+	{
+	    jcrDir = UPLOAD_PATH;
+	}
         
 	final JcrFileMetadata jcrFile = (JcrFileMetadata) getApplicationContext().getBean("fileMetaData");
 	final FileItemFactory factory = new DiskFileItemFactory();
@@ -61,7 +68,7 @@ public class JcrFileUploadServlet extends HttpServlet
 		    
 		    ins = diskitem.getInputStream();
 		    
-		    jcrFile.storeFileVersion(UPLOAD_PATH, name, mimeType, ins);
+		    jcrFile.storeFileVersion(jcrDir, name, mimeType, ins);
 		    
 		    out.write("RESP.100");
 		    out.flush();
@@ -91,6 +98,7 @@ public class JcrFileUploadServlet extends HttpServlet
     {
 	return WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
     }
+
     
     
 }
