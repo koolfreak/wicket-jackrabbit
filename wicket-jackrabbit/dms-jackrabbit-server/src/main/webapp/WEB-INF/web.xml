@@ -92,32 +92,6 @@
                 defines the prefix for spooling resources out of the repository.
             </description>
         </init-param>
-         <init-param>
-             <param-name>missing-auth-mapping</param-name>
-             <param-value>anonymous:anonymous</param-value>
-             <description>
-                 Defines how a missing authorization header should be handled.
-                 1) If this init-param is missing, a 401 response is generated.
-                    This is suiteable for clients (eg. webdav clients) for which
-                    sending a proper authorization header is not possible if the
-                    server never sent a 401.
-                 2) If this init-param is present with an empty value,
-                    null-credentials are returned, thus forcing an null login
-                    on the repository.
-                 3) If this init-param has a 'user:password' value, the respective
-                    simple credentials are generated.
-             </description>
-         </init-param>
-        <!--
-            Optional parameter to define the value of the 'WWW-Authenticate' header
-        -->
-        <init-param>
-            <param-name>authenticate-header</param-name>
-            <param-value>Basic realm="Jackrabbit Webdav Server"</param-value>
-            <description>
-                Defines the value of the 'WWW-Authenticate' header.
-            </description>
-        </init-param>
         <init-param>
             <param-name>resource-config</param-name>
             <param-value>/WEB-INF/webdavconfig.xml</param-value>
@@ -144,6 +118,17 @@
                 defines the prefix for spooling resources out of the repository.
             </description>
         </init-param>
+         <init-param>
+            <param-name>repository-config</param-name>
+            <param-value>/home/emanux/jackrabbit/wicket-demo/repository.xml</param-value>
+            <description>the repository config location</description>
+        </init-param>
+
+        <init-param>
+            <param-name>home</param-name>
+            <param-value>/home/emanux/jackrabbit/wicket-demo</param-value>
+            <description>the repository home</description>
+        </init-param>
         <init-param>
             <param-name>resource-config</param-name>
             <param-value>/WEB-INF/server.properties</param-value>
@@ -159,8 +144,8 @@
         <url-pattern>/server/*</url-pattern>
     </servlet-mapping>
     
-	<login-config>
+	<!-- login-config>
 		<auth-method>BASIC</auth-method>
-	</login-config>
+	</login-config -->
 
 </web-app>
