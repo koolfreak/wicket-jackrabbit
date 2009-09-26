@@ -31,12 +31,36 @@ import org.xaloon.wicket.component.repository.FileRepository;
  * @author Emmanuel Nollase - emanux
  * created 2009 9 19 - 01:11:07
  */
-@Component
+@Component("fileMetaData")
 public class JcrFileMetadataImpl implements JcrFileMetadata
 {
 
     @Autowired private FileRepository fileRepository;
     @Autowired private JcrFileStorageDao jcrFileStorageDao;
+    
+    /*
+     * (non-Javadoc)
+     * @see org.dms.wicket.repository.file.service.JcrFileMetadata#storeFile(java.lang.String, java.lang.String, java.lang.String, java.io.InputStream)
+     */
+    public void storeFile(String path, String name, String mimeType, InputStream fileStream) throws FileStorageException
+    {
+	try
+	{
+	    FileDescription file = fileRepository.storeFile(path, name, mimeType, fileStream);
+	    jcrFileStorageDao.save(file);
+	    
+	} catch (PathNotFoundException e)
+	{
+	    throw new FileStorageException(e);
+	} catch (RepositoryException e)
+	{
+	    throw new FileStorageException(e);
+	} catch (Exception e)
+	{
+	    throw new FileStorageException(e);
+	}
+    }
+    
     /* (non-Javadoc)
      * @see org.dms.wicket.repository.db.service.JcrFileMetadata#storeFileVersion(java.lang.String, java.lang.String, java.lang.String, java.io.InputStream)
      */
@@ -103,6 +127,10 @@ public class JcrFileMetadataImpl implements JcrFileMetadata
 	
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.dms.wicket.repository.file.service.JcrFileMetadata#getFileVersions(java.lang.String)
+     */
     public List<FileVersion> getFileVersions(String path)
 	    throws FileStorageException
     {
@@ -115,6 +143,10 @@ public class JcrFileMetadataImpl implements JcrFileMetadata
 	}
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.dms.wicket.repository.file.service.JcrFileMetadata#restoreVersion(org.dms.wicket.repository.db.model.FileDescription, java.lang.String)
+     */
     public void restoreVersion(FileDescription file, String verName)
 	    throws FileStorageException
     {
@@ -129,6 +161,10 @@ public class JcrFileMetadataImpl implements JcrFileMetadata
 	
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.dms.wicket.repository.file.service.JcrFileMetadata#deleteFile(org.dms.wicket.repository.db.model.FileDescription)
+     */
     public void deleteFile(FileDescription file) throws FileStorageException
     {
 	try
@@ -147,6 +183,10 @@ public class JcrFileMetadataImpl implements JcrFileMetadata
 	
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.dms.wicket.repository.file.service.JcrFileMetadata#crateJcrWorkspace(java.lang.String)
+     */
     public boolean crateJcrWorkspace(String wsname) throws FileStorageException
     {
 	boolean _wscreated = false;
@@ -168,6 +208,10 @@ public class JcrFileMetadataImpl implements JcrFileMetadata
 	return _wscreated;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.dms.wicket.repository.file.service.JcrFileMetadata#exportDocumentView(java.lang.String, java.lang.String, boolean)
+     */
     public void exportDocumentView(String path, String exportFile,boolean skipBinary)
 	    throws FileStorageException
     {
@@ -187,6 +231,10 @@ public class JcrFileMetadataImpl implements JcrFileMetadata
 	
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.dms.wicket.repository.file.service.JcrFileMetadata#renameNode(java.lang.String, java.lang.String)
+     */
     public boolean renameNode(String path, String newName)
 	    throws FileStorageException
     {
@@ -202,6 +250,10 @@ public class JcrFileMetadataImpl implements JcrFileMetadata
 	return _renamed;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.dms.wicket.repository.file.service.JcrFileMetadata#createRepositoryNodes(java.lang.String)
+     */
     public void createRepositoryNodes(String paths) throws FileStorageException
     {
 	try
@@ -214,6 +266,10 @@ public class JcrFileMetadataImpl implements JcrFileMetadata
 	
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.dms.wicket.repository.file.service.JcrFileMetadata#importDocumentView(java.lang.String, java.lang.String)
+     */
     public void importDocumentView(String path, String exportFile)
 	    throws FileStorageException
     {
@@ -251,6 +307,10 @@ public class JcrFileMetadataImpl implements JcrFileMetadata
 	
     }
     
+    /*
+     * (non-Javadoc)
+     * @see org.dms.wicket.repository.file.service.JcrFileMetadata#lockFileNode(java.lang.String)
+     */
     public void lockFileNode(String path) throws FileStorageException
     {
 	try
@@ -266,6 +326,10 @@ public class JcrFileMetadataImpl implements JcrFileMetadata
 	
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.dms.wicket.repository.file.service.JcrFileMetadata#unlockFileNode(java.lang.String)
+     */
     public void unlockFileNode(String path) throws FileStorageException
     {
 	try
@@ -280,8 +344,51 @@ public class JcrFileMetadataImpl implements JcrFileMetadata
 	}
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.dms.wicket.repository.file.service.JcrFileMetadata#performGC()
+     */
     public void performGC() throws FileStorageException
     {
 	fileRepository.performGC();
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.dms.wicket.repository.file.service.JcrFileMetadata#existFile(java.lang.String)
+     */
+    public boolean existFile(String path)
+    {
+	boolean _exist = false;
+	
+	try
+	{
+	    fileRepository.existsFile(path);
+	    _exist = true;
+	} catch (FileStorageException e)
+	{
+	    e.printStackTrace();
+	}
+	
+	return _exist;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.dms.wicket.repository.file.service.JcrFileMetadata#removeFileVersion(java.lang.String, java.lang.String)
+     */
+    public void removeFileVersion(String path, String versionName)
+	    throws FileStorageException
+    {
+	try
+	{
+	    fileRepository.removeFileVersion(path, versionName);
+	} catch (PathNotFoundException e)
+	{
+	    throw new FileStorageException("File path not found",e);
+	} catch (RepositoryException e)
+	{
+	    throw new FileStorageException(e);
+	}
     }
  }
