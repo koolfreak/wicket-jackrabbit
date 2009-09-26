@@ -41,13 +41,13 @@ import org.xaloon.wicket.component.exception.FileStorageException;
  * http://www.xaloon.org
  * 
  * @author vytautas racelis
+ * @author emmanuel nollase
  */
 public interface FileRepository
 {
 
     /**
-     * Store file into repository
-     * 
+     * Store file into repository.Not versionable
      * @param session
      *            - content repository session
      * @param path
@@ -55,16 +55,16 @@ public interface FileRepository
      * @param input
      *            - file input stream
      */
-    String storeFile(String path, String name, String mimeType,
+    FileDescription storeFile(String path, String name, String mimeType,
 	    InputStream fileStream) throws PathNotFoundException, RepositoryException, Exception;
 
     /**
      * Store file into repository as versionable
      * 
-     * @param path
-     * @param name
-     * @param mimeType
-     * @param fileStream
+     * @param path - full path of image location
+     * @param name - filename
+     * @param mimeType - content type
+     * @param fileStream - file data input stream format
      * @throws FileStorageException
      */
     FileDescription storeFileVersion(String path, String name, String mimeType,
@@ -73,8 +73,8 @@ public interface FileRepository
     /**
      * Store file into repository the next version
      * 
-     * @param path
-     * @param fileStream
+     * @param path - full path of image location
+     * @param fileStream - file data input stream format
      * @throws FileStorageException
      */
     void storeNextVersion(FileDescription fileDesc, InputStream fileStream)
@@ -82,18 +82,29 @@ public interface FileRepository
 
     /**
      * 
-     * @param file
-     * @param verName
+     * @param file - FileDescription
+     * @param verName - the version to restore
      * @throws FileStorageException
      */
     void restoreVersion(FileDescription file, String verName)
-    throws RepositoryException;
+    throws PathNotFoundException, RepositoryException;
 
     /**
-     * Retrieve file from repository
      * 
-     * @param session
-     * @param original
+     * @param path - full path of image location
+     * @param versionName - version to remove
+     * @throws PathNotFoundException
+     * @throws RepositoryException
+     */
+    void removeFileVersion(String path,String versionName) throws PathNotFoundException, RepositoryException;
+   
+    /**
+     * 
+     * @param pathToFile
+     * @return
+     * @throws PathNotFoundException
+     * @throws ValueFormatException
+     * @throws RepositoryException
      */
     InputStream retrieveFile(String pathToFile) throws PathNotFoundException, ValueFormatException, RepositoryException;
 
@@ -157,21 +168,86 @@ public interface FileRepository
      * @return
      */
     List<String> searchFolders(String path) throws FileStorageException;
-
+    
+    /**
+     * 
+     * @param path
+     * @param keyword
+     * @return
+     */
+    List<FileDescription> searchFileByKeyword(String path,String keyword);
+    
+    /**
+     * 
+     * @param wsname
+     * @throws AccessDeniedException
+     * @throws UnsupportedRepositoryOperationException
+     * @throws RepositoryException
+     */
     void crateJcrWorkspace(final String wsname) throws AccessDeniedException, UnsupportedRepositoryOperationException, RepositoryException;
 
+    /**
+     * 
+     * @param path
+     * @param newName
+     * @throws RepositoryException
+     */
     void renameNode(String path, String newName) throws RepositoryException;
 
+    /**
+     * 
+     * @param path
+     * @param exportFile
+     * @param skipBinary
+     * @throws PathNotFoundException
+     * @throws IOException
+     * @throws RepositoryException
+     */
     void exportDocumentView(String path, String exportFile,boolean skipBinary) throws PathNotFoundException, IOException, RepositoryException;
 
+    /**
+     * 
+     * @param path
+     * @param exportFile
+     * @throws PathNotFoundException
+     * @throws ItemExistsException
+     * @throws ConstraintViolationException
+     * @throws VersionException
+     * @throws InvalidSerializedDataException
+     * @throws LockException
+     * @throws IOException
+     * @throws RepositoryException
+     * @throws Exception
+     */
     void importDocumentView(String path, String exportFile)
     throws PathNotFoundException, ItemExistsException, ConstraintViolationException, VersionException, InvalidSerializedDataException, LockException, IOException, RepositoryException,Exception;
 
+    /**
+     * 
+     * @param path
+     * @throws PathNotFoundException
+     * @throws RepositoryException
+     */
     void lockFileNode(String path) throws PathNotFoundException, RepositoryException;
     
+    /**
+     * 
+     * @param path
+     * @throws PathNotFoundException
+     * @throws RepositoryException
+     */
     void unlockFileNode(String path) throws PathNotFoundException, RepositoryException;
     
+    /**
+     * 
+     * @param paths
+     * @throws Exception
+     */
     void createRepositoryNodes(String paths) throws Exception;
-
+    
+    /**
+     * 
+     * @throws FileStorageException
+     */
     void performGC() throws FileStorageException;
 }
