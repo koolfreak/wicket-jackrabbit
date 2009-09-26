@@ -73,7 +73,6 @@ public class RepositoryPanel extends org.apache.wicket.markup.html.panel.Panel {
 		imageContainer.setOutputMarkupId(true);
 		add(imageContainer);
 		if ((name != null) && (fileRepository.existsFile(name))) {
-		    System.out.println(name);
 			imageContainer.add(new NonCachingImage("img", new FileResource(name)));
 		} else {
 			imageContainer.add(new NonCachingImage("img", new ResourceReference(IndexPage.class, "images/testimonial-bg.gif")));
@@ -258,6 +257,7 @@ public class RepositoryPanel extends org.apache.wicket.markup.html.panel.Panel {
 			setMultiPart(true);
 
 			// Add one file input field
+
 			add(fileUploadField = new FileUploadField("fileInput"));
 			
 			setMaxSize(Bytes.megabytes(10));
