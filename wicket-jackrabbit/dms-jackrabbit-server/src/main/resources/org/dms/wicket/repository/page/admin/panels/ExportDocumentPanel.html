@@ -1,0 +1,27 @@
+<html xmlns:wicket>
+<wicket:panel>
+  
+  <fieldset>
+  	<legend>Export Documents</legend>
+  		<span wicket:id="feedlabel"/>
+  		<form wicket:id="exportform">
+  			<table>
+  				<tr>
+  					<td>JCR Path</td>
+  					<td>
+  						<input type="text" wicket:id="exportPath"/>
+  					</td>
+  				</tr>
+  				<tr>
+  					<td>Save To</td>
+  					<td>
+  						<input type="text" wicket:id="pathTofile"/>
+  					</td>
+  				</tr>
+  			</table>
+  			<button wicket:id="export">Export</button>
+  		</form>
+  </fieldset>
+</wicket:panel>
+</html>
+  
