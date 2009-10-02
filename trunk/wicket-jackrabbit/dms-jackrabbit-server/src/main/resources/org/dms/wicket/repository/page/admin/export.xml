@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node sv:name="photo" xmlns:mix="http://www.jcp.org/jcr/mix/1.0"
+	xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:fn_old="http://www.w3.org/2004/10/xpath-functions"
+	xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:sv="http://www.jcp.org/jcr/sv/1.0" xmlns:rep="internal"
+	xmlns:jcr="http://www.jcp.org/jcr/1.0">
+	
+	<sv:property sv:name="jcr:primaryType" sv:type="Name">
+		<sv:value>nt:unstructured</sv:value>
+	</sv:property>
+	<sv:node sv:name="upload">
+		<sv:property sv:name="jcr:primaryType" sv:type="Name">
+			<sv:value>nt:unstructured</sv:value>
+		</sv:property>
+		<sv:node sv:name="test">
+			<sv:property sv:name="jcr:primaryType" sv:type="Name">
+				<sv:value>nt:unstructured</sv:value>
+			</sv:property>
+			<sv:node sv:name="coron.jpg">
+				<sv:property sv:name="jcr:primaryType" sv:type="Name">
+					<sv:value>nt:file</sv:value>
+				</sv:property>
+				<sv:property sv:name="jcr:mixinTypes" sv:type="Name">
+					<sv:value>mix:versionable</sv:value>
+				</sv:property>
+				<sv:property sv:name="jcr:uuid" sv:type="String">
+					<sv:value>07ce6c81-c6e8-49de-adf3-d1486a3f6a67</sv:value>
+				</sv:property>
+				<sv:property sv:name="jcr:baseVersion" sv:type="Reference">
+					<sv:value>361b7f71-e868-42a7-9683-0d5ea89e9fe9</sv:value>
+				</sv:property>
+				<sv:property sv:name="jcr:created" sv:type="Date">
+					<sv:value>2009-09-30T17:43:51.166+08:00</sv:value>
+				</sv:property>
+				<sv:property sv:name="jcr:isCheckedOut" sv:type="Boolean">
+					<sv:value>false</sv:value>
+				</sv:property>
+				<sv:property sv:name="jcr:predecessors" sv:type="Reference" />
+				<sv:property sv:name="jcr:versionHistory" sv:type="Reference">
+					<sv:value>5c1da018-fd57-4662-8f56-bccd34c5a3c5</sv:value>
+				</sv:property>
+				<sv:node sv:name="jcr:content">
+					<sv:property sv:name="jcr:primaryType" sv:type="Name">
+						<sv:value>nt:resource</sv:value>
+					</sv:property>
+					<sv:property sv:name="jcr:uuid" sv:type="String">
+						<sv:value>c297a61f-0ff4-4756-ab4f-77531261964e</sv:value>
+					</sv:property>
+					<sv:property sv:name="jcr:data" sv:type="Binary">
+						<sv:value />
+					</sv:property>
+					<sv:property sv:name="jcr:lastModified" sv:type="Date">
+						<sv:value>2009-09-30T17:43:51.169+08:00</sv:value>
+					</sv:property>
+					<sv:property sv:name="jcr:mimeType" sv:type="String">
+						<sv:value>image/jpeg</sv:value>
+					</sv:property>
+				</sv:node>
+			</sv:node>
+		</sv:node>
+	</sv:node>
+</sv:node>
