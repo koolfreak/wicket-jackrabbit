@@ -59,14 +59,19 @@ public interface JcrFileMetadata
     boolean renameNode(String path,String newName) throws FileStorageException;
     
     /**
-     * {@link FileRepository#exportDocumentView(String, String, boolean)}
+     * {@link FileRepository#exportSystemView(String, String, boolean)}
      */
-    void exportDocumentView(String path,String exportFile,boolean skipBinary) throws FileStorageException;
+    void exportSystemView(String path,String exportFile) throws FileStorageException;
     
     /**
-     * {@link FileRepository#importDocumentView(String, String)}
+     * {@link FileRepository#importXML(String)}
      */
-    void importDocumentView(String path,String exportFile) throws FileStorageException;
+    void importXML(String exportFile) throws FileStorageException;
+    
+    /**
+     * {@link FileRepository#importXML(InputStream)}
+     */
+    void importXML(InputStream fileStream) throws FileStorageException;
     
     /**
      * {@link FileRepository#createRepositoryNodes(String)}
@@ -97,4 +102,30 @@ public interface JcrFileMetadata
      * {@link FileRepository#existsFile(String)}
      */
     boolean existFile(String path);
+    
+    /**
+     * This method search files using the keyword stored in lucene index
+     * directly in Jcr repository
+     * @param path
+     * @param keyword
+     * @return - list of file description
+     * @throws FileStorageException
+     */
+    List<FileDescription> searchFileByKeyword(String path,String keyword) throws FileStorageException;
+    
+    /**
+     * Search folders in a given path directly in Jcr repository
+     * @param path
+     * @return - list of folder
+     * @throws FileStorageException
+     */
+    List<String> searchFolders(String path) throws FileStorageException;
+    
+    /**
+     * Search file directly in Jcr repository
+     * @param searchPath
+     * @return - list of file description
+     * @throws FileStorageException
+     */
+    List<FileDescription> searchFiles(String searchPath) throws FileStorageException;
 }
