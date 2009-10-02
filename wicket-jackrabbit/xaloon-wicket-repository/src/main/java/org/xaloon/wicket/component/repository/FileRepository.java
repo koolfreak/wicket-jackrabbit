@@ -31,6 +31,7 @@ import javax.jcr.ValueFormatException;
 import javax.jcr.lock.LockException;
 import javax.jcr.nodetype.ConstraintViolationException;
 import javax.jcr.nodetype.NoSuchNodeTypeException;
+import javax.jcr.query.InvalidQueryException;
 import javax.jcr.version.VersionException;
 
 import org.dms.wicket.repository.db.model.FileDescription;
@@ -175,7 +176,7 @@ public interface FileRepository
      * @param keyword
      * @return
      */
-    List<FileDescription> searchFileByKeyword(String path,String keyword);
+    List<FileDescription> searchFileByKeyword(String path,String keyword) throws InvalidQueryException, RepositoryException;
     
     /**
      * 
@@ -203,7 +204,7 @@ public interface FileRepository
      * @throws IOException
      * @throws RepositoryException
      */
-    void exportDocumentView(String path, String exportFile,boolean skipBinary) throws PathNotFoundException, IOException, RepositoryException;
+    void exportSystemView(String path, String exportFile) throws PathNotFoundException, IOException, RepositoryException;
 
     /**
      * 
@@ -219,9 +220,12 @@ public interface FileRepository
      * @throws RepositoryException
      * @throws Exception
      */
-    void importDocumentView(String path, String exportFile)
+    void importXML(String exportFile)
     throws PathNotFoundException, ItemExistsException, ConstraintViolationException, VersionException, InvalidSerializedDataException, LockException, IOException, RepositoryException,Exception;
 
+    
+    void importXML(InputStream fileStream) 
+    throws PathNotFoundException, ItemExistsException, ConstraintViolationException, VersionException, InvalidSerializedDataException, LockException, IOException, RepositoryException,Exception;
     /**
      * 
      * @param path
