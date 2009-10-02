@@ -19,6 +19,9 @@ import org.dms.wicket.repository.file.service.JcrFileMetadata;
 import org.dms.wicket.repository.page.IndexPage;
 import org.dms.wicket.repository.page.JcrMainPage;
 import org.dms.wicket.repository.page.admin.forms.UploadVersionForm;
+import org.dms.wicket.repository.page.admin.panels.CreateNodesPanel;
+import org.dms.wicket.repository.page.admin.panels.ExportDocumentPanel;
+import org.dms.wicket.repository.page.admin.panels.ImportDocumentPanel;
 import org.xaloon.wicket.component.mounting.MountPage;
 import org.xaloon.wicket.component.resource.FileResource;
 
@@ -38,20 +41,20 @@ public class JcrAdminPage extends JcrMainPage
     public JcrAdminPage()
     {
 	
-	/*add(new Link<Void>("runGC")
-	{
-	    @Override
-	    public void onClick()
-	    {
-		jcrAdminService.runGC();
-	    }
-	});*/
+	
+	final ExportDocumentPanel exportDocs = new ExportDocumentPanel("exportDocs");
+	add(exportDocs);
+	
+	final ImportDocumentPanel importDocs = new ImportDocumentPanel("importDocs");
+	add(importDocs);
+	
+	final CreateNodesPanel createnode = new CreateNodesPanel("createnode");
+	add(createnode);
+	
+	
 	final FeedbackPanel feed = new FeedbackPanel("feedback");
-	
-	
 	final UploadVersionForm form = new UploadVersionForm("upversion", "photo/upload/test/");
 	add(form);
-	
 	form.add(feed);
 	
 	final WebMarkupContainer imageContainer = new WebMarkupContainer("imageContainer");
