@@ -40,6 +40,7 @@ import javax.jcr.ValueFormatException;
 import javax.jcr.lock.LockException;
 import javax.jcr.nodetype.ConstraintViolationException;
 import javax.jcr.nodetype.NoSuchNodeTypeException;
+import javax.jcr.query.InvalidQueryException;
 import javax.jcr.query.Query;
 import javax.jcr.query.QueryManager;
 import javax.jcr.query.QueryResult;
@@ -286,9 +287,9 @@ public class FileRepositoryImpl implements FileRepository
 	return result;
     }
     
-    public List<FileDescription> searchFileByKeyword(String path,String keyword) {
+    public List<FileDescription> searchFileByKeyword(String path,String keyword) throws InvalidQueryException, RepositoryException {
 	List<FileDescription> result = new ArrayList<FileDescription>();
-	try {
+	
 		Session session = contentSessionFacade.getDefaultSession();
 		if (!session.getRootNode().hasNode(path)) {
 			return result;
@@ -310,9 +311,7 @@ public class FileRepositoryImpl implements FileRepository
 				result.add (desc);
 			}
 		}
-	} catch (Exception e) {
-		throw new FileStorageException ("Error while searching files", e);
-	}
+	
 	return result;
     }
 
@@ -404,20 +403,31 @@ public class FileRepositoryImpl implements FileRepository
 	    }
     }
 
-    public void exportDocumentView(String path, String exportFile,boolean skipBinary)
+    public void exportSystemView(String path, String exportFile)
 	    throws PathNotFoundException, IOException, RepositoryException
     {
 	    final File file = new File(exportFile);
 	    final FileOutputStream out = new FileOutputStream(file);
-	    contentSessionFacade.getDefaultSession().exportDocumentView(path, out, skipBinary, false);
+	    contentSessionFacade.getDefaultSession().exportSystemView(path, out, true, false);
     }
 
-    public void importDocumentView(String path, String importFile) 
+    public void importXML(String importFile) 
     throws PathNotFoundException, ItemExistsException, ConstraintViolationException, VersionException, InvalidSerializedDataException, LockException, IOException, RepositoryException,Exception
 	    
     {
-	FileInputStream file = new FileInputStream(importFile);
-	contentSessionFacade.getDefaultSession().importXML("/", file, ImportUUIDBehavior.IMPORT_UUID_CREATE_NEW);
+	final FileInputStream file = new FileInputStream(importFile);
+	Session session = contentSessionFacade.getDefaultSession(); 
+	session.importXML("/", file, ImportUUIDBehavior.IMPORT_UUID_COLLISION_REPLACE_EXISTING);
+	session.save();
+    }
+    
+    public void importXML(InputStream fileStream) 
+    throws PathNotFoundException, ItemExistsException, ConstraintViolationException, VersionException, InvalidSerializedDataException, LockException, IOException, RepositoryException,Exception
+	    
+    {
+	Session session = contentSessionFacade.getDefaultSession(); 
+	session.importXML("/", fileStream, ImportUUIDBehavior.IMPORT_UUID_COLLISION_REPLACE_EXISTING);
+	session.save();
     }
 
     public void performGC() throws FileStorageException
