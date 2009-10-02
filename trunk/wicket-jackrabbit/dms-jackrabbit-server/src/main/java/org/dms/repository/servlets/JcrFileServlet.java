@@ -66,6 +66,7 @@ public class JcrFileServlet extends JcrRemoteServlet
                 responseOutputStream.close();
                 
 	}catch (Exception e) {
+	    e.printStackTrace();
 	    resp.setContentType("text/html");
 	    resp.getWriter().println("<h1>Sorry... cannot find document</h1>");
 	} finally {

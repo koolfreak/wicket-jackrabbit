@@ -5,7 +5,9 @@ package org.dms.repository.servlets;
 
 import javax.jcr.Repository;
 
+import org.apache.jackrabbit.server.CredentialsProvider;
 import org.apache.jackrabbit.webdav.simple.SimpleWebdavServlet;
+import org.dms.repository.servlets.creds.JcrWebdavCredentials;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.xaloon.wicket.component.repository.RepositoryManager;
@@ -26,5 +28,16 @@ public class JcrWebdavServlet extends SimpleWebdavServlet
 	final ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
 	return ((RepositoryManager) ctx.getBean("RepositoryManager")).getRespository();
     }
+    
+    /*
+     * (non-Javadoc)
+     * @see org.apache.jackrabbit.webdav.simple.SimpleWebdavServlet#getCredentialsProvider()
+     */
+    /*@Override
+    protected CredentialsProvider getCredentialsProvider()
+    {
+	return new JcrWebdavCredentials();
+    }*/
 
+    
 }
