@@ -17,6 +17,7 @@ import javax.jcr.ValueFormatException;
 import javax.jcr.lock.LockException;
 import javax.jcr.nodetype.ConstraintViolationException;
 import javax.jcr.nodetype.NoSuchNodeTypeException;
+import javax.jcr.query.InvalidQueryException;
 import javax.jcr.version.VersionException;
 
 import org.dms.wicket.repository.db.dao.JcrFileStorageDao;
@@ -212,21 +213,21 @@ public class JcrFileMetadataImpl implements JcrFileMetadata
      * (non-Javadoc)
      * @see org.dms.wicket.repository.file.service.JcrFileMetadata#exportDocumentView(java.lang.String, java.lang.String, boolean)
      */
-    public void exportDocumentView(String path, String exportFile,boolean skipBinary)
+    public void exportSystemView(String path, String exportFile)
 	    throws FileStorageException
     {
 	try
 	{
-	    fileRepository.exportDocumentView(path, exportFile,skipBinary );
+	    fileRepository.exportSystemView(path, exportFile);
 	} catch (PathNotFoundException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException("Document path does not exist",e);
 	} catch (IOException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException("Error in exporting documents",e);
 	} catch (RepositoryException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException("Error in exporting documents",e);
 	}
 	
     }
@@ -270,12 +271,12 @@ public class JcrFileMetadataImpl implements JcrFileMetadata
      * (non-Javadoc)
      * @see org.dms.wicket.repository.file.service.JcrFileMetadata#importDocumentView(java.lang.String, java.lang.String)
      */
-    public void importDocumentView(String path, String exportFile)
+    public void importXML(String exportFile)
 	    throws FileStorageException
     {
 	try
 	{
-	    fileRepository.importDocumentView(path, exportFile);
+	    fileRepository.importXML(exportFile);
 	} catch (PathNotFoundException e)
 	{
 	    throw new FileStorageException(e);
@@ -307,6 +308,46 @@ public class JcrFileMetadataImpl implements JcrFileMetadata
 	
     }
     
+    /*
+     * (non-Javadoc)
+     * @see org.dms.wicket.repository.file.service.JcrFileMetadata#importXML(java.io.InputStream)
+     */
+    public void importXML(InputStream fileStream) throws FileStorageException
+    {
+	try
+	{
+	    fileRepository.importXML(fileStream);
+	} catch (PathNotFoundException e)
+	{
+	    throw new FileStorageException(e);
+	} catch (ItemExistsException e)
+	{
+	    throw new FileStorageException(e);
+	} catch (ConstraintViolationException e)
+	{
+	    throw new FileStorageException(e);
+	} catch (VersionException e)
+	{
+	    throw new FileStorageException(e);
+	} catch (InvalidSerializedDataException e)
+	{
+	    throw new FileStorageException(e);
+	} catch (LockException e)
+	{
+	    throw new FileStorageException(e);
+	} catch (IOException e)
+	{
+	    throw new FileStorageException(e);
+	} catch (RepositoryException e)
+	{
+	    throw new FileStorageException(e);
+	} catch (Exception e)
+	{
+	    throw new FileStorageException(e);
+	}
+	
+    }
+
     /*
      * (non-Javadoc)
      * @see org.dms.wicket.repository.file.service.JcrFileMetadata#lockFileNode(java.lang.String)
@@ -391,4 +432,43 @@ public class JcrFileMetadataImpl implements JcrFileMetadata
 	    throw new FileStorageException(e);
 	}
     }
+
+    /*
+     * (non-Javadoc)
+     * @see org.dms.wicket.repository.file.service.JcrFileMetadata#searchFileByKeyword(java.lang.String, java.lang.String)
+     */
+    public List<FileDescription> searchFileByKeyword(String path, String keyword)
+	    throws FileStorageException
+    {
+	try
+	{
+	    return fileRepository.searchFileByKeyword(path, keyword);
+	} catch (InvalidQueryException e)
+	{
+	   throw new FileStorageException(e);
+	} catch (RepositoryException e)
+	{
+	    throw new FileStorageException(e);
+	}
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.dms.wicket.repository.file.service.JcrFileMetadata#searchFiles(java.lang.String)
+     */
+    public List<FileDescription> searchFiles(String searchPath)
+	    throws FileStorageException
+    {
+	return fileRepository.searchFiles(searchPath);
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.dms.wicket.repository.file.service.JcrFileMetadata#searchFolders(java.lang.String)
+     */
+    public List<String> searchFolders(String path) throws FileStorageException
+    {
+	return fileRepository.searchFolders(path);
+    }
  }
+
