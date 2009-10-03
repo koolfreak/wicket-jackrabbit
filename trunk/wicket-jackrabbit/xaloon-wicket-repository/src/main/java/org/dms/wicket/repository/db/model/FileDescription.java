@@ -26,8 +26,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Version;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.search.annotations.Boost;
@@ -41,7 +44,17 @@ import org.hibernate.search.annotations.Indexed;
  * http://www.xaloon.org
  * 
  * @author vytautas racelis
+ * @author Emmanuel Nollase
  */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "FileDescription", propOrder = {
+    "name",
+    "mimeType",
+    "lastModified",
+    "UUID",
+    "path",
+    "fileVersion"
+})
 @Entity
 @Table(name = "jcr_file_repo")
 @Indexed(index="FileDescription")
@@ -53,6 +66,7 @@ public class FileDescription implements Serializable
 	 */
     private static final long serialVersionUID = 1L;
 
+    
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
@@ -64,6 +78,7 @@ public class FileDescription implements Serializable
     private int version;
 
     
+   @XmlElement(name="name",type=String.class)
     @Fields(
 	{ @Field(index = Index.TOKENIZED), // same property indexed multiple
 		@Field(name = "name_sort", index = Index.UN_TOKENIZED) // use a
@@ -73,24 +88,29 @@ public class FileDescription implements Serializable
     @Column(name = "name_")
     private String name;
     
+    @XmlElement(name="lastModified",type=Date.class)
     @Field
     @Basic
     @Column(name="lastmodified_")
     private Date lastModified;
     
+    @XmlElement(name="mimeType", type=String.class)
     @Field
     @Basic
     @Column(name="mimetype_")
     private String mimeType;
     
+    @XmlElement(name="UUID",type=String.class)
     @Basic
     @Column(name="UUID_")
     private String UUID;
     
+    @XmlElement(name="path",type=String.class)
     @Basic
     @Column(name="path_")
     private String path;
 
+    @XmlElement(name="fileVersion",type=String.class)
     @Basic
     @Column(name="fileVersion")
     private String fileVersion = null;

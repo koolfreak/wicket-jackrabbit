@@ -5,6 +5,7 @@ package org.dms.wicket.repository.db.service;
 
 import java.util.List;
 
+import org.dms.wicket.repository.cxf.service.JcrWebServiceAccess;
 import org.dms.wicket.repository.db.dao.JcrFileStorageDao;
 import org.dms.wicket.repository.db.model.FileDescription;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import org.xaloon.wicket.component.exception.FileStorageException;
  * created 2009 9 19 - 19:49:44
  */
 @Component("jcrFileDescription")
-public class JcrFileDescriptionImpl implements JcrFileDescription
+public class JcrFileDescriptionImpl implements JcrFileDescription, JcrWebServiceAccess
 {
 
     @Autowired private JcrFileStorageDao jcrFileStorageDao;
@@ -28,27 +29,22 @@ public class JcrFileDescriptionImpl implements JcrFileDescription
 
     public int countAll()
     {
-	// TODO Auto-generated method stub
-	return 0;
+	return jcrFileStorageDao.countAll();
     }
 
     public int countByLuceneQuery(String query)
     {
-	// TODO Auto-generated method stub
 	return 0;
     }
 
     public List<FileDescription> loadAll(int first, int max)
     {
-	// TODO Auto-generated method stub
-	return null;
+	return jcrFileStorageDao.loadAll(first, max);
     }
 
-    public List<FileDescription> loadByLuceneQuery(String query, int first,
-	    int max)
+    public List<FileDescription> loadByLuceneQuery(String query, int max)
     {
-	// TODO Auto-generated method stub
-	return null;
+	return jcrFileStorageDao.search(query, max);
     }
 
     public FileDescription loadByUUID(String uuid)
@@ -59,6 +55,21 @@ public class JcrFileDescriptionImpl implements JcrFileDescription
     public String getFilePath(String uuid) throws NullPointerException
     {
 	return loadByUUID(uuid).getFilePath();
+    }
+
+    public void delete(FileDescription file)
+    {
+	jcrFileStorageDao.delete(file);
+    }
+
+    public void save(FileDescription file)
+    {
+	jcrFileStorageDao.save(file);
+    }
+
+    public void update(FileDescription file)
+    {
+	jcrFileStorageDao.update(file);
     }
 
     
