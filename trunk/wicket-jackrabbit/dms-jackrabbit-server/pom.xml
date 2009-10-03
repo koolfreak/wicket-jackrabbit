@@ -167,7 +167,7 @@
 			<version>1.43</version>
 		</dependency>
 
-		<dependency>
+		<!-- dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<exclusions>
@@ -184,7 +184,7 @@
 					<artifactId>jmxtools</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
+		</dependency -->
 
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -218,6 +218,12 @@
 			<artifactId>jetty</artifactId>
 			<version>${jetty.version}</version>
 			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.mortbay.jetty</groupId>
+					<artifactId>servlet-api</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.mortbay.jetty</groupId>
