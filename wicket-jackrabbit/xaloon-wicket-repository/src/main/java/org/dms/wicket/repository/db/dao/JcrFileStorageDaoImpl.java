@@ -10,6 +10,7 @@ import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
 import org.dms.wicket.repository.db.model.FileDescription;
 import org.hibernate.Query;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.search.FullTextSession;
 import org.springframework.dao.DataAccessException;
@@ -67,7 +68,7 @@ public class JcrFileStorageDaoImpl extends HibernateDaoSupport implements
     }
 
     @SuppressWarnings("unchecked")
-    public List<FileDescription> search(String searchCriteria)
+    public List<FileDescription> search(String searchCriteria, int max)
 	    throws DataAccessException
     {
 	QueryParser qparser = new QueryParser("name", new StandardAnalyzer());
@@ -82,9 +83,17 @@ public class JcrFileStorageDaoImpl extends HibernateDaoSupport implements
 	
 	FullTextSession ftSession = org.hibernate.search.Search.getFullTextSession(this.getSession());
 	Query query = ftSession.createFullTextQuery(luceneQuery, FileDescription.class);
-	query.setMaxResults(10); // just to get the top result and for fast display
+	query.setMaxResults(max); // just to get the top result and for fast display
 	
 	return query.list();
+    }
+
+    public int countAll() throws DataAccessException
+    {
+	
+	return (Integer) this.getSession()
+		.createCriteria(FileDescription.class).setProjection(
+			Projections.rowCount()).uniqueResult();
     }
 
 }
