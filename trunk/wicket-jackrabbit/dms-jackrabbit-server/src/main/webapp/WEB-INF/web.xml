@@ -7,7 +7,8 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 		classpath*:META-INF/application-context.xml,
-		classpath*:META-INF/app-context-c3p0.xml
+		classpath*:META-INF/app-context-c3p0.xml,
+		classpath*:META-INF/jcr-cxfserver-impl.xml
 		</param-value>
 	</context-param>
 	<!--
@@ -98,6 +99,15 @@
                 defines the prefix for spooling resources out of the repository.
             </description>
         </init-param>
+        <!-- uncomment to use webdav authentication. activate also #getCredentialsProvider()
+        <init-param>
+            <param-name>authenticate-header</param-name>
+            <param-value>Basic realm="Jackrabbit Webdav Server"</param-value>
+            <description>
+                Defines the value of the 'WWW-Authenticate' header.
+            </description>
+        </init-param>
+        -->
         <init-param>
             <param-name>resource-config</param-name>
             <param-value>/WEB-INF/webdavconfig.xml</param-value>
@@ -155,5 +165,18 @@
 	<!-- login-config>
 		<auth-method>BASIC</auth-method>
 	</login-config -->
+	
+	<!-- CXF Webservice -->
+	<servlet>
+		<servlet-name>CXFServlet</servlet-name>
+		<servlet-class>
+			org.apache.cxf.transport.servlet.CXFServlet
+		</servlet-class>
+		<load-on-startup>6</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CXFServlet</servlet-name>
+		<url-pattern>/services/*</url-pattern>
+	</servlet-mapping>
 
 </web-app>
