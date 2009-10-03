@@ -22,9 +22,11 @@ public interface JcrFileStorageDao
     
     FileDescription loadByUUID(String uuid) throws DataAccessException;
     
+    int countAll() throws DataAccessException;
+    
     List<FileDescription> loadAll() throws DataAccessException;
     
     List<FileDescription> loadAll(int first,int max) throws DataAccessException;
     
-    List<FileDescription> search(String searchCriteria) throws DataAccessException;
+    List<FileDescription> search(String searchCriteria, int maxResult) throws DataAccessException;
 }
