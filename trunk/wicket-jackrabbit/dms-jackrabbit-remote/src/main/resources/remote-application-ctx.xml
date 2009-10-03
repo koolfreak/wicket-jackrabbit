@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	
 
 
 	<bean id="repository"
@@ -13,7 +11,7 @@
 		<constructor-arg index="0" value="http://localhost:8282/jcrRemote" />
 	</bean>
 
-	<bean id="jcrRemoteFactory" class="org.dms.component.service.DMSSessionFactory">
+	<bean id="jcrRemoteFactory" class="org.dms.wicket.repository.remote.DMSSessionFactory">
 		<property name="repository" ref="repository" />
 		<property name="credentials">
 			<bean class="javax.jcr.SimpleCredentials">
@@ -29,12 +27,12 @@
 		<constructor-arg index="0" value="password" />
 	</bean>
 	
-	<bean id="jcrRemoteTemplate" class="org.dms.component.service.DMSTemplateImpl">
+	<bean id="contentSessionFacade" class="org.dms.wicket.JcrSessionFacadeImpl">
 		<constructor-arg index="0" ref="jcrRemoteFactory"/>
 	</bean>
 	
-	<bean id="fileStoreService" class="org.dms.component.file.FileRepositoryImpl">
-		<property name="sessionTemplate" ref="jcrRemoteTemplate"/>
+	<bean id="fileRepository" class="org.xaloon.wicket.component.repository.impl.FileRepositoryImpl">
+		<property name="contentSessionFacade" ref="contentSessionFacade"/>
 	</bean>
 	
 </beans>
