@@ -490,4 +490,15 @@ public class FileRepositoryImpl implements FileRepository
     {
 	node.getSession().move(node.getPath(),node.getParent().getPath() + "/" + newName);
     }
+
+    /**
+     * Needed for xml base injection
+     * @param contentSessionFacade
+     */
+    public void setContentSessionFacade(ContentSessionFacade contentSessionFacade)
+    {
+        this.contentSessionFacade = contentSessionFacade;
+    }
+    
+    
 }
