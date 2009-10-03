@@ -27,11 +27,12 @@
 	</build>	
 	<dependencies>
 			
-			<!-- hibernate-core -->
+		<!-- hibernate-core -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<version>3.3.1.GA</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- hibernate-annotations -->
@@ -39,16 +40,19 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-annotations</artifactId>
 			<version>3.4.0.GA</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-commons-annotations</artifactId>
 			<version>3.3.0.ga</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>ejb3-persistence</artifactId>
 			<version>1.0.2.GA</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- hibernate-search -->
@@ -85,31 +89,7 @@
 		</dependency>
 
 
-		<!-- hibernate-core extra dependency -->
-		<dependency>
-			<groupId>c3p0</groupId>
-			<artifactId>c3p0</artifactId>
-			<version>0.9.1.2</version>
-		</dependency>
-		<dependency>
-			<groupId>opensymphony</groupId>
-			<artifactId>oscache</artifactId>
-			<version>2.4</version>
-			<exclusions>
-				<exclusion>
-					<groupId>javax.servlet</groupId>
-					<artifactId>servlet-api</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<!-- spring aop -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-aspects</artifactId>
-			<version>2.5.6</version>
-		</dependency>
-			
+		
 			<!-- JACKRABBIT -->
 			<dependency>
 				<groupId>org.apache.jackrabbit</groupId>
