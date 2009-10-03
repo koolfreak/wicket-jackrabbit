@@ -14,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
-import org.dms.component.file.FileDescription;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.search.annotations.Boost;
 import org.hibernate.search.annotations.DocumentId;
@@ -30,7 +29,7 @@ import org.hibernate.search.annotations.Indexed;
 @Entity
 @Table(name="file_descriptor")
 @Indexed
-public class CustomFileDescription extends FileDescription implements Serializable
+public class CustomFileDescription implements Serializable
 {
     @Id
     @GeneratedValue(generator = "system-uuid")
