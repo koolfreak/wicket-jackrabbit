@@ -14,17 +14,24 @@ import org.dms.wicket.repository.db.model.FileDescription;
 public interface JcrFileDescription
 {
 
+    void save(FileDescription file);
+    
+    void delete(FileDescription file);
+    
+    void update(FileDescription file);
+    
     FileDescription loadByUUID(String uuid);
     
     String getFilePath(String uuid);
+    
+    int countAll();
     
     List<FileDescription> loadAll();
     
     List<FileDescription> loadAll(int first,int max);
     
-    List<FileDescription> loadByLuceneQuery(String query,int first,int max);
-    
-    int countAll();
+    List<FileDescription> loadByLuceneQuery(String query,int max);
     
     int countByLuceneQuery(String query);
+    
 }
