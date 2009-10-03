@@ -5,7 +5,7 @@
 
 	<bean id="fileStorageService" class="org.dms.wicket.page.service.FileStorageServiceImpl">
 		<property name="fileStorageDao" ref="fileStorageDao"/>
-		<property name="storeFileRepository" ref="fileStoreService"/>
+		<property name="fileRepository" ref="fileRepository"/>
 	</bean>
 
 	<bean id="fileSearchService" class="org.dms.wicket.page.service.search.FileSearchServiceImpl">
