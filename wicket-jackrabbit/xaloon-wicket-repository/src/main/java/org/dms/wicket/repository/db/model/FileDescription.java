@@ -108,6 +108,7 @@ public class FileDescription implements Serializable
     private String UUID;
     
     @XmlElement(name="path",type=String.class)
+    @Fields(@Field(index=Index.TOKENIZED))
     @Basic
     @Column(name="path_")
     private String path;
