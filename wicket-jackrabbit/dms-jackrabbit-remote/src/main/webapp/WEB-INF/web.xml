@@ -15,7 +15,8 @@
 			classpath:db-transaction-aop.xml,
 			classpath:app-quickstart-dao.xml,
 			classpath:app-quickstart-service.xml,
-			classpath:remote-application-ctx.xml
+			classpath:remote-application-ctx.xml,
+			classpath:jcr-cxfclient-impl.xml
 		</param-value>
 	</context-param>
 	<!--
