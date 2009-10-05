@@ -5,6 +5,8 @@ package org.dms.wicket.repository.db.service;
 
 import java.util.List;
 
+import javax.jws.WebService;
+
 import org.dms.wicket.repository.cxf.service.JcrWebServiceAccess;
 import org.dms.wicket.repository.db.dao.JcrFileStorageDao;
 import org.dms.wicket.repository.db.model.FileDescription;
@@ -16,6 +18,7 @@ import org.xaloon.wicket.component.exception.FileStorageException;
  * @author Emmanuel Nollase - emanux
  * created 2009 9 19 - 19:49:44
  */
+@WebService(endpointInterface="org.dms.wicket.repository.cxf.service.JcrWebServiceAccess")
 @Component("jcrFileDescription")
 public class JcrFileDescriptionImpl implements JcrFileDescription, JcrWebServiceAccess
 {
@@ -70,6 +73,12 @@ public class JcrFileDescriptionImpl implements JcrFileDescription, JcrWebService
     public void update(FileDescription file)
     {
 	jcrFileStorageDao.update(file);
+    }
+
+    public List<FileDescription> findDocumentByBranch(String branch,int max)
+    {
+	// TODO - implement flexible lucene query here
+	return jcrFileStorageDao.loadAll();
     }
 
     

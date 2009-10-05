@@ -3,6 +3,8 @@
  */
 package org.dms.wicket.repository.cxf.service;
 
+import java.util.List;
+
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 
@@ -26,4 +28,7 @@ public interface JcrWebServiceAccess
 
     @WebMethod
     FileDescription loadByUUID(String uuid);
+    
+    @WebMethod
+    List<FileDescription> findDocumentByBranch(String branch,int max);
 }
