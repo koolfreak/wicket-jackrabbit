@@ -6,14 +6,18 @@ package org.dms.wicket.component;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.jcr.PathNotFoundException;
+import javax.jcr.RepositoryException;
+import javax.jcr.ValueFormatException;
+
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.request.target.resource.ResourceStreamRequestTarget;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.resource.AbstractResourceStream;
 import org.apache.wicket.util.resource.IResourceStream;
 import org.apache.wicket.util.resource.ResourceStreamNotFoundException;
-import org.dms.component.file.FileDescription;
-import org.dms.component.file.StoreFileRepository;
+import org.dms.wicket.repository.db.model.FileDescription;
+import org.xaloon.wicket.component.repository.FileRepository;
 
 /**
  * @author Emmanuel Nollase - emanux 
@@ -22,7 +26,7 @@ import org.dms.component.file.StoreFileRepository;
 public class JcrDowloadLink extends Link<Void>
 {
 
-    @SpringBean  private StoreFileRepository fileRepository;
+    @SpringBean private FileRepository fileRepository;
     private FileDescription fileDescription;
 
     public JcrDowloadLink(String id, FileDescription fileDescription)
@@ -42,7 +46,19 @@ public class JcrDowloadLink extends Link<Void>
 		    throws ResourceStreamNotFoundException
 	    {
 		final String pathToFile = fileDescription.getFilePath();
-		in = fileRepository.retrieveFile(pathToFile);
+		try
+		{
+		    in = fileRepository.retrieveFile(pathToFile);
+		} catch (PathNotFoundException e)
+		{
+		    e.printStackTrace();
+		} catch (ValueFormatException e)
+		{
+		    e.printStackTrace();
+		} catch (RepositoryException e)
+		{
+		    e.printStackTrace();
+		}
 		return in;
 	    }
 

@@ -29,37 +29,16 @@ public class FileStorageServiceImpl implements FileStorageService
     
     private JcrWebServiceAccess jcrWebServiceAccess;
     
-    public void setJcrWebServiceAccess(JcrWebServiceAccess jcrWebServiceAccess)
-    {
-        this.jcrWebServiceAccess = jcrWebServiceAccess;
-    }
-
-    public void setFileStorageDao(FileStorageDao fileStorageDao)
-    {
-        this.fileStorageDao = fileStorageDao;
-    }
     
-    public void setFileRepository(FileRepository fileRepository)
-    {
-        this.fileRepository = fileRepository;
-    }
-
-    /* (non-Javadoc)
-     * @see org.dms.wicket.page.service.FileStrorageService#delete(org.dms.wicket.page.model.CustomFileDescription)
-     */
-    public void delete(CustomFileDescription fileDescription) throws FileStorageException
-    {
-	fileStorageDao.delete(fileDescription);
-    }
 
     /* (non-Javadoc)
      * @see org.dms.wicket.page.service.FileStrorageService#save(org.dms.wicket.page.model.CustomFileDescription)
      */
-    public void save(CustomFileDescription filedesc,InputStream fileStream) throws FileStorageException
+    public void save(String path,String name,String mimeType,InputStream fileStream) throws FileStorageException
     {
 	try
 	{
-	   FileDescription file = fileRepository.storeFileVersion(filedesc.getPath(), filedesc.getName(), filedesc.getMimeType(), fileStream);
+	   FileDescription file = fileRepository.storeFileVersion(path, name, mimeType, fileStream);
 	   jcrWebServiceAccess.save(file);
 	} catch (PathNotFoundException e)
 	{
@@ -73,9 +52,55 @@ public class FileStorageServiceImpl implements FileStorageService
 	}
     }
 
-    public List<CustomFileDescription> loadAll() throws FileStorageException
+    /*
+     * (non-Javadoc)
+     * @see org.dms.wicket.page.service.FileStorageService#delete(org.dms.wicket.repository.db.model.FileDescription)
+     */
+    public void delete(FileDescription file)
+	    throws FileStorageException
     {
-	return fileStorageDao.loadAll();
+	
+	try
+	{
+	    fileRepository.delete(file.getFilePath());
+	    jcrWebServiceAccess.delete(file);
+	    
+	} catch (PathNotFoundException e)
+	{
+	    e.printStackTrace();
+	} catch (RepositoryException e)
+	{
+	    e.printStackTrace();
+	}
+	
+    }
+
+    public void update(FileDescription fileDescription)
+    {
+	// TODO Auto-generated method stub
+	
+    }
+    
+    public List<FileDescription> loadAll() throws FileStorageException
+    {
+	return jcrWebServiceAccess.findDocumentByBranch("", 0);
+    }
+    
+    /************* setter injection ******************************/
+    
+    public void setJcrWebServiceAccess(JcrWebServiceAccess jcrWebServiceAccess)
+    {
+        this.jcrWebServiceAccess = jcrWebServiceAccess;
+    }
+
+    public void setFileStorageDao(FileStorageDao fileStorageDao)
+    {
+        this.fileStorageDao = fileStorageDao;
+    }
+    
+    public void setFileRepository(FileRepository fileRepository)
+    {
+        this.fileRepository = fileRepository;
     }
 
 }
