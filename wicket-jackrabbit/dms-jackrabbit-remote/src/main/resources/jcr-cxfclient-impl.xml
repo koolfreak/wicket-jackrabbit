@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- Client code for unit test (or for injecting in webapp as done in the article) -->
+	<!-- Factory to create the dynamic proxy for client -->
+	<!-- bean id="contactUsFactory" class="org.apache.cxf.frontend.ClientProxyFactoryBean" -->
+	<bean id="jcrServiceFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">
+		<property name="serviceClass" value="org.dms.wicket.repository.cxf.service.JcrWebServiceAccess" />
+		<property name="address" value="http://localhost:8282/services/jcrWebServiceAccess/" />
+		<property name="serviceFactory" ref="jaxwsAndAegisServiceFactory" />
+	</bean>
+	
+	<!-- Aegis data binding -->
+	<bean id="aegisBean"
+		class="org.apache.cxf.aegis.databinding.AegisDatabinding"
+		scope="prototype" />
+		
+	<bean id="jaxwsAndAegisServiceFactory"
+          class="org.apache.cxf.jaxws.support.JaxWsServiceFactoryBean"
+          scope="prototype"> 
+        <property name="dataBinding" ref="aegisBean"/>
+        <property name="serviceConfigurations">
+          <list>
+            <bean class="org.apache.cxf.jaxws.support.JaxWsServiceConfiguration"/>
+            <bean class="org.apache.cxf.aegis.databinding.AegisServiceConfiguration"/>
+            <bean class="org.apache.cxf.service.factory.DefaultServiceConfiguration"/> 
+          </list>
+        </property>
+    </bean>
+
+	<!--  Web service dynamic proxy -->
+	<bean id="jcrWebServiceAccess" class="org.dms.wicket.repository.cxf.service.JcrWebServiceAccess"
+		factory-bean="jcrServiceFactory" factory-method="create" />
+
+</beans>
