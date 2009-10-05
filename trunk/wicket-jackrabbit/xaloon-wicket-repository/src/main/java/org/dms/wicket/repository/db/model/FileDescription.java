@@ -29,6 +29,7 @@ import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -48,6 +49,7 @@ import org.hibernate.search.annotations.Indexed;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "FileDescription", propOrder = {
+    "id",
     "name",
     "mimeType",
     "lastModified",
@@ -66,7 +68,7 @@ public class FileDescription implements Serializable
 	 */
     private static final long serialVersionUID = 1L;
 
-    
+    @XmlElement(name="id",type=String.class)
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
@@ -78,7 +80,7 @@ public class FileDescription implements Serializable
     private int version;
 
     
-   @XmlElement(name="name",type=String.class)
+    @XmlElement(name="name",type=String.class)
     @Fields(
 	{ @Field(index = Index.TOKENIZED), // same property indexed multiple
 		@Field(name = "name_sort", index = Index.UN_TOKENIZED) // use a
@@ -209,6 +211,7 @@ public class FileDescription implements Serializable
         this.fileVersion = fileVersion;
     }
 
+    @XmlTransient
     public String getFilePath()
     {
 	return this.path + this.name;
