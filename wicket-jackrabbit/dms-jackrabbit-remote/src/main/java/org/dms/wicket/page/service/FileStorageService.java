@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.dms.wicket.page.model.CustomFileDescription;
+import org.xaloon.wicket.component.exception.FileStorageException;
 
 /**
  * @author Emmanuel Nollase - emanux
@@ -14,9 +15,9 @@ import org.dms.wicket.page.model.CustomFileDescription;
  */
 public interface FileStorageService
 {
-    void save(CustomFileDescription fileDescription,InputStream fileStream);
+    void save(CustomFileDescription fileDescription,InputStream fileStream) throws FileStorageException;
     
-    void delete(CustomFileDescription fileDescription);
+    void delete(CustomFileDescription fileDescription) throws FileStorageException;
     
-    List<CustomFileDescription> loadAll();
+    List<CustomFileDescription> loadAll() throws FileStorageException;
 }
