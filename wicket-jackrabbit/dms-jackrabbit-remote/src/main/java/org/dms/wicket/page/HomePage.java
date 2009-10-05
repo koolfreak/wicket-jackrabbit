@@ -2,15 +2,20 @@ package org.dms.wicket.page;
 
 import java.io.IOException;
 
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.lang.Bytes;
 import org.dms.wicket.WicketApplication;
-import org.dms.wicket.page.model.CustomFileDescription;
+import org.dms.wicket.component.JcrDowloadLink;
 import org.dms.wicket.page.service.FileStorageService;
+import org.dms.wicket.repository.db.model.FileDescription;
 import org.xaloon.wicket.component.exception.FileStorageException;
 
 /**
@@ -22,8 +27,7 @@ public class HomePage extends JcrClientPage
 
     private static final long serialVersionUID = 1L;
 
-    @SpringBean
-    private FileStorageService fileStorageService;
+    @SpringBean   private FileStorageService fileStorageService;
 
     /**
      * Constructor that is invoked when page is invoked without a session.
@@ -33,8 +37,7 @@ public class HomePage extends JcrClientPage
      */
     public HomePage()
     {
-	final String loanpath = WicketApplication.get().getDmsRepoPath()
-		+ "loan";
+	final String loanpath = WicketApplication.get().getDmsRepoPath()+ "loan";
 
 	add(new Link<Void>("search")
 	{
@@ -49,19 +52,17 @@ public class HomePage extends JcrClientPage
 	final FileUploadForm upload = new FileUploadForm("formup", loanpath);
 	add(upload);
 
-	/*final ListView<CustomFileDescription> files = new ListView<CustomFileDescription>(
-		"files", fileStorageService.loadAll())
+	final ListView<FileDescription> files = new ListView<FileDescription>("files", fileStorageService.loadAll())
 	{
 
 	    @Override
-	    protected void populateItem(ListItem<CustomFileDescription> item)
+	    protected void populateItem(ListItem<FileDescription> item)
 	    {
-		final CustomFileDescription fileDesc = item.getModelObject();
-		item.setModel(new CompoundPropertyModel<CustomFileDescription>(
-			fileDesc));
+		final FileDescription fileDesc = item.getModelObject();
+		item.setModel(new CompoundPropertyModel<FileDescription>(fileDesc));
 		item.add(new Label("name"));
 		item.add(new Label("lastModified"));
-		item.add(new Link<CustomFileDescription>("delete", item
+		/*item.add(new Link<CustomFileDescription>("delete", item
 			.getModel())
 		{
 
@@ -74,12 +75,12 @@ public class HomePage extends JcrClientPage
 			setRedirect(true);
 			setResponsePage(HomePage.class);
 		    }
-		});
+		});*/
 		item.add(new JcrDowloadLink("download", item.getModelObject()));
 	    }
 	};
 
-	add(files);*/
+	add(files);
     }
 
     private class FileUploadForm extends Form<Void>
@@ -112,12 +113,7 @@ public class HomePage extends JcrClientPage
 	    {
 		if (upload != null)
 		{
-		    final CustomFileDescription filedb = new CustomFileDescription();
-		    filedb.setMimeType(upload.getContentType());
-		    filedb.setName(upload.getClientFileName());
-		    filedb.setPath(path);
-
-		    fileStorageService.save(filedb, upload.getInputStream());
+		    fileStorageService.save(path,upload.getClientFileName(),upload.getContentType(), upload.getInputStream());
 		}
 	    } catch (IOException e)
 	    {

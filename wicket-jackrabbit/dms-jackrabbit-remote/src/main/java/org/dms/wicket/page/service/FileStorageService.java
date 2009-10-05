@@ -6,7 +6,7 @@ package org.dms.wicket.page.service;
 import java.io.InputStream;
 import java.util.List;
 
-import org.dms.wicket.page.model.CustomFileDescription;
+import org.dms.wicket.repository.db.model.FileDescription;
 import org.xaloon.wicket.component.exception.FileStorageException;
 
 /**
@@ -15,9 +15,12 @@ import org.xaloon.wicket.component.exception.FileStorageException;
  */
 public interface FileStorageService
 {
-    void save(CustomFileDescription fileDescription,InputStream fileStream) throws FileStorageException;
+   
+    void save(String path,String name,String mimeType,InputStream fileStream) throws FileStorageException;
     
-    void delete(CustomFileDescription fileDescription) throws FileStorageException;
+    void delete(FileDescription fileDescription) throws FileStorageException;
     
-    List<CustomFileDescription> loadAll() throws FileStorageException;
+    void update(FileDescription fileDescription);
+    
+    List<FileDescription> loadAll() throws FileStorageException;
 }
