@@ -10,7 +10,6 @@ import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
 
 import org.dms.wicket.page.dao.FileStorageDao;
-import org.dms.wicket.page.model.CustomFileDescription;
 import org.dms.wicket.repository.cxf.service.JcrWebServiceAccess;
 import org.dms.wicket.repository.db.model.FileDescription;
 import org.xaloon.wicket.component.exception.FileStorageException;
