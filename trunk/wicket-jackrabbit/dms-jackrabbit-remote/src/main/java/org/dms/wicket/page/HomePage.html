@@ -27,12 +27,14 @@
         						<td>Name</td>
         						<td>&nbsp;</td>
         						<td>&nbsp;</td>
+        						<td>&nbsp;</td>
         					</tr>
         					<tr wicket:id="files">
         						<td><span wicket:id="lastModified"/></td>
         						<td><span wicket:id="name"/></td>
-        						<!-- td><a href="#" wicket:id="delete">Delete</a></td>
-        						<td><a href="#" wicket:id="download">Download</a></td -->
+        						<td><a href="#" wicket:id="delete">delete</a></td>
+        						<td><a href="#" wicket:id="download">download</a></td>
+        						<td><a href="#" wicket:id="show">preview</a></td>
         					</tr>
         				</table>
         			</fieldset>
@@ -40,6 +42,10 @@
         	</tr>
         </table>
        
+      	<div wicket:id="imageContainer">
+			<img src="#" wicket:id="img" alt="demo" style="max-width: 600px;max-height: 600px;"></img>		
+		</div>
+	
     </wicket:extend>
     </body>
 </html>

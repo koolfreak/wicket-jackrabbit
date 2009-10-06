@@ -2,10 +2,15 @@ package org.dms.wicket.page;
 
 import java.io.IOException;
 
+import org.apache.wicket.ResourceReference;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
+import org.apache.wicket.markup.html.image.NonCachingImage;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -17,6 +22,7 @@ import org.dms.wicket.component.JcrDowloadLink;
 import org.dms.wicket.page.service.FileStorageService;
 import org.dms.wicket.repository.db.model.FileDescription;
 import org.xaloon.wicket.component.exception.FileStorageException;
+import org.xaloon.wicket.component.resource.FileResource;
 
 /**
  * @author Emmanuel Nollase - emanux 
@@ -51,6 +57,11 @@ public class HomePage extends JcrClientPage
 
 	final FileUploadForm upload = new FileUploadForm("formup", loanpath);
 	add(upload);
+	
+	final WebMarkupContainer imageContainer = new WebMarkupContainer("imageContainer");
+	imageContainer.setOutputMarkupId(true);
+	add(imageContainer);
+	imageContainer.add(new NonCachingImage("img", new ResourceReference(HomePage.class, "images/testimonial-bg.gif")));
 
 	final ListView<FileDescription> files = new ListView<FileDescription>("files", fileStorageService.loadAll())
 	{
@@ -62,21 +73,29 @@ public class HomePage extends JcrClientPage
 		item.setModel(new CompoundPropertyModel<FileDescription>(fileDesc));
 		item.add(new Label("name"));
 		item.add(new Label("lastModified"));
-		/*item.add(new Link<CustomFileDescription>("delete", item
-			.getModel())
+		item.add(new Link<FileDescription>("delete", item.getModel())
 		{
-
 		    @Override
 		    public void onClick()
 		    {
-			final CustomFileDescription filed = getModelObject();
-			fileStorageService.delete(filed);
+			fileStorageService.delete(getModelObject());
 
 			setRedirect(true);
 			setResponsePage(HomePage.class);
 		    }
-		});*/
+		});
 		item.add(new JcrDowloadLink("download", item.getModelObject()));
+		final AjaxFallbackLink<Void> preview = new AjaxFallbackLink<Void>("show")
+		{
+		    @Override
+		    public void onClick(AjaxRequestTarget target)
+		    {
+			imageContainer.removeAll();
+			imageContainer.add(new NonCachingImage("img", new FileResource(fileDesc.getFilePath())));
+			target.addComponent(imageContainer);
+		    }
+		};
+		item.add(preview);
 	    }
 	};
 
