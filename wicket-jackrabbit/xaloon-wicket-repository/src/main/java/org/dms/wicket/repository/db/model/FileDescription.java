@@ -64,8 +64,8 @@ public class FileDescription implements Serializable
 {
 
     /**
-	 * 
-	 */
+     * 
+     */
     private static final long serialVersionUID = 1L;
 
     @XmlElement(name="id",type=String.class)
@@ -108,7 +108,7 @@ public class FileDescription implements Serializable
     private String UUID;
     
     @XmlElement(name="path",type=String.class)
-    @Fields(@Field(index=Index.TOKENIZED))
+    @Fields(@Field(index=Index.UN_TOKENIZED))
     @Basic
     @Column(name="path_")
     private String path;

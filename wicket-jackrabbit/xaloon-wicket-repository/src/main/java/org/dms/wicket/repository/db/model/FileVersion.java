@@ -13,9 +13,10 @@ import java.util.Date;
 public class FileVersion implements Serializable
 {
 
-    
+    /** document last modified state **/
     private Date lastModified;
     
+    /** the document version if store as versionable **/
     private String fileVersion;
     
     public FileVersion()
