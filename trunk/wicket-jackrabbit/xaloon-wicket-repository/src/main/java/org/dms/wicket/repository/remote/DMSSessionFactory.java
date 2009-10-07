@@ -16,8 +16,10 @@ import javax.jcr.Session;
 public class DMSSessionFactory
 {
 
+    /** the remote repository object **/
     private Repository repository;
     
+    /** the remote repository credentials **/
     private Credentials credentials;
 
     public void setRepository(Repository repository)
@@ -40,6 +42,9 @@ public class DMSSessionFactory
         return credentials;
     }
     
+    /**
+     * @return - remote repository session
+     */
     public Session getJcrSession()
     {
 	try

@@ -48,7 +48,8 @@ public class JcrFileMetadataImpl implements JcrFileMetadata
 	try
 	{
 	    FileDescription file = fileRepository.storeFile(path, name, mimeType, fileStream);
-	    jcrFileStorageDao.save(file);
+	    if(null != file)
+		jcrFileStorageDao.save(file);
 	    
 	} catch (PathNotFoundException e)
 	{
@@ -71,7 +72,8 @@ public class JcrFileMetadataImpl implements JcrFileMetadata
 	try
 	{
 	    FileDescription file = fileRepository.storeFileVersion(path, name, mimeType, input);
-	    jcrFileStorageDao.save(file);
+	    if(null != file)
+		jcrFileStorageDao.save(file);
 	    
 	} catch (NoSuchNodeTypeException e)
 	{
