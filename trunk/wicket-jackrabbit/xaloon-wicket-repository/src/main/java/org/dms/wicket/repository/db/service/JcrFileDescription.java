@@ -14,24 +14,60 @@ import org.dms.wicket.repository.db.model.FileDescription;
 public interface JcrFileDescription
 {
 
+    /**
+     * Save the metadata of images to DB
+     * @param file
+     */
     void save(FileDescription file);
     
+    /**
+     * Delete the metadata from DB
+     * @param file
+     */
     void delete(FileDescription file);
     
+    /**
+     * Updates the metadata
+     * @param file
+     */
     void update(FileDescription file);
     
+    /**
+     * Get the file description base from uuid of document in JCR
+     * @param uuid
+     * @return
+     */
     FileDescription loadByUUID(String uuid);
     
+    /**
+     * Get the document path in JCR
+     * @param uuid
+     * @return
+     */
     String getFilePath(String uuid);
     
-    int countAll();
+    /**
+     * Count all document for a particular branch
+     * @param branch
+     * @return
+     */
+    int countAll(String branch);
     
-    List<FileDescription> loadAll();
+    /**
+     * Load all document of branch and paged it
+     * @param branch
+     * @param first
+     * @param max
+     * @return
+     */
+    List<FileDescription> loadAll(String branch, int first,int max);
     
-    List<FileDescription> loadAll(int first,int max);
-    
-    List<FileDescription> loadByLuceneQuery(String query,int max);
-    
-    int countByLuceneQuery(String query);
+    /**
+     * Search document using lucene index
+     * @param query
+     * @param max
+     * @return
+     */
+    List<FileDescription> searchByLuceneQuery(String query, int max);
     
 }
