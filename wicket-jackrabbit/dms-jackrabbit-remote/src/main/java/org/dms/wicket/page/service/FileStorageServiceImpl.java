@@ -8,11 +8,15 @@ import java.util.List;
 
 import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
+import javax.jcr.ValueFormatException;
+import javax.jcr.lock.LockException;
+import javax.jcr.nodetype.ConstraintViolationException;
+import javax.jcr.version.VersionException;
 
 import org.dms.wicket.page.dao.FileStorageDao;
 import org.dms.wicket.repository.cxf.service.JcrWebServiceAccess;
 import org.dms.wicket.repository.db.model.FileDescription;
-import org.xaloon.wicket.component.exception.FileStorageException;
+import org.xaloon.wicket.component.exception.DMSException;
 import org.xaloon.wicket.component.repository.FileRepository;
 
 /**
@@ -33,30 +37,78 @@ public class FileStorageServiceImpl implements FileStorageService
     /* (non-Javadoc)
      * @see org.dms.wicket.page.service.FileStrorageService#save(org.dms.wicket.page.model.CustomFileDescription)
      */
-    public void save(String path,String name,String mimeType,InputStream fileStream) throws FileStorageException
+    public void storeFileVersion(String path,String name,String mimeType,InputStream fileStream) throws DMSException
     {
 	try
 	{
-	   FileDescription file = fileRepository.storeFileVersion(path, name, mimeType, fileStream);
-	   jcrWebServiceAccess.save(file);
+	   final FileDescription file = fileRepository.storeFileVersion(path, name, mimeType, fileStream);
+	   if(null != file)	
+	       jcrWebServiceAccess.save(file);
 	} catch (PathNotFoundException e)
 	{
 	    e.printStackTrace();
+	    throw new DMSException(e.getMessage());
 	} catch (RepositoryException e)
 	{
 	    e.printStackTrace();
+	    throw new DMSException(e.getMessage());
 	} catch (Exception e)
 	{
 	    e.printStackTrace();
+	    throw new DMSException(e.getMessage());
 	}
     }
 
     /*
      * (non-Javadoc)
+     * @see org.dms.wicket.page.service.FileStorageService#storeNextVersion(org.dms.wicket.repository.db.model.FileDescription, java.io.InputStream)
+     */
+    public void storeNextVersion(FileDescription fileDesc,
+	    InputStream fileStream) throws DMSException
+    {
+	try
+	{
+	    fileRepository.storeNextVersion(fileDesc, fileStream);
+	    jcrWebServiceAccess.update(fileDesc);
+	    
+	} catch (ValueFormatException e)
+	{
+	    e.printStackTrace();
+	    throw new DMSException(e.getMessage());
+	} catch (VersionException e)
+	{
+	    e.printStackTrace();
+	    throw new DMSException(e.getMessage());
+	} catch (LockException e)
+	{
+	    e.printStackTrace();
+	    throw new DMSException(e.getMessage());
+	} catch (ConstraintViolationException e)
+	{
+	    e.printStackTrace();
+	    throw new DMSException(e.getMessage());
+	} catch (PathNotFoundException e)
+	{
+	    e.printStackTrace();
+	    throw new DMSException(e.getMessage());
+	} catch (RepositoryException e)
+	{
+	    e.printStackTrace();
+	    throw new DMSException(e.getMessage());
+	} catch(Exception e)
+	{
+	    e.printStackTrace();
+	    throw new DMSException(e.getMessage());
+	}
+	
+    }
+    
+    /*
+     * (non-Javadoc)
      * @see org.dms.wicket.page.service.FileStorageService#delete(org.dms.wicket.repository.db.model.FileDescription)
      */
     public void delete(FileDescription file)
-	    throws FileStorageException
+    	throws DMSException
     {
 	
 	try
@@ -67,22 +119,29 @@ public class FileStorageServiceImpl implements FileStorageService
 	} catch (PathNotFoundException e)
 	{
 	    e.printStackTrace();
+	    throw new DMSException(e.getMessage());
 	} catch (RepositoryException e)
 	{
 	    e.printStackTrace();
+	    throw new DMSException(e.getMessage());
+	} catch (Exception e)
+	{
+	    e.printStackTrace();
+	    throw new DMSException(e.getMessage());
 	}
 	
     }
 
-    public void update(FileDescription fileDescription)
+    public void update(FileDescription fileDescription) throws DMSException
     {
 	// TODO Auto-generated method stub
 	
     }
     
-    public List<FileDescription> loadAll() throws FileStorageException
+    public List<FileDescription> loadAll(String path) throws DMSException
     {
-	return jcrWebServiceAccess.findDocumentByBranch("", 0);
+	//
+	return jcrWebServiceAccess.findDocumentByBranch(path, 10);
     }
     
     /************* setter injection ******************************/
@@ -101,5 +160,7 @@ public class FileStorageServiceImpl implements FileStorageService
     {
         this.fileRepository = fileRepository;
     }
+
+    
 
 }

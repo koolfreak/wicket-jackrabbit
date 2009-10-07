@@ -1,6 +1,7 @@
 package org.dms.wicket.page;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -21,6 +22,7 @@ import org.dms.wicket.WicketApplication;
 import org.dms.wicket.component.JcrDowloadLink;
 import org.dms.wicket.page.service.FileStorageService;
 import org.dms.wicket.repository.db.model.FileDescription;
+import org.xaloon.wicket.component.exception.DMSException;
 import org.xaloon.wicket.component.exception.FileStorageException;
 import org.xaloon.wicket.component.resource.FileResource;
 
@@ -43,7 +45,7 @@ public class HomePage extends JcrClientPage
      */
     public HomePage()
     {
-	final String loanpath = WicketApplication.get().getDmsRepoPath()+ "loan";
+	final String loanpath = WicketApplication.get().getDmsRepoPath()+ "loan/";
 
 	add(new Link<Void>("search")
 	{
@@ -63,7 +65,17 @@ public class HomePage extends JcrClientPage
 	add(imageContainer);
 	imageContainer.add(new NonCachingImage("img", new ResourceReference(HomePage.class, "images/testimonial-bg.gif")));
 
-	final ListView<FileDescription> files = new ListView<FileDescription>("files", fileStorageService.loadAll())
+	List<FileDescription> filesList = null;
+	
+	try
+	{
+	    filesList = fileStorageService.loadAll(loanpath);
+	} catch (DMSException e)
+	{
+	    e.printStackTrace();
+	}
+	
+	final ListView<FileDescription> files = new ListView<FileDescription>("files", filesList)
 	{
 
 	    @Override
@@ -78,7 +90,13 @@ public class HomePage extends JcrClientPage
 		    @Override
 		    public void onClick()
 		    {
-			fileStorageService.delete(getModelObject());
+			try
+			{
+			    fileStorageService.delete(getModelObject());
+			} catch (DMSException e)
+			{
+			    e.printStackTrace();
+			}
 
 			setRedirect(true);
 			setResponsePage(HomePage.class);
@@ -112,10 +130,8 @@ public class HomePage extends JcrClientPage
 	    super(id);
 	    this.path = path;
 	    setMultiPart(true);
-
 	    // Add one file input field
 	    add(fileUploadField = new FileUploadField("fileInput"));
-
 	    setMaxSize(Bytes.megabytes(10));
 	}
 
@@ -132,18 +148,24 @@ public class HomePage extends JcrClientPage
 	    {
 		if (upload != null)
 		{
-		    fileStorageService.save(path,upload.getClientFileName(),upload.getContentType(), upload.getInputStream());
+		    fileStorageService.storeFileVersion(path,upload.getClientFileName(),upload.getContentType(), upload.getInputStream());
 		}
+		
+		setRedirect(true);
+		setResponsePage(HomePage.class);
+		
 	    } catch (IOException e)
 	    {
 		e.printStackTrace();
 	    } catch (FileStorageException e)
 	    {
 		e.printStackTrace();
+	    } catch (DMSException e)
+	    {
+		e.printStackTrace();
 	    }
-
-	    setRedirect(true);
-	    setResponsePage(HomePage.class);
 	}
     }
+    
+    
 }
