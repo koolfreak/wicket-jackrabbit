@@ -76,7 +76,7 @@ public class FileRepositoryImpl implements FileRepository
 
     public FileDescription storeFile(String path, String name, String mimeType, InputStream fileStream) throws PathNotFoundException, RepositoryException, Exception
     {
-	
+	FileDescription filedesc = null;
 	    Session session = contentSessionFacade.getDefaultSession();
 	    Node rootNode = session.getRootNode();
 
@@ -93,7 +93,7 @@ public class FileRepositoryImpl implements FileRepository
 	    session.save();
 	    final String uuid = fileContent.getUUID();
 	    
-	    final FileDescription filedesc = new FileDescription();
+	    filedesc = new FileDescription();
 	    filedesc.setLastModified(lastModified.getTime());
 	    filedesc.setMimeType(mimeType);
 	    filedesc.setPath(path);
@@ -107,7 +107,7 @@ public class FileRepositoryImpl implements FileRepository
 	    String mimeType, InputStream fileStream)
 	    throws NoSuchNodeTypeException, VersionException, ConstraintViolationException, LockException, RepositoryException, Exception
     {
-	
+	FileDescription filedesc = null;
 	    Session session = contentSessionFacade.getDefaultSession();
 	    Node rootNode = session.getRootNode();
 
@@ -125,7 +125,7 @@ public class FileRepositoryImpl implements FileRepository
 	    session.save();
 	    final Version version = file.checkin();
 
-	    final FileDescription filedesc = new FileDescription();
+	    filedesc = new FileDescription();
 	    filedesc.setLastModified(lastModified.getTime());
 	    filedesc.setMimeType(mimeType);
 	    filedesc.setPath(path);
