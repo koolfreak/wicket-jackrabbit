@@ -50,13 +50,13 @@
 
 	<!-- The service bean -->
 	<bean id="jcrServerServiceImpl"
-		class="org.dms.wicket.repository.db.service.JcrFileDescriptionImpl">
+		class="org.dms.wicket.repository.cxf.service.JcrWebServiceAccessImpl">
 	</bean>
 
 	<!-- Service endpoint -->
 	<!-- See http://incubator.apache.org/cxf/faq.html regarding CXF + Spring AOP -->
 	<jaxws:endpoint id="jcrServerService"
-		implementorClass="org.dms.wicket.repository.db.service.JcrFileDescriptionImpl"
+		implementorClass="org.dms.wicket.repository.cxf.service.JcrWebServiceAccessImpl"
 		implementor="#jcrServerServiceImpl" address="/jcrWebServiceAccess">
 		<jaxws:serviceFactory>
 			<ref bean="jaxws-and-aegis-service-factory" />
