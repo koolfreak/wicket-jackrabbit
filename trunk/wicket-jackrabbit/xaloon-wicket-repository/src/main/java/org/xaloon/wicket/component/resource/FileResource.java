@@ -50,6 +50,7 @@ public class FileResource extends Resource {
 	public FileResource(String pathToFile) {
 		InjectorHolder.getInjector().inject(this);
 		this.pathToFile = pathToFile;
+		System.out.println("************************************"+pathToFile);
 	}
 
 	@Override
