@@ -14,19 +14,66 @@ import org.springframework.dao.DataAccessException;
  */
 public interface JcrFileStorageDao
 {
+    /**
+     * 
+     * @param file
+     * @throws DataAccessException
+     */
     void save(FileDescription file) throws DataAccessException;
     
+    /**
+     * 
+     * @param file
+     * @throws DataAccessException
+     */
     void delete(FileDescription file) throws DataAccessException;
     
+    /**
+     * 
+     * @param file
+     * @throws DataAccessException
+     */
     void update(FileDescription file) throws DataAccessException;
     
+    /**
+     * 
+     * @param uuid
+     * @return
+     * @throws DataAccessException
+     */
     FileDescription loadByUUID(String uuid) throws DataAccessException;
     
-    int countAll() throws DataAccessException;
+    /**
+     * 
+     * @param branch
+     * @return
+     * @throws DataAccessException
+     */
+    int countAll(String branch) throws DataAccessException;
     
+    /**
+     * 
+     * @return
+     * @throws DataAccessException
+     */
     List<FileDescription> loadAll() throws DataAccessException;
     
-    List<FileDescription> loadAll(int first,int max) throws DataAccessException;
+    /**
+     * 
+     * @param branch
+     * @param first
+     * @param max
+     * @return
+     * @throws DataAccessException
+     */
+    List<FileDescription> loadAllByBranch(String branch,int first,int max) throws DataAccessException;
     
+    /**
+     * 
+     * @param searchCriteria
+     * @param maxResult
+     * @return
+     * @throws DataAccessException
+     */
     List<FileDescription> search(String searchCriteria, int maxResult) throws DataAccessException;
 }
