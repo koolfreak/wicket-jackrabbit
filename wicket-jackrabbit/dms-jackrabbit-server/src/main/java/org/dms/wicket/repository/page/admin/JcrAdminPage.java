@@ -12,7 +12,6 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.dms.wicket.repository.admin.JcrAdminService;
 import org.dms.wicket.repository.db.model.FileDescription;
 import org.dms.wicket.repository.db.service.JcrFileDescription;
 import org.dms.wicket.repository.file.service.JcrFileMetadata;
@@ -34,7 +33,6 @@ import org.xaloon.wicket.component.resource.FileResource;
 public class JcrAdminPage extends JcrMainPage
 {
     
-    @SpringBean private JcrAdminService jcrAdminService;
     @SpringBean private JcrFileMetadata jcrFileMetadata;
     @SpringBean private JcrFileDescription jcrFileDescription;
     
@@ -62,7 +60,7 @@ public class JcrAdminPage extends JcrMainPage
 	add(imageContainer);
 	imageContainer.add(new NonCachingImage("img", new ResourceReference(IndexPage.class, "images/testimonial-bg.gif")));
 	
-	final ListView<FileDescription> lists = new ListView<FileDescription>("files",jcrFileDescription.loadAll())
+	final ListView<FileDescription> lists = new ListView<FileDescription>("files",jcrFileDescription.loadAll("photo/upload/test/", 0, 10))
 	{
 	    @Override
 	    protected void populateItem(ListItem<FileDescription> item)
