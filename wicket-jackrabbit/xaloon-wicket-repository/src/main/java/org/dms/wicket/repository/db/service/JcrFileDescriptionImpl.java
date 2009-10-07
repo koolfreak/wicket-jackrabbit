@@ -5,81 +5,100 @@ package org.dms.wicket.repository.db.service;
 
 import java.util.List;
 
-import javax.jws.WebService;
-
-import org.dms.wicket.repository.cxf.service.JcrWebServiceAccess;
 import org.dms.wicket.repository.db.dao.JcrFileStorageDao;
 import org.dms.wicket.repository.db.model.FileDescription;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.xaloon.wicket.component.exception.FileStorageException;
 
 /**
  * @author Emmanuel Nollase - emanux
  * created 2009 9 19 - 19:49:44
  */
-@WebService(endpointInterface="org.dms.wicket.repository.cxf.service.JcrWebServiceAccess")
 @Component("jcrFileDescription")
-public class JcrFileDescriptionImpl implements JcrFileDescription, JcrWebServiceAccess
+public class JcrFileDescriptionImpl implements JcrFileDescription
 {
 
     @Autowired private JcrFileStorageDao jcrFileStorageDao;
     
-    public List<FileDescription> loadAll() throws FileStorageException
+    /*
+     * (non-Javadoc)
+     * @see org.dms.wicket.repository.db.service.JcrFileDescription#countAll(java.lang.String)
+     */
+    public int countAll(String branch)
     {
-	return jcrFileStorageDao.loadAll();
+	return jcrFileStorageDao.countAll(branch);
     }
 
-    public int countAll()
+    /*
+     * (non-Javadoc)
+     * @see org.dms.wicket.repository.db.service.JcrFileDescription#loadAll(java.lang.String, int, int)
+     */
+    public List<FileDescription> loadAll(String branch,int first, int max)
     {
-	return jcrFileStorageDao.countAll();
+	return jcrFileStorageDao.loadAllByBranch(branch,first, max);
     }
 
-    public int countByLuceneQuery(String query)
-    {
-	return 0;
-    }
-
-    public List<FileDescription> loadAll(int first, int max)
-    {
-	return jcrFileStorageDao.loadAll(first, max);
-    }
-
-    public List<FileDescription> loadByLuceneQuery(String query, int max)
+    /*
+     * (non-Javadoc)
+     * @see org.dms.wicket.repository.db.service.JcrFileDescription#searchByLuceneQuery(java.lang.String, int)
+     */
+    public List<FileDescription> searchByLuceneQuery(String query, int max)
     {
 	return jcrFileStorageDao.search(query, max);
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.dms.wicket.repository.db.service.JcrFileDescription#loadByUUID(java.lang.String)
+     */
     public FileDescription loadByUUID(String uuid)
     {
 	return jcrFileStorageDao.loadByUUID(uuid);
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.dms.wicket.repository.db.service.JcrFileDescription#getFilePath(java.lang.String)
+     */
     public String getFilePath(String uuid) throws NullPointerException
     {
 	return loadByUUID(uuid).getFilePath();
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.dms.wicket.repository.db.service.JcrFileDescription#delete(org.dms.wicket.repository.db.model.FileDescription)
+     */
     public void delete(FileDescription file)
     {
 	jcrFileStorageDao.delete(file);
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.dms.wicket.repository.db.service.JcrFileDescription#save(org.dms.wicket.repository.db.model.FileDescription)
+     */
     public void save(FileDescription file)
     {
 	jcrFileStorageDao.save(file);
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.dms.wicket.repository.db.service.JcrFileDescription#update(org.dms.wicket.repository.db.model.FileDescription)
+     */
     public void update(FileDescription file)
     {
 	jcrFileStorageDao.update(file);
     }
 
+    /*
+     * (non-Javadoc)
+     * @see org.dms.wicket.repository.cxf.service.JcrWebServiceAccess#findDocumentByBranch(java.lang.String, int)
+     */
     public List<FileDescription> findDocumentByBranch(String branch,int max)
     {
-	// TODO - implement flexible lucene query here
-	return jcrFileStorageDao.loadAll();
+	return jcrFileStorageDao.loadAllByBranch(branch, 0, max);
     }
 
-    
 }
