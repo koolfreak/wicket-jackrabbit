@@ -31,36 +31,43 @@ import com.clarkware.junitperf.TimedTest;
  * 
  * @author vytautas racelis
  */
-public class RepositoryTestCase extends DMSParentTestCase {
-	@Autowired
-	private RepositoryManager repositoryManager;
-	
-	@Autowired
-	private FileRepository fileRepository;
-	
-	@Override
-	protected synchronized void onSetUp() throws Exception {
-		super.onSetUp();
-		repositoryManager.init();
-	}
-	
-	@Override
-	protected void onTearDown() throws Exception {
-		super.onTearDown();
-		repositoryManager.shutdown ();
-	}
-	
-	public Test items() {	     
-        int maxUsers = 50;
-        long maxElapsedTime = 35000;
-        
-        Test testCase = new SingleFileUploadTestCase("testFileUpload", repositoryManager, fileRepository);
-        Test timedTest = new TimedTest(testCase, maxElapsedTime);
-        Test loadTest = new LoadTest(timedTest, maxUsers);
+public class RepositoryTestCase extends DMSParentTestCase
+{
+    @Autowired
+    private RepositoryManager repositoryManager;
 
-        return loadTest;
+    @Autowired
+    private FileRepository fileRepository;
+
+    @Override
+    protected synchronized void onSetUp() throws Exception
+    {
+	super.onSetUp();
+	repositoryManager.init();
     }
-	public void testFileUpload () throws Exception {
-		junit.textui.TestRunner.run(items());
-	}
+
+    @Override
+    protected void onTearDown() throws Exception
+    {
+	super.onTearDown();
+	repositoryManager.shutdown();
+    }
+
+    public Test items()
+    {
+	int maxUsers = 50;
+	long maxElapsedTime = 35000;
+
+	Test testCase = new SingleFileUploadTestCase("testFileUpload",
+		repositoryManager, fileRepository);
+	Test timedTest = new TimedTest(testCase, maxElapsedTime);
+	Test loadTest = new LoadTest(timedTest, maxUsers);
+
+	return loadTest;
+    }
+
+    public void testFileUpload() throws Exception
+    {
+	junit.textui.TestRunner.run(items());
+    }
 }
