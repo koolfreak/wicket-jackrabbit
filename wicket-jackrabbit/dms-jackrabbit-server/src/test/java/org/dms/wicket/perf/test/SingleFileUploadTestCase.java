@@ -41,7 +41,7 @@ public class SingleFileUploadTestCase extends TestCase {
 		String name = path + "/test.jpg";
 		fileRepository.storeFile(path, "test.jpg", "images/jpeg", this.getClass().getResourceAsStream("/dziungles.jpg"));
 		assertTrue (fileRepository.existsFile(name));
-		fileRepository.delete("/" + name);
+		fileRepository.delete(name);
 		repositoryManager.getContentSessionFactory().cleanup();
 	}
 }
