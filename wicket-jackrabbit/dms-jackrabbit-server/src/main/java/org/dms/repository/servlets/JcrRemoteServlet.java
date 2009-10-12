@@ -22,7 +22,7 @@ public abstract class JcrRemoteServlet extends HttpServlet
 
     public RemoteRepository getRemote()
     {
-        RepositoryManager repositoryManager = (RepositoryManager) getApplicationContext().getBean("RepositoryManager");
+        RepositoryManager repositoryManager = (RepositoryManager) getApplicationContext().getBean("repositoryManager");
         JackrabbitServerAdapterFactory factory = new JackrabbitServerAdapterFactory();
         try
      {
