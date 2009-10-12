@@ -26,10 +26,11 @@ public class JcrWebdavServlet extends SimpleWebdavServlet
     public Repository getRepository()
     {
 	final ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
-	return ((RepositoryManager) ctx.getBean("RepositoryManager")).getRespository();
+	return ((RepositoryManager) ctx.getBean("repositoryManager")).getRespository();
     }
     
     /*
+     * Authenticate user for webdav access
      * (non-Javadoc)
      * @see org.apache.jackrabbit.webdav.simple.SimpleWebdavServlet#getCredentialsProvider()
      */
