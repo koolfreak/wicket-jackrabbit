@@ -16,8 +16,7 @@ public class DMSParentTestCase extends
     protected String[] getConfigLocations()
     {
 	return new String[]
-	    { "classpath*:META-INF/app-context-c3p0.xml",
-		    "classpath*:META-INF/application-context.xm"};
+	    { "classpath*:META-INF/application-test-context.xm"};
     }
 
 }
