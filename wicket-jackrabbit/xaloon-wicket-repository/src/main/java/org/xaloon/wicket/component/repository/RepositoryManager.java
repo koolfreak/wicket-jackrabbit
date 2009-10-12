@@ -34,7 +34,7 @@ import org.xaloon.wicket.component.repository.util.ContentProperties;
  * 
  * @author vytautas racelis
  */
-@org.springframework.stereotype.Repository("RepositoryManager")
+@org.springframework.stereotype.Repository("repositoryManager")
 public class RepositoryManager {
 	@Autowired
 	private ContentProperties contentProperties;
