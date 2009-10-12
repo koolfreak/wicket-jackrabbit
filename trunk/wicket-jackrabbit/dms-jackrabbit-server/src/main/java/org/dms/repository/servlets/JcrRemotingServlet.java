@@ -24,7 +24,7 @@ public class JcrRemotingServlet extends
     protected Repository getRepository()
     {
 	final ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
-	return ((RepositoryManager) ctx.getBean("RepositoryManager")).getRespository();
+	return ((RepositoryManager) ctx.getBean("repositoryManager")).getRespository();
     }
 
 }
