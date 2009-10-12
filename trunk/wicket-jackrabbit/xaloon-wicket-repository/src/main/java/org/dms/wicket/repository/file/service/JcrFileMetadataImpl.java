@@ -53,13 +53,13 @@ public class JcrFileMetadataImpl implements JcrFileMetadata
 	    
 	} catch (PathNotFoundException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(),e);
 	} catch (RepositoryException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(), e);
 	} catch (Exception e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(), e);
 	}
     }
     
@@ -77,22 +77,22 @@ public class JcrFileMetadataImpl implements JcrFileMetadata
 	    
 	} catch (NoSuchNodeTypeException e)
 	{
-	   throw new FileStorageException(e);
+	   throw new FileStorageException(e.getMessage(),e);
 	} catch (VersionException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(), e);
 	} catch (ConstraintViolationException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(), e);
 	} catch (LockException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(), e);
 	} catch (RepositoryException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(), e);
 	} catch (Exception e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(), e);
 	}
 
     }
@@ -110,27 +110,28 @@ public class JcrFileMetadataImpl implements JcrFileMetadata
 	    
 	} catch (ValueFormatException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(),e);
 	} catch (VersionException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(),e);
 	} catch (LockException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(),e);
 	} catch (ConstraintViolationException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(),e);
 	} catch (PathNotFoundException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(),e);
 	} catch (RepositoryException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(),e);
 	}
 	
     }
 
     /*
+     * Gets all version of the file
      * (non-Javadoc)
      * @see org.dms.wicket.repository.file.service.JcrFileMetadata#getFileVersions(java.lang.String)
      */
@@ -200,13 +201,13 @@ public class JcrFileMetadataImpl implements JcrFileMetadata
 	    
 	} catch (AccessDeniedException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(),e);
 	} catch (UnsupportedRepositoryOperationException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(),e);
 	} catch (RepositoryException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(),e);
 	}
 	return _wscreated;
     }
@@ -281,31 +282,31 @@ public class JcrFileMetadataImpl implements JcrFileMetadata
 	    fileRepository.importXML(exportFile);
 	} catch (PathNotFoundException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(),e);
 	} catch (ItemExistsException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(),e);
 	} catch (ConstraintViolationException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(),e);
 	} catch (VersionException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(),e);
 	} catch (InvalidSerializedDataException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(),e);
 	} catch (LockException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(),e);
 	} catch (IOException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(),e);
 	} catch (RepositoryException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(),e);
 	} catch (Exception e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(),e);
 	}
 	
     }
@@ -321,31 +322,31 @@ public class JcrFileMetadataImpl implements JcrFileMetadata
 	    fileRepository.importXML(fileStream);
 	} catch (PathNotFoundException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(),e);
 	} catch (ItemExistsException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(),e);
 	} catch (ConstraintViolationException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(),e);
 	} catch (VersionException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(),e);
 	} catch (InvalidSerializedDataException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(),e);
 	} catch (LockException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(),e);
 	} catch (IOException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(),e);
 	} catch (RepositoryException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(),e);
 	} catch (Exception e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(),e);
 	}
 	
     }
@@ -364,7 +365,7 @@ public class JcrFileMetadataImpl implements JcrFileMetadata
 	    throw new FileStorageException("Cannot find file path",e);
 	} catch (RepositoryException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(),e);
 	}
 	
     }
@@ -383,7 +384,7 @@ public class JcrFileMetadataImpl implements JcrFileMetadata
 	    throw new FileStorageException("Cannot find file path",e);
 	} catch (RepositoryException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(),e);
 	}
     }
 
@@ -393,7 +394,13 @@ public class JcrFileMetadataImpl implements JcrFileMetadata
      */
     public void performGC() throws FileStorageException
     {
-	fileRepository.performGC();
+	try
+	{
+	    fileRepository.performGC();
+	} catch (Exception e)
+	{
+	    throw new FileStorageException(e.getMessage(),e);
+	}
     }
 
     /*
@@ -431,7 +438,7 @@ public class JcrFileMetadataImpl implements JcrFileMetadata
 	    throw new FileStorageException("File path not found",e);
 	} catch (RepositoryException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(), e);
 	}
     }
 
@@ -447,10 +454,10 @@ public class JcrFileMetadataImpl implements JcrFileMetadata
 	    return fileRepository.searchFileByKeyword(path, keyword);
 	} catch (InvalidQueryException e)
 	{
-	   throw new FileStorageException(e);
+	   throw new FileStorageException(e.getMessage(),e);
 	} catch (RepositoryException e)
 	{
-	    throw new FileStorageException(e);
+	    throw new FileStorageException(e.getMessage(),e);
 	}
     }
 
