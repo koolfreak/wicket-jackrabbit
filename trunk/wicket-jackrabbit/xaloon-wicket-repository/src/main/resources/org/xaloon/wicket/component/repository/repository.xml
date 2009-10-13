@@ -65,6 +65,12 @@
 			    <param name="schemaObjectPrefix" value="dms_"/>
 			    <param name="errorHandling" value="true"/>
 		</PersistenceManager>
+		<!--  
+			|Search configuration:
+			|	see: http://wiki.apache.org/jackrabbit/Search
+			|Index configuration:
+			|	see: http://wiki.apache.org/jackrabbit/IndexingConfiguration
+		-->
 		<SearchIndex class="org.apache.jackrabbit.core.query.lucene.SearchIndex">
 			<param name="path" value="${wsp.home}/index" />
 			<param name="indexingConfiguration" value="${wsp.home}/index-config.xml"/>
