@@ -42,7 +42,7 @@ public class ContentHelper {
 
 			File cfg = new File(home, "repository.xml");
 			if (!cfg.exists()) {
-				copyClassResourceToFile("/org/xaloon/wicket/component/repository/repository.xml", cfg);
+				copyClassResourceToFile("/org/dms/wicket/repository/config/repository.xml", cfg);
 			}
 
 			InputStream configStream = new FileInputStream(cfg);
