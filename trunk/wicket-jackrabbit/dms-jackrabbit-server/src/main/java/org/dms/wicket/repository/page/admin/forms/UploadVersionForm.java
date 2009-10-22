@@ -5,9 +5,12 @@ package org.dms.wicket.repository.page.admin.forms;
 
 import java.io.IOException;
 
+import org.apache.wicket.behavior.HeaderContributor;
+import org.apache.wicket.markup.html.JavascriptPackageResource;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
+import org.apache.wicket.markup.html.resources.JavascriptResourceReference;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.util.lang.Bytes;
 import org.dms.wicket.repository.file.service.JcrFileMetadata;
@@ -29,6 +32,8 @@ public class UploadVersionForm extends Form<Void>
     {
 	super(id);
 	this.path = path;
+	// add a file filter javascript filtering
+	add(JavascriptPackageResource.getHeaderContribution(UploadVersionForm.class, "filefilter.js"));
 	setMultiPart(true);
 	// Add one file input field
 	add(fileUploadField = new FileUploadField("fileInput"));

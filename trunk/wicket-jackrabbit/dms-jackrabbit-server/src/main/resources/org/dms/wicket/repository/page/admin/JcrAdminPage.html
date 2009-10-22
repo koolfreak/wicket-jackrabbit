@@ -10,7 +10,7 @@
 		<form wicket:id="upversion">
 			<span wicket:id="feedback"/><br/>
 			Filename:&nbsp;<input type="file" wicket:id="fileInput"/><br/>
-			<input type="submit" value="Upload"/>
+			<input type="submit" value="Upload" onclick="LimitAttach(this.form, this.form.fileInput.value)"/>
 		</form>
 	</fieldset>
 	<br/>
