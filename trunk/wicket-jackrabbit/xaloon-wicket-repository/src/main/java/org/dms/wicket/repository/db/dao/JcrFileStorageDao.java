@@ -49,14 +49,15 @@ public interface JcrFileStorageDao
      * @return
      * @throws DataAccessException
      */
-    int countAll(String branch) throws DataAccessException;
+    int countAllByBranch(String branch) throws DataAccessException;
     
+    int countAll() throws DataAccessException;
     /**
      * 
      * @return
      * @throws DataAccessException
      */
-    List<FileDescription> loadAll() throws DataAccessException;
+    List<FileDescription> loadAll(int first,int max) throws DataAccessException;
     
     /**
      * 
