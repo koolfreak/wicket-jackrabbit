@@ -37,14 +37,15 @@ public class JcrFileStorageDaoImpl extends HibernateDaoSupport implements
 	getHibernateTemplate().delete(file);
     }
 
-    /* 
+    /*
      * (non-Javadoc)
-     * @see org.dms.wicket.repository.db.dao.JcrFileStorageDao#loadAll()
+     * @see org.dms.wicket.repository.db.dao.JcrFileStorageDao#loadAll(int, int)
      */
     @SuppressWarnings("unchecked")
-    public List<FileDescription> loadAll() throws DataAccessException
+    public List<FileDescription> loadAll(int first,int max) throws DataAccessException
     {
-	return this.getSession().createCriteria(FileDescription.class).list();
+	return this.getSession().createCriteria(FileDescription.class)
+		.setFirstResult(first).setMaxResults(max).list();
     }
 
     /* 
@@ -124,12 +125,23 @@ public class JcrFileStorageDaoImpl extends HibernateDaoSupport implements
      * (non-Javadoc)
      * @see org.dms.wicket.repository.db.dao.JcrFileStorageDao#countAll(java.lang.String)
      */
-    public int countAll(String branch) throws DataAccessException
+    public int countAllByBranch(String branch) throws DataAccessException
     {
 	
 	return (Integer) this.getSession()
 		.createCriteria(FileDescription.class)
 		.add(Restrictions.ilike("path", branch, MatchMode.ANYWHERE)).setProjection(
+			Projections.rowCount()).uniqueResult();
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.dms.wicket.repository.db.dao.JcrFileStorageDao#countAll()
+     */
+    public int countAll() throws DataAccessException
+    {
+	return (Integer) this.getSession()
+		.createCriteria(FileDescription.class).setProjection(
 			Projections.rowCount()).uniqueResult();
     }
 
