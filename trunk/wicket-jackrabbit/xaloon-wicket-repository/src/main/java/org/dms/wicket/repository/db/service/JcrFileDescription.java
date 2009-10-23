@@ -51,7 +51,12 @@ public interface JcrFileDescription
      * @param branch
      * @return
      */
-    int countAll(String branch);
+    int countAllByBranch(String branch);
+    
+    /**
+     * @return - 
+     */
+    int countAll();
     
     /**
      * Load all document of branch and paged it
@@ -60,7 +65,15 @@ public interface JcrFileDescription
      * @param max
      * @return
      */
-    List<FileDescription> loadAll(String branch, int first,int max);
+    List<FileDescription> loadAllByBranch(String branch, int first,int max);
+    
+    /**
+     * Load files for paging
+     * @param first
+     * @param max
+     * @return
+     */
+    List<FileDescription> loadAll(int first,int max);
     
     /**
      * Search document using lucene index

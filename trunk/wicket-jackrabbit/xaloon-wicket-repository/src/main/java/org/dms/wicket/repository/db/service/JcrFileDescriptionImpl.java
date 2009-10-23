@@ -24,16 +24,16 @@ public class JcrFileDescriptionImpl implements JcrFileDescription
      * (non-Javadoc)
      * @see org.dms.wicket.repository.db.service.JcrFileDescription#countAll(java.lang.String)
      */
-    public int countAll(String branch)
+    public int countAllByBranch(String branch)
     {
-	return jcrFileStorageDao.countAll(branch);
+	return jcrFileStorageDao.countAllByBranch(branch);
     }
 
     /*
      * (non-Javadoc)
      * @see org.dms.wicket.repository.db.service.JcrFileDescription#loadAll(java.lang.String, int, int)
      */
-    public List<FileDescription> loadAll(String branch,int first, int max)
+    public List<FileDescription> loadAllByBranch(String branch,int first, int max)
     {
 	return jcrFileStorageDao.loadAllByBranch(branch,first, max);
     }
@@ -99,6 +99,24 @@ public class JcrFileDescriptionImpl implements JcrFileDescription
     public List<FileDescription> findDocumentByBranch(String branch,int max)
     {
 	return jcrFileStorageDao.loadAllByBranch(branch, 0, max);
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.dms.wicket.repository.db.service.JcrFileDescription#countAll()
+     */
+    public int countAll()
+    {
+	return jcrFileStorageDao.countAll();
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.dms.wicket.repository.db.service.JcrFileDescription#loadAll(int, int)
+     */
+    public List<FileDescription> loadAll(int first, int max)
+    {
+	return jcrFileStorageDao.loadAll(first, max);
     }
 
 }
