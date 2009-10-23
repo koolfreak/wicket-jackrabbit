@@ -46,9 +46,6 @@ public class JcrAdminPage extends JcrMainPage
 	final ImportDocumentPanel importDocs = new ImportDocumentPanel("importDocs");
 	add(importDocs);
 	
-	final CreateNodesPanel createnode = new CreateNodesPanel("createnode");
-	add(createnode);
-	
 	
 	final FeedbackPanel feed = new FeedbackPanel("feedback");
 	final UploadVersionForm form = new UploadVersionForm("upversion", "photo/upload/test/");
@@ -60,7 +57,7 @@ public class JcrAdminPage extends JcrMainPage
 	add(imageContainer);
 	imageContainer.add(new NonCachingImage("img", new ResourceReference(IndexPage.class, "images/testimonial-bg.gif")));
 	
-	final ListView<FileDescription> lists = new ListView<FileDescription>("files",jcrFileDescription.loadAll("photo/upload/test/", 0, 10))
+	final ListView<FileDescription> lists = new ListView<FileDescription>("files",jcrFileDescription.loadAll(0, 10))
 	{
 	    @Override
 	    protected void populateItem(ListItem<FileDescription> item)

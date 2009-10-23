@@ -1,4 +1,12 @@
 
+/*
+ Original:  ArjoGod, Shauna Merritt
+ Modified By:  Ronnie T. Moore, Editor
+
+ This script and many more are available free online at
+ The JavaScript Source!! http://javascript.internet.com
+*/
+
 extArray = new Array(".gif", ".jpg", ".png");
 function LimitAttach(form, file) {
 	allowSubmit = false;
