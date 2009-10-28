@@ -8,6 +8,7 @@
 		<constructor-arg index="0" value="http://localhost:8282/jcrRemote" />
 	</bean>
 
+	<!--  
 	<bean id="jcrRemoteFactory" class="org.dms.wicket.repository.remote.DMSSessionFactory">
 		<property name="repository" ref="repository" />
 		<property name="credentials">
@@ -19,17 +20,30 @@
 			</bean>
 		</property>
 	</bean>
-
+	-->
+	
+	<bean id="jcrThreadLocalSessionFactory" class="org.dms.wicket.component.ThreadLocalSessionFactory">
+		<constructor-arg index="0" ref="repository"/>
+		<constructor-arg index="1">
+			<bean class="javax.jcr.SimpleCredentials">
+				<constructor-arg index="0" value="username" />
+				<constructor-arg index="1">
+					<bean factory-bean="password" factory-method="toCharArray" />
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+	</bean>
+	
 	<bean id="password" class="java.lang.String">
 		<constructor-arg index="0" value="password" />
 	</bean>
 	
 	<bean id="contentSessionFacade" class="org.dms.wicket.JcrSessionFacadeImpl">
-		<constructor-arg index="0" ref="jcrRemoteFactory"/>
+		<property name="threadLocalSessionFactory" ref="jcrThreadLocalSessionFactory"/>
 	</bean>
 	
 	<bean id="fileRepository" class="org.xaloon.wicket.component.repository.impl.FileRepositoryImpl">
-		<property name="contentSessionFacade" ref="contentSessionFacade"/>
+		<property name="contentSessionFacade" ref="contentSessionFacade" />
 	</bean>
 	
 </beans>

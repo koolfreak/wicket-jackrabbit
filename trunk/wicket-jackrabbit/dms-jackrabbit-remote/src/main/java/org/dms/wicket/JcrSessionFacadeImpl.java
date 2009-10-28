@@ -6,6 +6,7 @@ package org.dms.wicket;
 import javax.jcr.Session;
 
 import org.dms.wicket.component.ContentSessionFacade;
+import org.dms.wicket.component.ThreadLocalSessionFactory;
 import org.dms.wicket.repository.remote.DMSSessionFactory;
 
 /**
@@ -15,18 +16,22 @@ import org.dms.wicket.repository.remote.DMSSessionFactory;
 public class JcrSessionFacadeImpl implements ContentSessionFacade
 {
 
-    private Session session;
+   // private Session session;
+   
+    private ThreadLocalSessionFactory threadLocalSessionFactory;
     
-    public JcrSessionFacadeImpl(DMSSessionFactory sessionFactory)
-    {
-	this.session = sessionFactory.getJcrSession();
-    }
     /* (non-Javadoc)
      * @see org.dms.wicket.component.ContentSessionFacade#getDefaultSession()
      */
     public Session getDefaultSession()
     {
-	return session;
+	return threadLocalSessionFactory.getDefaultSession();
     }
-
+    
+    public void setThreadLocalSessionFactory(
+    	ThreadLocalSessionFactory threadLocalSessionFactory)
+    {
+        this.threadLocalSessionFactory = threadLocalSessionFactory;
+    }
+    
 }
