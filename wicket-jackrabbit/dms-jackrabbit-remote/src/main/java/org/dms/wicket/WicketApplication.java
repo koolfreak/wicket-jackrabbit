@@ -69,7 +69,11 @@ public class WicketApplication extends WebApplication
 	return (WicketApplication) WebApplication.get();
     }
     
-    
+    /*
+     * Perform cleanup of javax.jcr.Session every end of request
+     * (non-Javadoc)
+     * @see org.apache.wicket.protocol.http.WebApplication#newRequestCycle(org.apache.wicket.Request, org.apache.wicket.Response)
+     */
     @Override
     public RequestCycle newRequestCycle(Request request, Response response)
     {
@@ -83,7 +87,7 @@ public class WicketApplication extends WebApplication
 	};
     }
 
-    
+    // get the threadlocal factory from app-context
     public final ThreadLocalSessionFactory getThreadLocalSessionFactory()
     {
 	ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
