@@ -21,7 +21,9 @@
 		</property>
 	</bean>
 	-->
-	
+	<!-- 
+		| Jackrabbit client also need to be thread safe also
+	 -->
 	<bean id="jcrThreadLocalSessionFactory" class="org.dms.wicket.component.ThreadLocalSessionFactory">
 		<constructor-arg index="0" ref="repository"/>
 		<constructor-arg index="1">
