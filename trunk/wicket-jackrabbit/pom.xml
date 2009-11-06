@@ -495,7 +495,6 @@
 		<module>xaloon-wicket-repository</module>		
 		<module>xaloon-wicket-components</module>
 		<module>dms-jackrabbit-server</module>
-		<module>dms-jackrabbit-extensions</module>
     		<module>dms-jackrabbit-remote</module>
 	</modules>
 
@@ -581,6 +580,11 @@
 			<id>wicket-stuff</id>
 			<name>Wicket stuff</name>
 			<url>http://wicketstuff.org/maven/repository/</url>
+		</repository>
+		<repository>
+			<id>sun</id>
+			<name>sun tools</name>
+			<url>http://wp5.e-taxonomy.eu/cdmlib/mavenrepo</url>
 		</repository>
 	</repositories>
 	<organization>
