@@ -53,16 +53,15 @@
 		<FileSystem class="org.apache.jackrabbit.core.fs.local.LocalFileSystem">
 			<param name="path" value="${wsp.home}" />
 		</FileSystem>
-		<PersistenceManager class="org.apache.jackrabbit.core.persistence.bundle.PostgreSQLPersistenceManager">
+		<PersistenceManager class="org.apache.jackrabbit.core.persistence.bundle.MySqlPersistenceManager">
 			    <param name="bundleCacheSize" value="8"/>
 			    <param name="consistencyCheck" value="false"/>
 			    <param name="minBlobSize" value="16384"/>
-			    <param name="driver" value="org.postgresql.Driver"/>
-			    <param name="url" value="jdbc:postgresql://localhost:5432/jcrpm"/>
-			    <param name="user" value="emanux"/>
-			    <param name="password" value="pass"/>
-			    <param name="schema" value="postgresql"/>
-			    <param name="schemaObjectPrefix" value="dms_"/>
+			    <param name="url" value="jdbc:mysql://localhost:3306/jcr"/>
+			    <param name="user" value="root"/>
+			    <param name="password" value="freak182"/>
+			    <param name="schema" value="mysql"/>
+			    <param name="schemaObjectPrefix" value="dms_pm_"/>
 			    <param name="errorHandling" value="true"/>
 		</PersistenceManager>
 		<!--  
