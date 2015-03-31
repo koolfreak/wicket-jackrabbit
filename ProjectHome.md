@@ -1,0 +1,1 @@
+This project aims to be simple integration between jackrabbit and wicket.
